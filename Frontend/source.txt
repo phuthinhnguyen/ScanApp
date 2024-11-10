@@ -1,0 +1,22 @@
+https://www.wix.com/website-template/view/html/2257?siteId=47114304-b6c5-449b-8a17-ee258da0ea5c&metaSiteId=ee270690-ee5f-4e6e-ab47-03370e5d0bec&originUrl=https%3A%2F%2Fwww.wix.com%2Fwebsite%2Ftemplates%2Fhtml%2Fblog%2F4&tpClick=view_button
+https://console.cloudinary.com/console/c-af64db62c8d201657968e0e6a03c65/media_library/search
+
+https://blog.logrocket.com/react-scroll-animations-framer-motion/
+tab mui react
+https://mui.com/material-ui/react-snackbar/#customization
+https://mui.com/material-ui/transitions/
+https://mui.com/material-ui/react-app-bar/
+
+https://dev.to/dawnind/persist-redux-state-with-redux-persist-3k0d
+https://blog.bitsrc.io/5-methods-to-persisting-state-between-page-reloads-in-react-8fc9abd3fa2f
+
+Mockapi: agl19932002@gmail.com
+Template: https://memos-template-free.webflow.io/#section-waitlist
+          https://webflow.com/templates/html/torch-saas-website-template
+          https://preview.colorlib.com/#suppablog
+Free Database: https://console.aiven.io/account/a4ef4ac530fe/project/scanapp123-phuthinhnguyen/services (gmail account)
+Chart: https://www.scaler.com/topics/react/react-chartjs/
+Filter: https://www.ag-grid.com/react-data-grid/getting-started/
+        https://www.telerik.com/kendo-react-ui/components/datatools/filter/ 
+        https://medium.com/@utkarsh.gupta0311/reacts-filter-component-a-comprehensive-guide-b457a9b6dd2b#:~:text=At%20its%20core%2C%20a%20filter%20component%20is%20a,as%20user%20preferences%2C%20search%20queries%2C%20or%20custom%20logic.
+                
