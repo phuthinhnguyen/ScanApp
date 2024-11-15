@@ -15,7 +15,7 @@ export const ADD_NEW_ITEM_SUCCESS = "ADD_NEW_ITEM_SUCCESS";
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
 // const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
-const apiurlusers = "http://localhost:8080/users";
+const apiurlusers = "http://localhost:4200/users";
 const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
 
 // get all posts to load in home page
@@ -34,9 +34,9 @@ export const login = (form) => {
   return async (dispatch) => {
     let checkloginresult = "";
     const response = await axios.get(apiurlusers);
-
+    const data = response.data.data
     // when user click login button, check whether username is existed on database
-    const getusername = response.data.filter(
+    const getusername = data.filter(
       (item) => item.username == form.username
     );
 
