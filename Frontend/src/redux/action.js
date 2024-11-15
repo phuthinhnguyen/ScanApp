@@ -14,7 +14,8 @@ export const ADD_NEW_ITEM_SUCCESS = "ADD_NEW_ITEM_SUCCESS";
 
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
-const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
+// const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
+const apiurlusers = "http://localhost:8080/users";
 const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
 
 // get all posts to load in home page
