@@ -41,7 +41,7 @@ export const login = (form) => {
     );
 
     // clone all users database with delete username and password when change them to store
-    const allusersprofile = structuredClone(response.data);
+    const allusersprofile = structuredClone(response.data.data);
     for (let item of allusersprofile) {
       delete item.username;
       delete item.password
@@ -93,8 +93,8 @@ export const signup = (form) => {
     const responsegetuser = await axios.get(apiurlusers)
 
     // check whether username and email is existed on database
-    const checkusername = responsegetuser.data.filter(item => item.username == form.username)
-    const checkemail = responsegetuser.data.filter(item => item.email == form.email)
+    const checkusername = responsegetuser.data.data.filter(item => item.username == form.username)
+    const checkemail = responsegetuser.data.data.filter(item => item.email == form.email)
 
     // if exist, store error to variable checksignupresult
     if (checkusername.length != 0) {
@@ -140,7 +140,7 @@ export const getallusersforposts = () => {
   return async dispatch => {
     const response = await axios.get(apiurlusers)
     // to hide users's username and password when storing them
-    for (let item of response.data) {
+    for (let item of response.data.data) {
       delete item.username;
       delete item.password;
     }

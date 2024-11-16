@@ -19,6 +19,8 @@ const db = mysql.createConnection({
 app.get("/", (re,res) => {
     return res.json("From Backend side");
 })
+
+// users api
 app.get("/users", (req, res) => {
     const q = "select * from users";
     db.query(q, (err, data) => {
@@ -27,6 +29,18 @@ app.get("/users", (req, res) => {
       else return res.json({ data });
     });
   });
+  app.post("/users", (req, res) => {
+    const q = `insert into users(id, username, password, name, avatar, coverphoto, createAt, email, role)
+      values(?)`;
+    const values = [...Object.values(req.body)];
+    console.log("insert", values);
+    db.query(q, [values], (err, data) => {
+      console.log(err, data);
+      if (err) return res.json({ error: err.sqlMessage });
+      else return res.json({ data });
+    });
+  });
+
 app.get("/products", (req, res) => {
   const q = "select * from products";
   db.query(q, (err, data) => {
