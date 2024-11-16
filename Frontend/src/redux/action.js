@@ -115,6 +115,7 @@ export const signup = (form) => {
         avatar: "https://res.cloudinary.com/dhva3lwfk/image/upload/v1688131036/gkwlvz6hllbauf7octgk.png",
         coverphoto: "https://res.cloudinary.com/dhva3lwfk/image/upload/v1731070128/cover2_kezyyd.png"
       })
+
       checksignupresult = "Sign up successfully"
     }
     dispatch({
