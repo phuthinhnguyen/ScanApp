@@ -7,7 +7,8 @@ const initialState = {
   // used for loading user info on profile page
   user: null,
   // used for loading name and avatar of every post on home page and when user click to see another user'profile
-  allusersprofile: null
+  allusersprofile: null,
+  alluserss:null
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ const rootReducer = (state = initialState, action) => {
       };
 
     case LOGIN_SUCCESS:
+      console.log(action.payload)
       return { ...state, user: action.payload[0], allusersprofile: action.payload[1] };
 
     case SIGNUP_SUCCESS:
@@ -42,15 +44,18 @@ const rootReducer = (state = initialState, action) => {
       return { ...state, allusers: [...state.allusers.filter(item => item.id != action.payload)] };
 
     case TO_ADMIN_SUCCESS:
-      return { ...state, allusers: [...state.allusers.filter(item => item.id != action.payload.id), action.payload] }
-   
+      const userfilter = state.allusers.filter(item => item.id == action.payload.id)
+      userfilter[0].role = action.payload.role;
+      // return { ...state, allusers: [...state.allusers.filter(item => item.id != action.payload.id), action.payload] }
+      return { ...state, allusers: [...state.allusers.filter(item => item.id != action.payload.id), {...userfilter}[0]] }
+
     case UPLOAD_AVATAR_SUCCESS:
       return { ...state, user: { ...state.user, [action.payload[1]]: action.payload[0] } }
     
     case DELETE_ITEM_SUCCESS:
       return {
         ...state,
-        posts: [...state.posts.filter((item) => item.id != action.payload)],
+        posts: [...state.posts.filter((item) => item.id != action.payload.id)],
         // user: {
         //   ...state.user,
         //   userblogs: [

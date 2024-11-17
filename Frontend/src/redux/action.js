@@ -129,7 +129,7 @@ export const signup = (form) => {
 // get all users information (includes username,password,email,name...) for showing in admin page (only role admin can see it)
 export const getallusers = () => {
   return async dispatch => {
-    const response = await axios.get(apiurlusers)
+    const response = await axios.get(apiurlusers);
     dispatch({
       type: FETCH_USER_SUCCESS,
       payload: response.data.data
@@ -156,7 +156,7 @@ export const getallusersforposts = () => {
 // delete specific user (only root admin and admin can do this)
 export const banuser = (id) => {
   return async dispatch => {
-    const response = await axios.delete(`${apiurlusers}/${id}`)
+    const response = await axios.delete(`${apiurlusers}/${id}`);
     dispatch({
       type: BAN_USER_SUCCESS,
       payload: id
@@ -174,6 +174,7 @@ export const toadmin = (id) => {
       type: TO_ADMIN_SUCCESS,
       payload: response.data
     })
+    
   }
 }
 
@@ -203,7 +204,8 @@ export const deleteItem= (id) => {
     const response = await axios.delete(`${apiurlitems}/${id}`);
     dispatch({
       type: DELETE_ITEM_SUCCESS,
-      payload: id
+      // payload: id
+      payload: response.data
     });
   };
 };
@@ -236,6 +238,7 @@ export const addnewItem = (itemcode,qrcode,scanner,status,position) => {
       status:status,
       position:position
     });
+ 
     dispatch({
       type: ADD_NEW_ITEM_SUCCESS,
       payload: response.data

@@ -30,6 +30,7 @@ function Scan() {
   const { state } = useLocation();
   const [alert, setAlert] = useState({ open: false, message: "" });
   const stateselector = useSelector((state) => state);
+
   const closealert = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -47,7 +48,7 @@ function Scan() {
   useEffect(() => {
     dispatch(getItem());
     dispatch(getallusersforposts());
-  }, []);
+  }, [scanitem]);
 
   const sharethinkingonChange = (e) => {
     if (e.target.value.split("/").length-1==5){
@@ -77,6 +78,7 @@ function Scan() {
       const filterresult = sortedposts.filter((item) => {
         return item["qrcode"].includes(qrcode);
       });
+      
       if (filterresult.length>0){
         if (state=="IN"){
           setAlert({open:true, message:"QR code already exists in database"})
@@ -85,8 +87,8 @@ function Scan() {
           if (filterresult[0].status=="IN"){
             const qrcodesplit = qrcode.split("/")
             const itemcode = qrcodesplit[5]
-            setScanitem([...scanitem,{position:filterresult[0].position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
-            dispatch(addnewItem(itemcode,qrcode,scanner,state,filterresult[0].position ));
+            setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
+            dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position)));
           }
           else if (filterresult[0].status=="OUT"){
             setAlert({open:true, message:"QR code already exists in database"})

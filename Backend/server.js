@@ -35,7 +35,7 @@ app.get("/", (re,res) => {
 app.get("/users", (req, res) => {
     const q = "select * from users";
     db.query(q, (err, data) => {
-      console.log(err, data);
+      // console.log(err, data);
       if (err) return res.json({ error: err.sqlMessage });
       else return res.json({ data });
     });
@@ -50,11 +50,10 @@ app.post("/users", (req, res) => {
   const email = req.body.email;
   const role = req.body.role;
   
-  db.query("insert into users (username, password, name,avatar,coverphoto,email,role) VALUES (?,?,?,?,?,?,?)",[username,password,name,avatar,coverphoto,email,role], (err,result)=>{
-     if(err) {
-         console.log(err)
-     } 
-     console.log(result)
+  db.query("insert into users (username, password, name,avatar,coverphoto,email,role) VALUES (?,?,?,?,?,?,?)",[username,password,name,avatar,coverphoto,email,role], (err,data)=>{
+    console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ data });
   }
   ); 
 });
@@ -71,7 +70,7 @@ app.put("/users/:id", (req, res) => {
 
   // check for case only upload avatar or coverphoto 
   if (username===undefined){
-    if (avatar !== undefined && coverphoto===undefined){
+    if (avatar !== undefined && coverphoto===undefined && role===undefined){
       db.query("update users set avatar = ? where id = ?",[avatar,id], (err,result)=>{
         if(err) {
             console.log(err)
@@ -80,12 +79,20 @@ app.put("/users/:id", (req, res) => {
      }
      );  
     }
-    else if (coverphoto !== undefined && avatar===undefined){
+    else if (coverphoto !== undefined && avatar===undefined && role===undefined){
       db.query("update users set coverphoto = ? where id = ?",[coverphoto,id], (err,result)=>{
         if(err) {
             console.log(err)
         } 
         console.log(result)
+     }
+     );
+    }
+    else if (role !== undefined && avatar===undefined && coverphoto===undefined){
+      db.query("update users set role = ? where id = ?",[role,id], (err,data)=>{
+        console.log(err, data);
+        if (err) return res.json({ error: err.sqlMessage });
+        else return res.json({ role: role,id:id}); 
      }
      );
     }
@@ -105,10 +112,11 @@ app.put("/users/:id", (req, res) => {
 app.delete('/users/:id',(req,res)=>{
   const id = req.params.id;
   
-  db.query("delete from users where id= ?", id, (err,result)=>{
-  if(err) {
-  console.log(err)
-  } }) })
+  db.query("delete from users where id= ?", id, (err,data)=>{
+    console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ data });  
+  }) })
 
 
 // products API
@@ -128,15 +136,42 @@ app.post("/products", (req, res) => {
   const itemcode = req.body.itemcode;
   const status = req.body.status;
   const position = req.body.position;
-  console.log(createdAt)
-  db.query("insert into products (createdAt, qrcode, scanner,itemcode, status, position) VALUES (?,?,?,?,?,?)",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position)], (err,result)=>{
-     if(err) {
-         console.log(err)
-     } 
-     console.log(result)
+
+  db.query("insert into products (createdAt, qrcode, scanner,itemcode, status, position) VALUES (?,?,?,?,?,?)",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position)], (err,data)=>{
+    console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:position});
   }
   ); 
 });
+
+app.put("/products/:id", (req, res) => {
+  const id = req.params.id;
+  const createdAt = req.body.createdAt;
+  const qrcode = req.body.qrcode;
+  const scanner = req.body.scanner;
+  const itemcode = req.body.itemcode;
+  const status = req.body.status;
+  const position = req.body.position;
+
+  db.query("update products set createdAt = ?, qrcode = ? , scanner = ?, itemcode = ?, status = ?, position = ? where id = ?",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),id], (err,data)=>{
+    console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({id:id, createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:JSON.stringify(position)});
+ }
+ ); 
+ 
+});
+
+app.delete('/products/:id',(req,res)=>{
+  const id = req.params.id;
+  
+  db.query("delete from products where id= ?", id, (err,data)=>{
+    console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ id });
+  }) })
+
 
 app.listen(port, ()=>{
     console.log("listening");

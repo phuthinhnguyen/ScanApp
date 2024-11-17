@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import {banuser, getallusers, toadmin, deleteItem} from "../redux/action";
+import {banuser, getallusers, toadmin, deleteItem, getItem} from "../redux/action";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -43,8 +43,7 @@ function Adminworkspace() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const sortedposts = state.posts.sort((a, b) => b.createdAt - a.createdAt); 
-  const allusers = state.allusers.data;
-  console.log(allusers)
+
   const filterresult = sortedposts.filter((item) => {
     const itemsqrcodesplit = item["qrcode"].split("/")
     const parseitemposition = JSON.parse(item.position)
@@ -67,8 +66,10 @@ function Adminworkspace() {
       navigate("/")
     }
     dispatch(getallusers());
+    // dispatch(getItem());
   }, []);
- 
+  const allusers = state.allusers;
+  console.log(allusers)
   function banuserclick(id) {
     dispatch(banuser(id));
     setMessage("You have banned user successfully");
@@ -95,6 +96,8 @@ function Adminworkspace() {
 
   function deleteitem(id) {
     dispatch(deleteItem(id));
+    // setMessage("You have deleted item successfully");
+    // setOpen(true);
   }
   function edititem(item) {
     navigate("/updateitem", { state: item });

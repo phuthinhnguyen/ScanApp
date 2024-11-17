@@ -24,7 +24,7 @@ function Updateitem() {
   const name = user.name;
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [form, setForm] = useState({...state,scanner:name});
+  const [form, setForm] = useState({...state,scanner:name,position:state.position});
 
   useEffect(() => {
     if (user == null) {
