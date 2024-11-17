@@ -24,7 +24,15 @@ function Updateitem() {
   const name = user.name;
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
-  const [form, setForm] = useState({...state,scanner:name,position:state.position});
+
+  // to check position is string or object, for 2 case: position from loading database (string) and position from stateLocation (object)
+  if (typeof(state.position)==="string"){
+    var [form, setForm] = useState({...state,scanner:name,position:JSON.parse(state.position)});
+  }
+  else if (typeof(state.position)==="object"){
+    var [form, setForm] = useState({...state,scanner:name,position:state.position});
+  }
+  // const [form, setForm] = useState({...state,scanner:name,position:state.position});
 
   useEffect(() => {
     if (user == null) {
@@ -45,7 +53,13 @@ function Updateitem() {
     setOpen(true);
   }
   function deleteitemclick() {
-    dispatch(deleteItem(form.id));
+    const filterqrcode = sortedposts.filter(item=>{
+      return item["itemcode"].toLowerCase().includes(form.itemcode.toLowerCase())
+    })
+    dispatch(deleteItem(filterqrcode[0].id));
+    // dispatch(deleteItem(form.id));
+    setMessage("Your Item has been deleted successfully");
+    setOpen(true);
     navigate("/");
   }
 

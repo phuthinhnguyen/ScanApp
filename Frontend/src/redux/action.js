@@ -43,11 +43,11 @@ export const login = (form) => {
 
     // clone all users database with delete username and password when change them to store
     const allusersprofile = structuredClone(response.data.data);
-    for (let item of allusersprofile) {
-      delete item.username;
-      delete item.password
-    }
-    
+    // for (let item of allusersprofile) {
+    //   delete item.username;
+    //   delete item.password
+    // }
+
     // if no username exists, store error to variable and do dispatch
     if (getusername.length == 0) {
       checkloginresult = "Username is not exists"

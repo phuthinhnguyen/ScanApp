@@ -65,11 +65,11 @@ function Adminworkspace() {
     if(state.user==null){
       navigate("/")
     }
-    dispatch(getallusers());
+    // dispatch(getallusers());
     // dispatch(getItem());
   }, []);
-  const allusers = state.allusers;
-  console.log(allusers)
+  const allusers = state.allusersprofile;
+
   function banuserclick(id) {
     dispatch(banuser(id));
     setMessage("You have banned user successfully");
