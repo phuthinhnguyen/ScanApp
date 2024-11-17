@@ -8,7 +8,6 @@ import Slide from "@mui/material/Slide";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-
 // used for show snackbar and alert
 function SlideTransition(props) {
   return <Slide {...props} direction="up" />;
@@ -29,6 +28,7 @@ function Products() {
   const dispatch = useDispatch();
   const [alert, setAlert] = useState({ open: false, message: "" });
   const stateselector = useSelector((state) => state);
+
   const closealert = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -76,7 +76,8 @@ function Products() {
             <tbody style={{color:"white"}}>
                 {sortedposts.map((item)=><tr key={item.id} >
                 <td>
-                  {item.position.char+item.position.number} 
+                  {/* {item.position.char+item.position.number}  */}
+                  {JSON.parse(item.position).char + JSON.parse(item.position).number}
                 </td>
                 <td>
                   {item.itemcode} 

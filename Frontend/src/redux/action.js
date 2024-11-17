@@ -16,7 +16,8 @@ export const ADD_NEW_ITEM_SUCCESS = "ADD_NEW_ITEM_SUCCESS";
 // last one includes information about posts (id,title,body,author...) 
 // const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
 const apiurlusers = "http://localhost:4200/users";
-const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
+// const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
+const apiurlitems = "http://localhost:4200/products";
 
 // get all posts to load in home page
 export const getItem = () => {
@@ -24,7 +25,7 @@ export const getItem = () => {
     const response = await axios.get(apiurlitems);
     dispatch({
       type: FETCH_ITEM_SUCCESS,
-      payload: response.data
+      payload: response.data.data
     });
   };
 };
@@ -131,7 +132,7 @@ export const getallusers = () => {
     const response = await axios.get(apiurlusers)
     dispatch({
       type: FETCH_USER_SUCCESS,
-      payload: response.data
+      payload: response.data.data
     })
   }
 }

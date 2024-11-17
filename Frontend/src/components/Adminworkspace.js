@@ -43,10 +43,13 @@ function Adminworkspace() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const sortedposts = state.posts.sort((a, b) => b.createdAt - a.createdAt); 
- 
+  const allusers = state.allusers.data;
+  console.log(allusers)
   const filterresult = sortedposts.filter((item) => {
     const itemsqrcodesplit = item["qrcode"].split("/")
-    const itemposition = item["position"]["char"]+item["position"]["number"]
+    const parseitemposition = JSON.parse(item.position)
+    // const itemposition = item["position"]["char"]+item["position"]["number"]
+    const itemposition = parseitemposition.char + parseitemposition.number
     return item["qrcode"].toLowerCase().includes(search.qrcode.toLowerCase()) && item["scanner"].toLowerCase().includes(search.scanner.toLowerCase()) && itemsqrcodesplit[4].toLowerCase().includes(search.partnumber.toLowerCase()) && item["status"].toLowerCase().includes(search.status.toLowerCase()) && itemposition.toLowerCase().includes(search.position.toLowerCase())
   });
 
@@ -55,7 +58,8 @@ function Adminworkspace() {
     for (let i=0;i<filterresult.length;i++){
       const qrcode = filterresult[i].qrcode
       const splitqrcode = qrcode.split("/")
-      exportcsv.push({Position:filterresult[i].position.char.concat(filterresult[i].position.number),Itemcode:splitqrcode[5],Qrcode:filterresult[i].qrcode,PO:splitqrcode[0],MFGDate:splitqrcode[1],Size:splitqrcode[2],Quantity:splitqrcode[3],Partnumber:splitqrcode[4],Scanner:filterresult[i].scanner,CreateAt:convertCreatedAt(filterresult[i].createdAt),Status:filterresult[i].status})
+      const parseitemposition = JSON.parse(filterresult[i].position)
+      exportcsv.push({Position:parseitemposition.char.concat(parseitemposition.number),Itemcode:splitqrcode[5],Qrcode:filterresult[i].qrcode,PO:splitqrcode[0],MFGDate:splitqrcode[1],Size:splitqrcode[2],Quantity:splitqrcode[3],Partnumber:splitqrcode[4],Scanner:filterresult[i].scanner,CreateAt:convertCreatedAt(filterresult[i].createdAt),Status:filterresult[i].status})
     }
     
   useEffect(() => {
@@ -64,7 +68,7 @@ function Adminworkspace() {
     }
     dispatch(getallusers());
   }, []);
-
+ 
   function banuserclick(id) {
     dispatch(banuser(id));
     setMessage("You have banned user successfully");
@@ -256,7 +260,7 @@ function Adminworkspace() {
                         <tbody style={{color:"white"}}>
                             {filterresult.map((item, index)=><tr key={index} >
                               <td>
-                                {item.position.char+item.position.number} 
+                                {JSON.parse(item.position).char + JSON.parse(item.position).number} 
                               </td>
                               <td>
                                 {item.itemcode} 
@@ -324,13 +328,13 @@ function Adminworkspace() {
                             </tr>
                           </thead>
                           <tbody style={{color:"white"}}>
-                            {state.allusers &&
-                              state.allusers.map((item, index) => (
+                            {allusers &&
+                              allusers.map((item, index) => (
                                 <tr key={index}>
                                   <td>{item.id}</td>
                                   <td>{item.username}</td>
                                   <td>{item.password}</td>
-                                  <td>{item.name}</td>
+                                  <td>{item.name}</td>  
                                   <td>{item.email}</td>
                                   <td>{item.role}</td>
                                   <td>
