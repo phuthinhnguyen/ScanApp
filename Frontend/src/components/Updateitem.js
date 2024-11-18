@@ -27,10 +27,10 @@ function Updateitem() {
 
   // to check position is string or object, for 2 case: position from loading database (string) and position from stateLocation (object)
   if (typeof(state.position)==="string"){
-    var [form, setForm] = useState({...state,scanner:name,position:JSON.parse(state.position)});
+    var [form, setForm] = useState({...state,scanner:name,position:JSON.parse(state.position),lockitem:JSON.parse(state.lockitem)});
   }
   else if (typeof(state.position)==="object"){
-    var [form, setForm] = useState({...state,scanner:name,position:state.position});
+    var [form, setForm] = useState({...state,scanner:name,position:state.position,lockitem:state.lockitem});
   }
   // const [form, setForm] = useState({...state,scanner:name,position:state.position});
 

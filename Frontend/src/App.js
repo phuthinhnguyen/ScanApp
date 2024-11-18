@@ -18,7 +18,7 @@ const Userprofile = React.lazy(() => import("./components/Userprofile"));
 const Adminworkspace = React.lazy(() => import("./components/Adminworkspace"));
 const Userprofileonline = React.lazy(() => import("./components/Userprofileonline"));
 const Products = React.lazy(() => import("./components/Products"));
-
+const Slideshow = React.lazy(() => import("./components/Slideshow"));
 function App() {
   let persistor = persistStore(store);
   return (
@@ -87,6 +87,14 @@ function App() {
               element={
                 <Suspense fallback={<Loadingpath/>}>
                   <Products />
+                </Suspense>
+              }
+            />
+             <Route
+              path="/slideshow"
+              element={
+                <Suspense fallback={<Loadingpath/>}>
+                  <Slideshow />
                 </Suspense>
               }
             />

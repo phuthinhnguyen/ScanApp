@@ -65,6 +65,9 @@ function Header() {
             Admin
           </Link>
         )}
+        <Link to="/slideshow" className="header-link">
+          Slideshow
+        </Link>
         <Box sx={{ flexGrow: 0 }}>
           <Tooltip title="Open settings">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

@@ -43,6 +43,7 @@ function Scan() {
   }
   const [sharethinking, setSharethinking] = useState("");
   const [position, setPosition] = useState({char:"A",number:"1.1"});
+  const [lockitem, setLockitem] = useState({status:"OFF",reason:"NONE"});
   const [scanitem, setScanitem] = useState([])
 
   useEffect(() => {
@@ -85,10 +86,15 @@ function Scan() {
         }
         else if (state=="OUT"){
           if (filterresult[0].status=="IN"){
-            const qrcodesplit = qrcode.split("/")
-            const itemcode = qrcodesplit[5]
-            setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
-            dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position)));
+            if (JSON.parse(filterresult[0].lockitem).status=="OFF"){
+              const qrcodesplit = qrcode.split("/")
+              const itemcode = qrcodesplit[5]
+              setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
+              dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+            }
+            else if (JSON.parse(filterresult[0].lockitem).status=="ON"){
+              setAlert({open:true, message:`Item has been locked by admin. Reason: ${JSON.parse(filterresult[0].lockitem).reason}`})
+            }
           }
           else if (filterresult[0].status=="OUT"){
             setAlert({open:true, message:"QR code already exists in database"})
@@ -99,8 +105,8 @@ function Scan() {
         if (state=="IN"){
           const qrcodesplit = qrcode.split("/")
           const itemcode = qrcodesplit[5]
-          setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
-          dispatch(addnewItem(itemcode,qrcode,scanner,state,position));
+          setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
+          dispatch(addnewItem(itemcode,qrcode,scanner,state,position,lockitem));
         }
         else if (state=="OUT"){
           setAlert({open:true, message:"QR Code not exists in database"})

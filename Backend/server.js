@@ -136,11 +136,11 @@ app.post("/products", (req, res) => {
   const itemcode = req.body.itemcode;
   const status = req.body.status;
   const position = req.body.position;
-
-  db.query("insert into products (createdAt, qrcode, scanner,itemcode, status, position) VALUES (?,?,?,?,?,?)",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position)], (err,data)=>{
+  const lockitem = req.body.lockitem;
+  db.query("insert into products (createdAt, qrcode, scanner,itemcode, status, position, lockitem) VALUES (?,?,?,?,?,?,?)",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem)], (err,data)=>{
     console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({ createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:position});
+    else return res.json({ createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:position, lockitem:lockitem});
   }
   ); 
 });
@@ -153,11 +153,11 @@ app.put("/products/:id", (req, res) => {
   const itemcode = req.body.itemcode;
   const status = req.body.status;
   const position = req.body.position;
-
-  db.query("update products set createdAt = ?, qrcode = ? , scanner = ?, itemcode = ?, status = ?, position = ? where id = ?",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),id], (err,data)=>{
+  const lockitem = req.body.lockitem;
+  db.query("update products set createdAt = ?, qrcode = ? , scanner = ?, itemcode = ?, status = ?, position = ?, lockitem = ? where id = ?",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem),id], (err,data)=>{
     console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({id:id, createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:JSON.stringify(position)});
+    else return res.json({id:id, createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:JSON.stringify(position),lockitem:JSON.stringify(lockitem)});
  }
  ); 
  

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import {banuser, getallusers, toadmin, deleteItem, getItem} from "../redux/action";
+import {banuser, getallusers, toadmin, deleteItem, getItem, lockItem} from "../redux/action";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -29,6 +29,8 @@ function Adminworkspace() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [search,setSearch] = useState({qrcode:"",scanner:"",partnumber:"",status:"",position:""})
+  const [lockitem,setLockitem] = useState({status:"OFF",reason:""})
+ 
   const onChangeradio = (e) => {
     setSearchtext("")
     if (e.target.checked == true){
@@ -43,7 +45,7 @@ function Adminworkspace() {
   const navigate = useNavigate();
   const state = useSelector((state) => state);
   const sortedposts = state.posts.sort((a, b) => b.createdAt - a.createdAt); 
-
+ 
   const filterresult = sortedposts.filter((item) => {
     const itemsqrcodesplit = item["qrcode"].split("/")
     const parseitemposition = JSON.parse(item.position)
@@ -60,7 +62,7 @@ function Adminworkspace() {
       const parseitemposition = JSON.parse(filterresult[i].position)
       exportcsv.push({Position:parseitemposition.char.concat(parseitemposition.number),Itemcode:splitqrcode[5],Qrcode:filterresult[i].qrcode,PO:splitqrcode[0],MFGDate:splitqrcode[1],Size:splitqrcode[2],Quantity:splitqrcode[3],Partnumber:splitqrcode[4],Scanner:filterresult[i].scanner,CreateAt:convertCreatedAt(filterresult[i].createdAt),Status:filterresult[i].status})
     }
-    
+  console.log(lockitem) 
   useEffect(() => {
     if(state.user==null){
       navigate("/")
@@ -101,6 +103,14 @@ function Adminworkspace() {
   }
   function edititem(item) {
     navigate("/updateitem", { state: item });
+  }
+  function lockitembutton(item) {
+    document.getElementById("reason").style.display = "none";
+    dispatch(lockItem(item,{...lockitem,status:"ON"}));
+  }
+  function unlockitembutton(item) {
+    document.getElementById("unlockentryshow").style.display = "none";
+    dispatch(lockItem(item,{...lockitem,status:"OFF"}));
   }
   const filterviewchartin = sortedposts.filter(item=>{
     return item.status == "IN"
@@ -302,10 +312,43 @@ function Adminworkspace() {
                                         Edit
                                     </button>
                                     <button 
-                                        style={{padding: "3px 10px",marginLeft:"20px"}}
+                                        style={{padding: "3px 10px",marginLeft:"7px"}}
                                         onClick={(e)=>deleteitem(item.id)} className="btn btn-danger">
                                         Delete
                                     </button>
+                                    <button 
+                                        style={{padding: "3px 10px",marginLeft:"7px"}}
+                                        onClick={(e)=>{JSON.parse(item.lockitem).status == "OFF" ? (document.getElementById("reason").style.display="block"):(document.getElementById("unlockentryshow").style.display="block")}} className={item.status == "IN" ? (JSON.parse(item.lockitem).status == "OFF" ? "ms-1 btn btn-warning" : "ms-1 btn btn-secondary") : "ms-1 btn disabled"}>
+                                        {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                    </button>
+                                    <div id="reason" style={{display:"none"}}>
+                                        <textarea className="form-control" placeholder="Input Reason here..." style={{display:"block",marginTop:"3px",marginBottom:"3px"}} value={lockitem.reason} onChange={(e)=>setLockitem({...lockitem,reason:e.target.value})}></textarea>
+                                        <button 
+                                          className="ms-1 btn btn-warning"
+                                          style={{padding: "3px 10px"}}
+                                          onClick={(e)=>(lockitembutton(item))}>
+                                             {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                      </button>
+                                      <button 
+                                          className="ms-1 btn btn-warning"
+                                          style={{padding: "3px 10px"}}
+                                          onClick={(e)=>document.getElementById("reason").style.display="none"}>
+                                          Close
+                                      </button>
+                                    </div>
+                                    <div id="unlockentryshow" style={{display:"none"}}>
+                                        <textarea style={{display:"block"}} value={JSON.parse(item.lockitem).reason} onChange={(e)=>setLockitem({...lockitem,reason:e.target.value})}></textarea>
+                                        <button 
+                                          style={{padding: "3px 10px"}}
+                                          onClick={(e)=>(unlockitembutton(item))}>
+                                           {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                      </button>
+                                      <button 
+                                          style={{padding: "3px 10px"}}
+                                          onClick={(e)=>document.getElementById("unlockentryshow").style.display="none"}>
+                                          Close
+                                      </button>
+                                    </div>
                                 </td>
                             </tr>)}
                         </tbody>

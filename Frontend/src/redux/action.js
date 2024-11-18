@@ -219,7 +219,8 @@ export const editItem = (form,id) => {
       qrcode: form.qrcode,
       status: form.status,
       createdAt: Date.now(),
-      position:form.position
+      position:form.position,
+      lockitem:form.lockitem
     });
     dispatch({
       type: UPDATE_ITEM_SUCCESS,
@@ -228,7 +229,7 @@ export const editItem = (form,id) => {
   };
 };
 
-export const addnewItem = (itemcode,qrcode,scanner,status,position) => {
+export const addnewItem = (itemcode,qrcode,scanner,status,position,lockitem) => {
   return async (dispatch) => {
     const response = await axios.post(`${apiurlitems}`, {
       createdAt: Date.now(),
@@ -236,11 +237,31 @@ export const addnewItem = (itemcode,qrcode,scanner,status,position) => {
       qrcode: qrcode,
       scanner: scanner, 
       status:status,
-      position:position
+      position:position,
+      lockitem:lockitem
     });
  
     dispatch({
       type: ADD_NEW_ITEM_SUCCESS,
+      payload: response.data
+    });
+  };
+};
+
+export const lockItem = (item,lockitem) => {
+  const qrcodesplit = item.qrcode.split("/")
+  return async (dispatch) => {
+    const response = await axios.put(`${apiurlitems}/${item.id}`, {
+      scanner: item.scanner,
+      itemcode: qrcodesplit[5],
+      qrcode: item.qrcode,
+      status: item.status,
+      createdAt: item.createdAt,
+      position:JSON.parse(item.position),
+      lockitem: lockitem
+    });
+    dispatch({
+      type: UPDATE_ITEM_SUCCESS,
       payload: response.data
     });
   };
