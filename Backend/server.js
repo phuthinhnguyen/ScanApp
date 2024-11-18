@@ -154,6 +154,7 @@ app.put("/products/:id", (req, res) => {
   const status = req.body.status;
   const position = req.body.position;
   const lockitem = req.body.lockitem;
+  console.log(lockitem)
   db.query("update products set createdAt = ?, qrcode = ? , scanner = ?, itemcode = ?, status = ?, position = ?, lockitem = ? where id = ?",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem),id], (err,data)=>{
     console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
