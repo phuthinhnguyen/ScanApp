@@ -48,7 +48,12 @@ function Adminworkspace() {
  
   const filterresult = sortedposts.filter((item) => {
     const itemsqrcodesplit = item["qrcode"].split("/")
-    const parseitemposition = JSON.parse(item.position)
+    if (typeof(item.position)==="string"){
+      var parseitemposition = JSON.parse(item.position)
+    }
+    else{
+      var parseitemposition = item.position
+    }
     // const itemposition = item["position"]["char"]+item["position"]["number"]
     const itemposition = parseitemposition.char + parseitemposition.number
     return item["qrcode"].toLowerCase().includes(search.qrcode.toLowerCase()) && item["scanner"].toLowerCase().includes(search.scanner.toLowerCase()) && itemsqrcodesplit[4].toLowerCase().includes(search.partnumber.toLowerCase()) && item["status"].toLowerCase().includes(search.status.toLowerCase()) && itemposition.toLowerCase().includes(search.position.toLowerCase())
@@ -59,8 +64,22 @@ function Adminworkspace() {
     for (let i=0;i<filterresult.length;i++){
       const qrcode = filterresult[i].qrcode
       const splitqrcode = qrcode.split("/")
-      const parseitemposition = JSON.parse(filterresult[i].position)
-      const parseitemlockitem = JSON.parse(filterresult[i].lockitem)
+  
+      if (typeof(filterresult[i].position)==="string"){
+        var parseitemposition = JSON.parse(filterresult[i].position)
+      }
+      else{
+        var parseitemposition = filterresult[i].position
+      }
+      if (typeof(filterresult[i].lockitem)==="string"){
+        var parseitemlockitem = JSON.parse(filterresult[i].lockitem)
+      }
+      else{
+        var parseitemlockitem = filterresult[i].lockitem
+      }
+  
+      // const parseitemposition = JSON.parse(filterresult[i].position)
+      // const parseitemlockitem = JSON.parse(filterresult[i].lockitem)
       exportcsv.push({Position:parseitemposition.char.concat(parseitemposition.number),Itemcode:splitqrcode[5],Qrcode:filterresult[i].qrcode,PO:splitqrcode[0],MFGDate:splitqrcode[1],Size:splitqrcode[2],Quantity:splitqrcode[3],Partnumber:splitqrcode[4],Scanner:filterresult[i].scanner,CreateAt:convertCreatedAt(filterresult[i].createdAt),Status:filterresult[i].status,Lockstatus:parseitemlockitem.status,Lockreason:parseitemlockitem.reason})
     }
  
@@ -108,6 +127,7 @@ function Adminworkspace() {
   function lockitembutton(item,e) {
     dispatch(lockItem(item,{...lockitem,status:"ON"}));
     e.target.parentElement.style.display="none";
+    setLockitem({...lockitem,reason:""});
   }
   function unlockitembutton(item,e) {
     dispatch(lockItem(item,{...lockitem,status:"OFF"}));
@@ -275,6 +295,7 @@ function Adminworkspace() {
                             {filterresult.map((item, index)=><tr key={index} >
                               <td>
                                 {JSON.parse(item.position).char + JSON.parse(item.position).number} 
+                                {/* {item.position.char + item.position.number}  */}
                               </td>
                               <td>
                                 {item.itemcode} 
@@ -321,6 +342,7 @@ function Adminworkspace() {
                                         style={{padding: "3px 10px",marginLeft:"7px"}}
                                         onClick={(e)=>{JSON.parse(item.lockitem).status == "OFF" ? (e.target.nextElementSibling.style.display="block"):(e.target.nextElementSibling.nextElementSibling.style.display="block")}} className={(item.status == "IN" && sortedposts.filter(items=>{return items["qrcode"].toLowerCase().includes(item.qrcode.toLowerCase())}).length<2) ? (JSON.parse(item.lockitem).status == "OFF" ? "ms-1 btn btn-warning" : "ms-1 btn btn-secondary") : "ms-1 btn disabled"}>
                                         {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                        {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
                                     </button>
                                     <div style={{display:"none"}}>
                                         <textarea className="form-control" placeholder="Input Reason here..." style={{display:"block",marginTop:"8px",marginBottom:"8px"}} value={lockitem.reason} onChange={(e)=>setLockitem({...lockitem,reason:e.target.value})}></textarea>
@@ -329,6 +351,7 @@ function Adminworkspace() {
                                           style={{padding: "3px 10px"}}
                                           onClick={(e)=>(lockitembutton(item,e))}>
                                              {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                             {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
                                       </button>
                                       <button 
                                           className="ms-1 btn btn-warning"
@@ -338,12 +361,13 @@ function Adminworkspace() {
                                       </button>
                                     </div>
                                     <div style={{display:"none"}}>
-                                        <textarea className="form-control" style={{display:"block",marginTop:"8px",marginBottom:"8px"}} value={JSON.parse(item.lockitem).reason} onChange={(e)=>setLockitem({...lockitem,reason:e.target.value})} readOnly></textarea>
+                                        <textarea className="form-control" style={{display:"block",marginTop:"8px",marginBottom:"8px"}} value={JSON.parse(item.lockitem).reason} readOnly></textarea>
                                         <button 
                                           className="ms-1 btn btn-warning"
                                           style={{padding: "3px 10px"}}
                                           onClick={(e)=>(unlockitembutton(item,e))}>
                                            {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                           {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
                                       </button>
                                       <button 
                                           className="ms-1 btn btn-warning"

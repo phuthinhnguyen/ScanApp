@@ -63,14 +63,19 @@ function Scan() {
  
   const sortedposts = stateselector.posts.sort((a, b) => b.createdAt - a.createdAt);
 
+  
   function deleteitem(qrcode) {
+    console.log(qrcode)
     const filterqrcode = sortedposts.filter(item => {
       return item["qrcode"].toLowerCase().includes(qrcode.toLowerCase());
     })
+    console.log(filterqrcode[0].id)
+    dispatch(deleteItem(filterqrcode[0].id));
     const filternotqrcode = scanitem.filter(item=>item.qrcode!=qrcode)
     setScanitem(filternotqrcode)
-    dispatch(deleteItem(filterqrcode[0].id));
   }
+
+
   function edititem(item) {
     navigate("/updateitem", { state: item });
   }
@@ -89,8 +94,21 @@ function Scan() {
             if (JSON.parse(filterresult[0].lockitem).status=="OFF"){
               const qrcodesplit = qrcode.split("/")
               const itemcode = qrcodesplit[5]
-              setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
-              dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+
+              function firstFunction() {
+                dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+                console.log("Dispatch done.")
+              }
+              async function secondFunction() {
+                console.log('Before promise call.')
+                const result = await firstFunction()
+                setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
+                console.log('Update state done.')
+              }; 
+              secondFunction()
+
+              // dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+              // setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
             }
             else if (JSON.parse(filterresult[0].lockitem).status=="ON"){
               setAlert({open:true, message:`Item has been locked by admin. Reason: ${JSON.parse(filterresult[0].lockitem).reason}`})
@@ -105,8 +123,21 @@ function Scan() {
         if (state=="IN"){
           const qrcodesplit = qrcode.split("/")
           const itemcode = qrcodesplit[5]
-          setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
-          dispatch(addnewItem(itemcode,qrcode,scanner,state,position,lockitem));
+
+          function firstFunction() {
+              dispatch(addnewItem(itemcode,qrcode,scanner,state,position,lockitem));
+              console.log("Dispatch done.")
+          }
+          async function secondFunction() {
+            console.log('Before promise call.')
+            const result = await firstFunction()
+            setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
+            console.log('Update state done.')
+          }; 
+          secondFunction()
+
+          // dispatch(addnewItem(itemcode,qrcode,scanner,state,position,lockitem));
+          // setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
         }
         else if (state=="OUT"){
           setAlert({open:true, message:"QR Code not exists in database"})
@@ -219,7 +250,7 @@ function Scan() {
                         </button>
                         <button 
                             style={{padding: "3px 10px",marginLeft:"20px"}}
-                            onClick={(e)=>deleteitem(item.qrcode)} className="btn btn-danger">
+                            onClick={()=>deleteitem(item.qrcode)} className="btn btn-danger">
                             Delete
                         </button>
                     </td>

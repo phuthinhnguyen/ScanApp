@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { deleteItem, editItem } from "../redux/action";
+import { deleteItem, editItem, getItem } from "../redux/action";
 import Header from "./Header";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
@@ -48,9 +48,11 @@ function Updateitem() {
     const filterqrcode = sortedposts.filter(item=>{
       return item["itemcode"].toLowerCase().includes(form.itemcode.toLowerCase()) && item["status"]=="IN"
     })
+    console.log(filterqrcode[0].id)
     dispatch(editItem(form, filterqrcode[0].id));
     setMessage("Your Item has been updated successfully");
     setOpen(true);
+    navigate("/");
   }
   function deleteitemclick() {
     const filterqrcode = sortedposts.filter(item=>{
