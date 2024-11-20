@@ -16,8 +16,10 @@ export const ADD_NEW_ITEM_SUCCESS = "ADD_NEW_ITEM_SUCCESS";
 // last one includes information about posts (id,title,body,author...) 
 // const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
 const apiurlusers = "https://api.scanx.io.vn/users";
+// const apiurlusers = "http://localhost:4200/users";
 // const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
 const apiurlitems = "https://api.scanx.io.vn/products";
+// const apiurlitems = "http://localhost:4200/products";
 
 // get all posts to load in home page
 export const getItem = () => {
@@ -199,9 +201,9 @@ export const uploadavatar = (image, id, type) => {
   }
 }
 
-export const deleteItem= (id) => {
+export const deleteItem= (idcode) => {
   return async (dispatch) => {
-    const response = await axios.delete(`${apiurlitems}/${id}`);
+    const response = await axios.delete(`${apiurlitems}/${idcode}`);
     dispatch({
       type: DELETE_ITEM_SUCCESS,
       // payload: id
@@ -210,15 +212,16 @@ export const deleteItem= (id) => {
   };
 };
 
-export const editItem = (form,id) => {
+export const editItem = (form) => {
   const qrcodesplit = form.qrcode.split("/")
   return async (dispatch) => {
-    const response = await axios.put(`${apiurlitems}/${id}`, {
+    const response = await axios.put(`${apiurlitems}/${form.idcode}`, {
       scanner: form.scanner,
       itemcode: qrcodesplit[5],
       qrcode: form.qrcode,
       status: form.status,
       createdAt: Date.now(),
+      idcode:form.idcode,
       position:form.position,
       lockitem:form.lockitem
     });
@@ -229,7 +232,7 @@ export const editItem = (form,id) => {
   };
 };
 
-export const addnewItem = (itemcode,qrcode,scanner,status,position,lockitem) => {
+export const addnewItem = (idcode,itemcode,qrcode,scanner,status,position,lockitem) => {
   return async (dispatch) => {
     const response = await axios.post(`${apiurlitems}`, {
       createdAt: Date.now(),
@@ -238,7 +241,8 @@ export const addnewItem = (itemcode,qrcode,scanner,status,position,lockitem) => 
       scanner: scanner, 
       status:status,
       position:position,
-      lockitem:lockitem
+      lockitem:lockitem,
+      idcode:idcode
     });
  
     dispatch({
@@ -251,14 +255,15 @@ export const addnewItem = (itemcode,qrcode,scanner,status,position,lockitem) => 
 export const lockItem = (item,lockitem) => {
   const qrcodesplit = item.qrcode.split("/")
   return async (dispatch) => {
-    const response = await axios.put(`${apiurlitems}/${item.id}`, {
+    const response = await axios.put(`${apiurlitems}/${item.idcode}`, {
       scanner: item.scanner,
       itemcode: qrcodesplit[5],
       qrcode: item.qrcode,
       status: item.status,
       createdAt: item.createdAt,
       position:JSON.parse(item.position),
-      lockitem: lockitem
+      lockitem: lockitem,
+      idcode:item.idcode
     });
     dispatch({
       type: UPDATE_ITEM_SUCCESS,

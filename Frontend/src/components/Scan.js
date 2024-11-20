@@ -8,6 +8,7 @@ import Slide from "@mui/material/Slide";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Select from 'react-select'
+import { makeId } from "./makeId";
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -64,14 +65,10 @@ function Scan() {
   const sortedposts = stateselector.posts.sort((a, b) => b.createdAt - a.createdAt);
 
   
-  function deleteitem(qrcode) {
-    console.log(qrcode)
-    const filterqrcode = sortedposts.filter(item => {
-      return item["qrcode"].toLowerCase().includes(qrcode.toLowerCase());
-    })
-    console.log(filterqrcode[0].id)
-    dispatch(deleteItem(filterqrcode[0].id));
-    const filternotqrcode = scanitem.filter(item=>item.qrcode!=qrcode)
+  function deleteitem(idcode) {
+    // console.log(idcode)
+    dispatch(deleteItem(idcode));
+    const filternotqrcode = scanitem.filter(item=>item.idcode!=idcode)
     setScanitem(filternotqrcode)
   }
 
@@ -94,16 +91,16 @@ function Scan() {
             if (JSON.parse(filterresult[0].lockitem).status=="OFF"){
               const qrcodesplit = qrcode.split("/")
               const itemcode = qrcodesplit[5]
-
+              const idcode = itemcode + makeId(4)
               function firstFunction() {
-                dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
-                console.log("Dispatch done.")
+                dispatch(addnewItem(idcode,itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+                // console.log("Dispatch done.")
               }
               async function secondFunction() {
-                console.log('Before promise call.')
+                // console.log('Before promise call.')
                 const result = await firstFunction()
-                setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
-                console.log('Update state done.')
+                setScanitem([...scanitem,{idcode:idcode,position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
+                // console.log('Update state done.')
               }; 
               secondFunction()
 
@@ -123,16 +120,17 @@ function Scan() {
         if (state=="IN"){
           const qrcodesplit = qrcode.split("/")
           const itemcode = qrcodesplit[5]
-
+          const idcode = itemcode + makeId(4)
+          // console.log(itemcode + makeId(4))
           function firstFunction() {
-              dispatch(addnewItem(itemcode,qrcode,scanner,state,position,lockitem));
-              console.log("Dispatch done.")
+              dispatch(addnewItem(idcode,itemcode,qrcode,scanner,state,position,lockitem));
+              // console.log("Dispatch done.")
           }
           async function secondFunction() {
-            console.log('Before promise call.')
+            // console.log('Before promise call.')
             const result = await firstFunction()
-            setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
-            console.log('Update state done.')
+            setScanitem([...scanitem,{idcode:idcode,position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
+            // console.log('Update state done.')
           }; 
           secondFunction()
 
@@ -250,7 +248,7 @@ function Scan() {
                         </button>
                         <button 
                             style={{padding: "3px 10px",marginLeft:"20px"}}
-                            onClick={()=>deleteitem(item.qrcode)} className="btn btn-danger">
+                            onClick={()=>deleteitem(item.idcode)} className="btn btn-danger">
                             Delete
                         </button>
                     </td>

@@ -116,8 +116,8 @@ function Adminworkspace() {
     setOpen(false);
   };
 
-  function deleteitem(id) {
-    dispatch(deleteItem(id));
+  function deleteitem(idcode) {
+    dispatch(deleteItem(idcode));
     // setMessage("You have deleted item successfully");
     // setOpen(true);
   }
@@ -335,7 +335,7 @@ function Adminworkspace() {
                                     </button>
                                     <button 
                                         style={{padding: "3px 10px",marginLeft:"7px"}}
-                                        onClick={(e)=>deleteitem(item.id)} className={(item.status == "IN" && sortedposts.filter(items=>{return items["qrcode"].toLowerCase().includes(item.qrcode.toLowerCase())}).length<2) ? "ms-1 btn btn-danger" : "ms-1 btn btn-secondary disabled"}>
+                                        onClick={(e)=>deleteitem(item.idcode)} className={(item.status == "IN" && sortedposts.filter(items=>{return items["qrcode"].toLowerCase().includes(item.qrcode.toLowerCase())}).length<2) ? "ms-1 btn btn-danger" : "ms-1 btn btn-secondary disabled"}>
                                         Delete
                                     </button>
                                     <button 

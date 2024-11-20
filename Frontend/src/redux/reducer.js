@@ -54,7 +54,7 @@ const rootReducer = (state = initialState, action) => {
     case DELETE_ITEM_SUCCESS:
       return {
         ...state,
-        posts: [...state.posts.filter((item) => item.id != action.payload.id)],
+        posts: [...state.posts.filter((item) => item.idcode != action.payload.idcode)],
         // user: {
         //   ...state.user,
         //   userblogs: [
@@ -66,7 +66,7 @@ const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: [
-          ...state.posts.filter((item) => item.id != action.payload.id),
+          ...state.posts.filter((item) => item.idcode != action.payload.idcode),
           action.payload
         ],
         // user: {

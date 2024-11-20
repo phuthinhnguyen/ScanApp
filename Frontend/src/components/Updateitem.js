@@ -45,21 +45,13 @@ function Updateitem() {
   const sortedposts = stateselector.posts.sort((a, b) => b.createdAt - a.createdAt);
   function submitform(e) {
     e.preventDefault();
-    const filterqrcode = sortedposts.filter(item=>{
-      return item["itemcode"].toLowerCase().includes(form.itemcode.toLowerCase()) && item["status"]=="IN"
-    })
-    console.log(filterqrcode[0].id)
-    dispatch(editItem(form, filterqrcode[0].id));
+    dispatch(editItem(form));
     setMessage("Your Item has been updated successfully");
     setOpen(true);
     navigate("/");
   }
-  function deleteitemclick() {
-    const filterqrcode = sortedposts.filter(item=>{
-      return item["itemcode"].toLowerCase().includes(form.itemcode.toLowerCase())
-    })
-    dispatch(deleteItem(filterqrcode[0].id));
-    // dispatch(deleteItem(form.id));
+  function deleteitemclick(form) {
+    dispatch(deleteItem(form.idcode));
     setMessage("Your Item has been deleted successfully");
     setOpen(true);
     navigate("/");
@@ -152,7 +144,7 @@ function Updateitem() {
                 <button
                   className="button-login"
                   style={{ width: 150 }}
-                  onClick={() => deleteitemclick(form.id)}
+                  onClick={() => deleteitemclick(form)}
                 >
                   Delete Item
                 </button>

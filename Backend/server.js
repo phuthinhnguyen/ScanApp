@@ -137,16 +137,17 @@ app.post("/products", (req, res) => {
   const status = req.body.status;
   const position = req.body.position;
   const lockitem = req.body.lockitem;
-  db.query("insert into products (createdAt, qrcode, scanner,itemcode, status, position, lockitem) VALUES (?,?,?,?,?,?,?)",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem)], (err,data)=>{
+  const idcode = req.body.idcode;
+  db.query("insert into products (idcode, createdAt, qrcode, scanner, itemcode, status, position, lockitem) VALUES (?,?,?,?,?,?,?,?)",[idcode,createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem)], (err,data)=>{
     console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({ createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:position, lockitem:lockitem});
+    else return res.json({idcode:idcode, createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:position, lockitem:lockitem});
   }
   ); 
 });
 
-app.put("/products/:id", (req, res) => {
-  const id = req.params.id;
+app.put("/products/:idcode", (req, res) => {
+  const idcode = req.params.idcode;
   const createdAt = req.body.createdAt;
   const qrcode = req.body.qrcode;
   const scanner = req.body.scanner;
@@ -154,23 +155,23 @@ app.put("/products/:id", (req, res) => {
   const status = req.body.status;
   const position = req.body.position;
   const lockitem = req.body.lockitem;
-  console.log(lockitem)
-  db.query("update products set createdAt = ?, qrcode = ? , scanner = ?, itemcode = ?, status = ?, position = ?, lockitem = ? where id = ?",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem),id], (err,data)=>{
+
+  db.query("update products set createdAt = ?, qrcode = ? , scanner = ?, itemcode = ?, status = ?, position = ?, lockitem = ? where idcode = ?",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem),idcode], (err,data)=>{
     console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({id:id, createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:JSON.stringify(position),lockitem:JSON.stringify(lockitem)});
+    else return res.json({idcode:idcode, createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:JSON.stringify(position),lockitem:JSON.stringify(lockitem)});
  }
  ); 
  
 });
 
-app.delete('/products/:id',(req,res)=>{
-  const id = req.params.id;
+app.delete('/products/:idcode',(req,res)=>{
+  const idcode = req.params.idcode;
   
-  db.query("delete from products where id= ?", id, (err,data)=>{
+  db.query("delete from products where idcode= ?", idcode, (err,data)=>{
     console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({ id });
+    else return res.json({ idcode });
   }) })
 
 
