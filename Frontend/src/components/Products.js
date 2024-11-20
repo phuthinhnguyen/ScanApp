@@ -190,7 +190,7 @@ function Products() {
                 {filterresult.map((item)=><tr key={item.id} >
                 <td>
                   {/* {item.position.char+item.position.number}  */}
-                  {JSON.parse(item.position).char + JSON.parse(item.position).number}
+                  {typeof(item.position)==="string" ? (JSON.parse(item.position).char + JSON.parse(item.position).number) : (item.position.char + item.position.number)}
                 </td>
                 <td>
                   {item.itemcode} 

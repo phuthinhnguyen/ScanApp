@@ -294,7 +294,7 @@ function Adminworkspace() {
                         <tbody style={{color:"white"}}>
                             {filterresult.map((item, index)=><tr key={index} >
                               <td>
-                                {JSON.parse(item.position).char + JSON.parse(item.position).number} 
+                                {typeof(item.position)==="string" ? (JSON.parse(item.position).char + JSON.parse(item.position).number) : (item.position.char + item.position.number)} 
                                 {/* {item.position.char + item.position.number}  */}
                               </td>
                               <td>
@@ -340,8 +340,8 @@ function Adminworkspace() {
                                     </button>
                                     <button 
                                         style={{padding: "3px 10px",marginLeft:"7px"}}
-                                        onClick={(e)=>{JSON.parse(item.lockitem).status == "OFF" ? (e.target.nextElementSibling.style.display="block"):(e.target.nextElementSibling.nextElementSibling.style.display="block")}} className={(item.status == "IN" && sortedposts.filter(items=>{return items["qrcode"].toLowerCase().includes(item.qrcode.toLowerCase())}).length<2) ? (JSON.parse(item.lockitem).status == "OFF" ? "ms-1 btn btn-warning" : "ms-1 btn btn-secondary") : "ms-1 btn disabled"}>
-                                        {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                        onClick={(e)=>{(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? (e.target.nextElementSibling.style.display="block"):(e.target.nextElementSibling.nextElementSibling.style.display="block")}} className={(item.status == "IN" && sortedposts.filter(items=>{return items["qrcode"].toLowerCase().includes(item.qrcode.toLowerCase())}).length<2) ? ((typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "ms-1 btn btn-warning" : "ms-1 btn btn-secondary") : "ms-1 btn disabled"}>
+                                        {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
                                         {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
                                     </button>
                                     <div style={{display:"none"}}>
@@ -350,7 +350,7 @@ function Adminworkspace() {
                                           className="ms-1 btn btn-warning"
                                           style={{padding: "3px 10px"}}
                                           onClick={(e)=>(lockitembutton(item,e))}>
-                                             {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                             {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
                                              {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
                                       </button>
                                       <button 
@@ -361,12 +361,12 @@ function Adminworkspace() {
                                       </button>
                                     </div>
                                     <div style={{display:"none"}}>
-                                        <textarea className="form-control" style={{display:"block",marginTop:"8px",marginBottom:"8px"}} value={JSON.parse(item.lockitem).reason} readOnly></textarea>
+                                        <textarea className="form-control" style={{display:"block",marginTop:"8px",marginBottom:"8px"}} value={(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).reason) : (item.lockitem.reason))} readOnly></textarea>
                                         <button 
                                           className="ms-1 btn btn-warning"
                                           style={{padding: "3px 10px"}}
                                           onClick={(e)=>(unlockitembutton(item,e))}>
-                                           {JSON.parse(item.lockitem).status == "OFF" ? "Lock" : "Unlock"}
+                                           {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
                                            {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
                                       </button>
                                       <button 

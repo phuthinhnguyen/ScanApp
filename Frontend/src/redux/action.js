@@ -261,8 +261,8 @@ export const lockItem = (item,lockitem) => {
       qrcode: item.qrcode,
       status: item.status,
       createdAt: item.createdAt,
-      position:JSON.parse(item.position),
-      lockitem: lockitem,
+      position:(typeof(item.position)==="string" ? JSON.parse(item.position) : item.position),
+      lockitem: (typeof(lockitem)==="string" ? JSON.parse(lockitem) : lockitem),
       idcode:item.idcode
     });
     dispatch({
