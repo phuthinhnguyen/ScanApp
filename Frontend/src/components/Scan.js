@@ -10,6 +10,7 @@ import MuiAlert from "@mui/material/Alert";
 import Select from 'react-select'
 import { makeId } from "./makeId";
 
+
 // used for show snackbar and alert
 function SlideTransition(props) {
   return <Slide {...props} direction="up" />;
@@ -52,16 +53,24 @@ function Scan() {
     dispatch(getallusersforposts());
   }, [scanitem]);
 
+
   const sharethinkingonChange = (e) => {
-    if (e.target.value.split("/").length-1==5){
-      addnewitem(e.target.value.trim(),stateselector.user.name,position);
-      setSharethinking("");
-    }
-    else{
-      setAlert({open:true, message:"QR Code incorrect format"})
-    }
+    setSharethinking(e.target.value)
   };
  
+  const handleScan = (e) => {
+    if (e.keyCode===13){
+      if (sharethinking.split("/").length==6){
+          addnewitem(sharethinking.trim(),stateselector.user.name,position);
+          setSharethinking("");
+        }
+        else{
+          setAlert({open:true, message:"QR Code incorrect format"})
+        }
+    }
+ 
+  }
+
   const sortedposts = stateselector.posts.sort((a, b) => b.createdAt - a.createdAt);
 
   
@@ -197,8 +206,11 @@ function Scan() {
                     id="inlineFormInputGroup"
                     placeholder="Scan here..." 
                     onChange={sharethinkingonChange}
+                    onKeyDown={(e)=>handleScan(e)}
                     value={sharethinking}
+                
                   />
+        
                   <button
                     className="button-login share-button"
                     onClick={() => addnewitem(sharethinking.trim(),stateselector.user.name,position)}
