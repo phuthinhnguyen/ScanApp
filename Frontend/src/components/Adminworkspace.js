@@ -406,7 +406,7 @@ function Adminworkspace() {
                                 <tr key={index}>
                                   <td>{item.id}</td>
                                   <td>{item.username}</td>
-                                  <td>{item.password}</td>
+                                  <td>********</td>
                                   <td>{item.name}</td>  
                                   <td>{item.email}</td>
                                   <td>{item.role}</td>

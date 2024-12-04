@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getItem, getallusersforposts } from "../redux/action";
+import { getItem, getallusersforposts, lockItem } from "../redux/action";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { convertCreatedAt } from "./convertCreatedAt";
@@ -8,7 +8,7 @@ import Slide from "@mui/material/Slide";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { BsSearch } from "react-icons/bs";
-
+import { ExportReactCSV } from './ExportReactCSV'
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -33,6 +33,7 @@ function Products() {
   const [searchtext, setSearchtext] = useState("");
   const [searchradio, setSearchradio] = useState("");
   const [search,setSearch] = useState({qrcode:"",scanner:"",partnumber:"",status:"",position:""})
+  const [lockitem,setLockitem] = useState({status:"OFF",reason:""})
   const closealert = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -64,6 +65,12 @@ function Products() {
     }
   };
 
+  function lockitembutton(item,e) {
+    dispatch(lockItem(item,{...lockitem,status:"ON"}));
+    e.target.parentElement.style.display="none";
+    setLockitem({...lockitem,reason:""});
+  }
+
   const sortedposts = stateselector.posts.sort((a, b) => b.createdAt - a.createdAt);
   const filterresult = sortedposts.filter((item) => {
     const itemsqrcodesplit = item["qrcode"].split("/")
@@ -77,6 +84,31 @@ function Products() {
     const itemposition = parseitemposition.char + parseitemposition.number
     return item["qrcode"].toLowerCase().includes(search.qrcode.toLowerCase()) && item["scanner"].toLowerCase().includes(search.scanner.toLowerCase()) && itemsqrcodesplit[4].toLowerCase().includes(search.partnumber.toLowerCase()) && item["status"].toLowerCase().includes(search.status.toLowerCase()) && itemposition.toLowerCase().includes(search.position.toLowerCase())
   });
+
+  // Convert filterresult to datacsv
+  var exportcsv = []
+  for (let i=0;i<filterresult.length;i++){
+    const qrcode = filterresult[i].qrcode
+    const splitqrcode = qrcode.split("/")
+
+    if (typeof(filterresult[i].position)==="string"){
+      var parseitemposition = JSON.parse(filterresult[i].position)
+    }
+    else{
+      var parseitemposition = filterresult[i].position
+    }
+    if (typeof(filterresult[i].lockitem)==="string"){
+      var parseitemlockitem = JSON.parse(filterresult[i].lockitem)
+    }
+    else{
+      var parseitemlockitem = filterresult[i].lockitem
+    }
+
+    // const parseitemposition = JSON.parse(filterresult[i].position)
+    // const parseitemlockitem = JSON.parse(filterresult[i].lockitem)
+    exportcsv.push({Position:parseitemposition.char.concat(parseitemposition.number),Itemcode:splitqrcode[5],Qrcode:filterresult[i].qrcode,PO:splitqrcode[0],MFGDate:splitqrcode[1],Size:splitqrcode[2],Quantity:splitqrcode[3],Partnumber:splitqrcode[4],Scanner:filterresult[i].scanner,CreateAt:convertCreatedAt(filterresult[i].createdAt),Status:filterresult[i].status,Lockstatus:parseitemlockitem.status,Lockreason:parseitemlockitem.reason})
+  }
+   
   return (
     <div>
       {stateselector.user != null ? (
@@ -167,7 +199,7 @@ function Products() {
                           <div className="form-check">
                             <label className="form-check-label">Total: {filterresult.length} rows</label>
                           </div>
-                       
+                          <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile" />
                         </div>
                       </div>
             <table className="table" style={{marginTop:"50px",marginBottom:"80px"}}>
@@ -221,6 +253,30 @@ function Products() {
                 </td>
                 <td>
                   <div style={item.status=="IN"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.status} </div>
+                </td>
+                <td>
+                  <button 
+                    style={{padding: "3px 10px",marginLeft:"7px"}}
+                    onClick={(e)=>{e.target.nextElementSibling.style.display="block"}} className={(item.status == "IN" && sortedposts.filter(items=>{return items["qrcode"].toLowerCase().includes(item.qrcode.toLowerCase())}).length<2) ? ((typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "ms-1 btn btn-warning" : "ms-1 btn disabled") : "ms-1 btn disabled"}>
+                    {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
+                    {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
+                  </button>
+                  <div style={{display:"none"}}>
+                      <textarea className="form-control" placeholder="Input Reason here..." style={{display:"block",marginTop:"8px",marginBottom:"8px"}} value={lockitem.reason} onChange={(e)=>setLockitem({...lockitem,reason:e.target.value})}></textarea>
+                      <button 
+                        className="ms-1 btn btn-warning"
+                        style={{padding: "3px 10px"}}
+                        onClick={(e)=>(lockitembutton(item,e))}>
+                          {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
+                          {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
+                    </button>
+                    <button 
+                        className="ms-1 btn btn-warning"
+                        style={{padding: "3px 10px"}}
+                        onClick={(e)=>e.target.parentElement.style.display="none"}>
+                        Close
+                    </button>
+                  </div>
                 </td>
                 </tr>)}
             </tbody>

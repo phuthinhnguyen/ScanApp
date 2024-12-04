@@ -180,6 +180,7 @@ function Scan() {
                       <option value="H">H</option>
                       <option value="I">I</option>
                       <option value="K">K</option>
+                      <option value="Pallet">Pallet</option>
                     </select> 
                     <select 
                       className="statusselect positionselect"
@@ -196,6 +197,7 @@ function Scan() {
                       <option value="4.2">4.2</option>
                       <option value="5.1">5.1</option>
                       <option value="5.2">5.2</option>
+                      <option value="0.0">0.0</option>
                     </select>
                   </div>
                   : null}
