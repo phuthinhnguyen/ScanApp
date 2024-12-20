@@ -3,6 +3,7 @@ const mysql = require("mysql");
 require('dotenv').config();
 const cors = require("cors");
 const app = express();
+const multer = require('multer')
 
 // use cors to follow webbrower policy
 app.use(cors());
@@ -25,6 +26,32 @@ const db = mysql.createConnection({
     // password: "",
     // database: "scanapp"
 })
+
+// Upload photos to host by multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public')
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' +file.originalname)
+  }
+})
+
+const upload = multer({ storage: storage 
+  // limits: { fileSize: 1 * 1024 * 1024 } // limit image size <= 1MB
+}).any()
+
+app.post('/upload', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.send(err);
+    }
+    res.send(req.files);
+  });
+
+});
+// app.use(express.static('public'));
+
 
 // API
 app.get("/", (re,res) => {

@@ -11,7 +11,7 @@ export const UPLOAD_AVATAR_SUCCESS = "UPLOAD_AVATAR_SUCCESS"
 export const DELETE_ITEM_SUCCESS = "DELETE_ITEM_SUCCESS";
 export const UPDATE_ITEM_SUCCESS = "UPDATE_ITEM_SUCCESS";
 export const ADD_NEW_ITEM_SUCCESS = "ADD_NEW_ITEM_SUCCESS";
-
+export const UPLOADPHOTOS_SUCCESS = "UPLOADPHOTOS_SUCCESS";
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
 // const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
@@ -20,6 +20,18 @@ const apiurlusers = "https://api.scanx.io.vn/users";
 // const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
 const apiurlitems = "https://api.scanx.io.vn/products";
 // const apiurlitems = "http://localhost:4200/products";
+const apiuploadaphotos = "http://localhost:4200/upload";
+
+export const uploadPhotos = (data,category) => {
+  return async (dispatch) => {
+    const response = await axios.post(`${apiuploadaphotos}`, data, category);
+    dispatch({
+      type: UPLOADPHOTOS_SUCCESS,
+      payload: response.data
+    });
+  };
+};
+
 
 // get all posts to load in home page
 export const getItem = () => {

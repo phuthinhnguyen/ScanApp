@@ -5,7 +5,7 @@ import { CSVLink } from 'react-csv'
 export const ExportReactCSV = ({csvData, fileName}) => {
     return (
      
-            <CSVLink data={csvData} filename={fileName} className='csvbutton'>Export .xlsx</CSVLink>
+            <CSVLink data={csvData} filename={fileName} className='csvbutton'>Export.xlsx</CSVLink>
     
     )
 }

@@ -10,6 +10,7 @@ import Loadinglogin from "./components/Loadinglogin";
 import Loadingpath from "./components/Loadingpath";
 import Updateitem from "./components/Updateitem";
 import Scan from "./components/Scan";
+import "yet-another-react-lightbox/styles.css";
 
 // use lazy for every loading path
 const Home = React.lazy(() => import("./components/Home"));
@@ -18,7 +19,7 @@ const Userprofile = React.lazy(() => import("./components/Userprofile"));
 const Adminworkspace = React.lazy(() => import("./components/Adminworkspace"));
 const Userprofileonline = React.lazy(() => import("./components/Userprofileonline"));
 const Products = React.lazy(() => import("./components/Products"));
-const Slideshow = React.lazy(() => import("./components/Slideshow"));
+const Slideshowphoto = React.lazy(() => import("./components/Slideshowphoto"));
 function App() {
   let persistor = persistStore(store);
   return (
@@ -94,7 +95,7 @@ function App() {
               path="/slideshow"
               element={
                 <Suspense fallback={<Loadingpath/>}>
-                  <Slideshow />
+                  <Slideshowphoto />
                 </Suspense>
               }
             />

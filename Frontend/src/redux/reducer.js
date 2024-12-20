@@ -1,5 +1,5 @@
 import { LOGIN_SUCCESS, BAN_USER_SUCCESS, FETCH_USER_SUCCESS, GET_USERPROFILE_SUCCESS, LOGOUT_SUCCESS, SIGNUP_SUCCESS, TO_ADMIN_SUCCESS, UPLOAD_AVATAR_SUCCESS } from "./action";
-import { FETCH_ITEM_SUCCESS, DELETE_ITEM_SUCCESS, ADD_NEW_ITEM_SUCCESS, UPDATE_ITEM_SUCCESS } from "./action";
+import { FETCH_ITEM_SUCCESS, DELETE_ITEM_SUCCESS, ADD_NEW_ITEM_SUCCESS, UPDATE_ITEM_SUCCESS, UPLOADPHOTOS_SUCCESS } from "./action";
 
 const initialState = {
   // used for loading all posts on home page
@@ -8,7 +8,9 @@ const initialState = {
   user: null,
   // used for loading name and avatar of every post on home page and when user click to see another user'profile
   allusersprofile: null,
-  allusers:null
+  allusers:null,
+  // used for loading photos
+  photos:null
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -88,7 +90,12 @@ const rootReducer = (state = initialState, action) => {
         //   userblogs: [...state.user.userblogs, action.payload]
         // }
       };
-
+    case UPLOADPHOTOS_SUCCESS:
+      return {
+        ...state,
+        photos: action.payload,
+      };
+    
     default:
       return state;
   }
