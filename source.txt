@@ -21,4 +21,7 @@ Filter: https://www.ag-grid.com/react-data-grid/getting-started/
         https://medium.com/@utkarsh.gupta0311/reacts-filter-component-a-comprehensive-guide-b457a9b6dd2b#:~:text=At%20its%20core%2C%20a%20filter%20component%20is%20a,as%20user%20preferences%2C%20search%20queries%2C%20or%20custom%20logic.
 Reactjs Nodejs SQL Project: https://medium.com/@codewithmarish/simple-full-stack-products-crud-app-using-react-node-js-mysql-f18b9b8a5c18
 Fix error "Policy Powershell Nodejs": Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
-                
+
+241206-009/2024-12-12/2401/0002000/DJ68-00903D/160338
+241202-006/2024-12-12//0002250/DJ68-00816Z/160727
+221226-122/2023-03-03/207*151/0000050/BN68-15218A/10240                

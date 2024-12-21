@@ -106,7 +106,7 @@ function Products() {
 
     // const parseitemposition = JSON.parse(filterresult[i].position)
     // const parseitemlockitem = JSON.parse(filterresult[i].lockitem)
-    exportcsv.push({Position:parseitemposition.char.concat(parseitemposition.number),Itemcode:splitqrcode[5],Qrcode:filterresult[i].qrcode,PO:splitqrcode[0],MFGDate:splitqrcode[1],Size:splitqrcode[2],Quantity:splitqrcode[3],Partnumber:splitqrcode[4],Scanner:filterresult[i].scanner,CreateAt:convertCreatedAt(filterresult[i].createdAt),Status:filterresult[i].status,Lockstatus:parseitemlockitem.status,Lockreason:parseitemlockitem.reason})
+    exportcsv.push({Position:parseitemposition.char.concat(parseitemposition.number),Itemcode:splitqrcode[5],Qrcode:filterresult[i].qrcode,PO:splitqrcode[0],MFGDate:splitqrcode[1],Size_Version:splitqrcode[2],Quantity:splitqrcode[3],Partnumber:splitqrcode[4],Scanner:filterresult[i].scanner,CreateAt:convertCreatedAt(filterresult[i].createdAt),Status:filterresult[i].status,Lockstatus:parseitemlockitem.status,Lockreason:parseitemlockitem.reason})
   }
    
   return (
@@ -210,7 +210,7 @@ function Products() {
                   <td style={{fontWeight: "700",fontSize:"18px"}}>QR Code</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>PO</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>MFG Date</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Size</td>
+                  <td style={{fontWeight: "700",fontSize:"18px"}}>Size/Version</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Quantity</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Part Number</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Scanner</td>
