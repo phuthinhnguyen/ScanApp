@@ -5,7 +5,6 @@ import Header from "./Header";
 import { Helmet } from 'react-helmet';
 import {uploadPhotos} from "../redux/action";
 
-
 import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
 import Fullscreen from "yet-another-react-lightbox/plugins/fullscreen";
@@ -16,6 +15,7 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/plugins/captions.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import advancedSlides from "./slides";
+
 
 function Slideshowphoto() {
   const navigate = useNavigate();
@@ -34,6 +34,10 @@ function Slideshowphoto() {
   const [advancedExampleOpen, setAdvancedExampleOpen] = useState(false);
   const [photos, setPhotos] = useState({photos:[],});
 
+  const images = require.context('./photos/', true);
+  const imageList = images.keys().map(image => images(image));
+  console.log(imageList)
+
   const uploadphotos = (e) => {
     const data = new FormData();
     for (let i=0;i<e.target.files.length;i++){
@@ -44,78 +48,79 @@ function Slideshowphoto() {
 
   const breakpoints = [3840, 1920, 1080, 640, 384, 256, 128];
 
-function assetLink(asset) {
-  // return `https://assets.yet-another-react-lightbox.com/_next/image?url=${encodeURIComponent(
-  //   `/_next/static/media/${asset}`
-  // )}&w=${width}&q=75`;
-  return `https://api.scanx.io.vn/public/${asset}`
-}
+  function assetLink(asset) {
+    // return `https://assets.yet-another-react-lightbox.com/_next/image?url=${encodeURIComponent(
+    //   `/_next/static/media/${asset}`
+    // )}&w=${width}&q=75`;
+    // return `https://api.scanx.io.vn/public/${asset}`
+      return `../../public/img/photos/${asset}`
+  }
 
-const slides = [
-  { asset: "1734697699401-baolixiccl-03.png"},
-  { asset: "1734697699408-baolixiccl-04.png"},
- 
-].map(({ asset }) => ({
-  src: assetLink(asset),
-  srcSet: breakpoints.map((breakpoint) => ({
-    src: assetLink(asset, breakpoint),
-    width: breakpoint,
-    height: "100%",
-  })),
-}));
+  const slides = [
+    { asset: "istockphoto-1416937202-2048x2048.jpg"},
+    { asset: "1734697699408-baolixiccl-04.png"},
+  
+  ].map(({ asset }) => ({
+    src: assetLink(asset),
+    srcSet: breakpoints.map((breakpoint) => ({
+      src: assetLink(asset, breakpoint),
+      width: breakpoint,
+      height: "100%",
+    })),
+  }));
 
-const advancedSlides = [
-  { ...slides[0]},
-  {
-    ...slides[1],
-  },
-  {
-    ...slides[2],
-    title: "Flamingo",
-    description: "Vicko Mozara\n\nVeliki zali, Dubravica, Croatia",
-  },
-  {
-    title: "Big Buck Bunny",
-    description:
-      "The Peach Open Movie Project\n\nBlender Institute, Netherlands",
-    width: 1280,
-    height: 720,
-    poster:
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
-    sources: [
-      {
-        src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-        type: "video/mp4",
-      },
-    ],
-  },
-  {
-    ...slides[3],
-    title: "Starfish on a sand beach",
-    description: "Pedro Lastra\n\nKey West, Florida, United States",
-  },
-  {
-    ...slides[6],
-    title:
-      "The last night of a two week stay on the North Shore of Oahu, Hawaii",
-    description: "Sean Oulashin\n\nNorth Shore, Waialua, Hawaii, United States",
-  },
-  {
-    ...slides[7],
-    title: "Sunset on Kauai",
-    description: "Cristofer Maximilian\n\nKauai, Hawaii, United States",
-  },
-  {
-    ...slides[9],
-    title: "RayBan sunglasses",
-    description: "Ethan Robertson\n\nSanta Monica, California, United States",
-  },
-  {
-    ...slides[11],
-    title: "Find the time",
-    description: "Alex Perez\n\nNaples, Florida, United States",
-  },
-];
+  const advancedSlides = [
+    { ...slides[0]},
+    {
+      ...slides[1],
+    },
+    {
+      ...slides[2],
+      title: "Flamingo",
+      description: "Vicko Mozara\n\nVeliki zali, Dubravica, Croatia",
+    },
+    {
+      title: "Big Buck Bunny",
+      description:
+        "The Peach Open Movie Project\n\nBlender Institute, Netherlands",
+      width: 1280,
+      height: 720,
+      poster:
+        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+      sources: [
+        {
+          src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+          type: "video/mp4",
+        },
+      ],
+    },
+    {
+      ...slides[3],
+      title: "Starfish on a sand beach",
+      description: "Pedro Lastra\n\nKey West, Florida, United States",
+    },
+    {
+      ...slides[6],
+      title:
+        "The last night of a two week stay on the North Shore of Oahu, Hawaii",
+      description: "Sean Oulashin\n\nNorth Shore, Waialua, Hawaii, United States",
+    },
+    {
+      ...slides[7],
+      title: "Sunset on Kauai",
+      description: "Cristofer Maximilian\n\nKauai, Hawaii, United States",
+    },
+    {
+      ...slides[9],
+      title: "RayBan sunglasses",
+      description: "Ethan Robertson\n\nSanta Monica, California, United States",
+    },
+    {
+      ...slides[11],
+      title: "Find the time",
+      description: "Alex Perez\n\nNaples, Florida, United States",
+    },
+  ];
 
   return (
     <div>

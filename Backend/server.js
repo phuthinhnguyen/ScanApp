@@ -30,7 +30,7 @@ const db = mysql.createConnection({
 // Upload photos to host by multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public')
+    cb(null, '../public_html/img/photos')
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' +file.originalname)
