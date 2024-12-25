@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th10 20, 2024 lúc 11:31 PM
+-- Thời gian đã tạo: Th12 25, 2024 lúc 12:00 PM
 -- Phiên bản máy phục vụ: 5.7.44-cll-lve
 -- Phiên bản PHP: 8.1.27
 
@@ -20,6 +20,17 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `xjhvevsw_scanapp`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `photos`
+--
+
+CREATE TABLE `photos` (
+  `id` int(255) NOT NULL,
+  `name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -61,6 +72,12 @@ CREATE TABLE `users` (
 --
 
 --
+-- Chỉ mục cho bảng `photos`
+--
+ALTER TABLE `photos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Chỉ mục cho bảng `products`
 --
 ALTER TABLE `products`
@@ -75,6 +92,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
+
+--
+-- AUTO_INCREMENT cho bảng `photos`
+--
+ALTER TABLE `photos`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `products`

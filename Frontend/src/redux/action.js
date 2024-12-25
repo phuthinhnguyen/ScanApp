@@ -12,25 +12,41 @@ export const DELETE_ITEM_SUCCESS = "DELETE_ITEM_SUCCESS";
 export const UPDATE_ITEM_SUCCESS = "UPDATE_ITEM_SUCCESS";
 export const ADD_NEW_ITEM_SUCCESS = "ADD_NEW_ITEM_SUCCESS";
 export const UPLOADPHOTOS_SUCCESS = "UPLOADPHOTOS_SUCCESS";
+export const GETPHOTOS_SUCCESS = "GETPHOTOS_SUCCESS";
 export const CHANGE_USER_NAME_SUCCESS = "CHANGE_USER_NAME_SUCCESS";
 export const CHANGE_USER_PASSWORD_SUCCESS = "CHANGE_USER_PASSWORD_SUCCESS";
 
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
 // const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
-// const apiurlusers = "https://api.scanx.io.vn/users";
-const apiurlusers = "http://localhost:4200/users";
+const apiurlusers = "https://api.scanx.io.vn/users";
+// const apiurlusers = "http://localhost:4200/users";
 // const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
 const apiurlitems = "https://api.scanx.io.vn/products";
 // const apiurlitems = "http://localhost:4200/products";
-const apiuploadaphotos = "http://localhost:4200/upload";
+// const apiuploadaphotos = "http://localhost:4200/upload";
+const apiuploadaphotos = "https://api.scanx.io.vn/upload";
 
-export const uploadPhotos = (data,category) => {
+// get all photos name from database
+export const getPhotos = () => {
   return async (dispatch) => {
-    const response = await axios.post(`${apiuploadaphotos}`, data, category);
+    const response = await axios.get(apiuploadaphotos);
+    const photos = [];
+    response.data.data.forEach((photo) => photos.push(photo.name))
+    dispatch({
+      type: GETPHOTOS_SUCCESS,
+      payload: photos
+    });
+  };
+};
+
+// upload photos to host
+export const uploadPhotos = (data) => {
+  return async (dispatch) => {
+    const response = await axios.post(`${apiuploadaphotos}`, data);
     dispatch({
       type: UPLOADPHOTOS_SUCCESS,
-      payload: response.data
+      payload: response.data.allphotosname
     });
   };
 };

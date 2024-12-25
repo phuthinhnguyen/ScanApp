@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect,useState,useRef } from "react";
+import React,{ useEffect,useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { Helmet } from 'react-helmet';
-import {uploadPhotos} from "../redux/action";
+import {uploadPhotos,getPhotos} from "../redux/action";
 
 import Lightbox from "yet-another-react-lightbox";
 import Captions from "yet-another-react-lightbox/plugins/captions";
@@ -14,36 +14,55 @@ import Video from "yet-another-react-lightbox/plugins/video";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/plugins/captions.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-import advancedSlides from "./slides";
+import Snackbar from "@mui/material/Snackbar";
+import Slide from "@mui/material/Slide";
+import MuiAlert from "@mui/material/Alert";
 
+// used for show snackbar and alert
+function SlideTransition(props) {
+  return <Slide {...props} direction="up" />;
+}
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const alrertstylesuccess = {
+  width: "100%",
+  marginBottom: 4,
+  marginRight: 2,
+  backgroundColor: "var(--backgroundbody)"
+};
 
 function Slideshowphoto() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const state = useSelector((state) => state);
+  const [alert, setAlert] = useState({ open: false, message: "" });
 
   if (state.user == null) {
     navigate("/")
   }
+
+  const closealert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setAlert({ ...alert, open: false });
+  };
+
   useEffect(() => {
-    // dispatch(getItem());
-    // dispatch(getallusersforposts());
-    
+    dispatch(getPhotos())
   }, []);
 
   const [advancedExampleOpen, setAdvancedExampleOpen] = useState(false);
-  const [photos, setPhotos] = useState({photos:[],});
-
-  // const images = require.context('./photos/', true);
-  // const imageList = images.keys().map(image => images(image));
-  // console.log(imageList)
 
   const uploadphotos = (e) => {
     const data = new FormData();
     for (let i=0;i<e.target.files.length;i++){
       data.append('file', e.target.files[i]);
     }
-    dispatch(uploadPhotos(data,'Christmas'))
+    dispatch(uploadPhotos(data))
+    setAlert({open:true, message:"You have uploaded photos successfully"})
   }
 
   const breakpoints = [3840, 1920, 1080, 640, 384, 256, 128];
@@ -52,15 +71,27 @@ function Slideshowphoto() {
     // return `https://assets.yet-another-react-lightbox.com/_next/image?url=${encodeURIComponent(
     //   `/_next/static/media/${asset}`
     // )}&w=${width}&q=75`;
-    // return `https://api.scanx.io.vn/public/${asset}`
+    return `https://api.scanx.io.vn/public/${asset}`
       // return `../../public/img/photos/${asset}`
   }
 
-  const slides = [
-    { asset: "istockphoto-1416937202-2048x2048.jpg"},
-    { asset: "1734697699408-baolixiccl-04.png"},
+  var listphotosname = []
+  state.photos.forEach((photo) => listphotosname.push({asset:photo}))
+
+  // const slides = [
+  //   { asset: "1735100551246-baolixiccl-01.png"},
+  //   { asset: "1735100640720-baolixiccl-03.png"},
   
-  ].map(({ asset }) => ({
+  // ].map(({ asset }) => ({
+  //   src: assetLink(asset),
+  //   srcSet: breakpoints.map((breakpoint) => ({
+  //     src: assetLink(asset, breakpoint),
+  //     width: breakpoint,
+  //     height: "100%",
+  //   })),
+  // }));
+
+  const slides = listphotosname.map(({ asset }) => ({
     src: assetLink(asset),
     srcSet: breakpoints.map((breakpoint) => ({
       src: assetLink(asset, breakpoint),
@@ -69,58 +100,33 @@ function Slideshowphoto() {
     })),
   }));
 
-  const advancedSlides = [
-    { ...slides[0]},
-    {
-      ...slides[1],
-    },
-    {
-      ...slides[2],
-      title: "Flamingo",
-      description: "Vicko Mozara\n\nVeliki zali, Dubravica, Croatia",
-    },
-    {
-      title: "Big Buck Bunny",
-      description:
-        "The Peach Open Movie Project\n\nBlender Institute, Netherlands",
-      width: 1280,
-      height: 720,
-      poster:
-        "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
-      sources: [
-        {
-          src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-          type: "video/mp4",
-        },
-      ],
-    },
-    {
-      ...slides[3],
-      title: "Starfish on a sand beach",
-      description: "Pedro Lastra\n\nKey West, Florida, United States",
-    },
-    {
-      ...slides[6],
-      title:
-        "The last night of a two week stay on the North Shore of Oahu, Hawaii",
-      description: "Sean Oulashin\n\nNorth Shore, Waialua, Hawaii, United States",
-    },
-    {
-      ...slides[7],
-      title: "Sunset on Kauai",
-      description: "Cristofer Maximilian\n\nKauai, Hawaii, United States",
-    },
-    {
-      ...slides[9],
-      title: "RayBan sunglasses",
-      description: "Ethan Robertson\n\nSanta Monica, California, United States",
-    },
-    {
-      ...slides[11],
-      title: "Find the time",
-      description: "Alex Perez\n\nNaples, Florida, United States",
-    },
-  ];
+  const advancedSlides = [...slides]
+  // const advancedSlides = [
+  //   { ...slides[0]},
+  //   {
+  //     ...slides[1],
+  //   },
+  //   {
+  //     ...slides[2],
+  //     title: "Flamingo",
+  //     description: "Vicko Mozara\n\nVeliki zali, Dubravica, Croatia",
+  //   },
+  //   {
+  //     title: "Big Buck Bunny",
+  //     description:
+  //       "The Peach Open Movie Project\n\nBlender Institute, Netherlands",
+  //     width: 1280,
+  //     height: 720,
+  //     poster:
+  //       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+  //     sources: [
+  //       {
+  //         src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+  //         type: "video/mp4",
+  //       },
+  //     ],
+  //   },
+  // ];
 
   return (
     <div>
@@ -130,8 +136,9 @@ function Slideshowphoto() {
           <div className="home-body" style={{marginTop:"0"}}>
             <div className="home-body-wrap" style={{position:"relative"}}>
               <h2>SLIDESHOW</h2>
-                <input type="file" name="file" multiple accept='image/*' onChange={(e)=>uploadphotos(e)}></input>
-                <button className="csvbutton" style={{position:"absolute",right:"5%"}}>Upload Photos</button>
+                <label className="csvbutton" style={{position:"absolute",right:"5%",cursor:"pointer",padding:"5px 10px"}}>Upload Photos
+                  <input type="file" name="file" multiple accept='image/*' onChange={(e)=>uploadphotos(e)} style={{display:"none"}}></input>
+                </label>
             </div>
             <Lightbox
         open={advancedExampleOpen}
@@ -162,7 +169,7 @@ function Slideshowphoto() {
                     </div>
                   </div>
                 </div>
-                <div className="item">
+                <div className="item" onClick={()=>setAdvancedExampleOpen(true)}>
                   <div className="content">
                     <img src="../img/tet.png" alt=""></img>
                     <div className="text">
@@ -174,7 +181,7 @@ function Slideshowphoto() {
                     </div>
                   </div>
                 </div>
-                <div className="item">
+                <div className="item" onClick={()=>setAdvancedExampleOpen(true)}>
                   <div className="content">
                     <img src="../img/halloween.jpg" alt=""></img>
                     <div className="text">
@@ -186,7 +193,7 @@ function Slideshowphoto() {
                     </div>
                   </div>
                 </div>
-                <div className="item">
+                <div className="item" onClick={()=>setAdvancedExampleOpen(true)}>
                   <div className="content">
                     <img src="../img/womensday.jpg" alt=""></img>
                     <div className="text">
@@ -198,7 +205,7 @@ function Slideshowphoto() {
                     </div>
                   </div>
                 </div>
-                <div className="item">
+                <div className="item" onClick={()=>setAdvancedExampleOpen(true)}>
                   <div className="content">
                     <img src="../img/midautumn-.png" alt=""></img>
                     <div className="text">
@@ -210,7 +217,7 @@ function Slideshowphoto() {
                     </div>
                   </div>
                 </div>
-                <div className="item">
+                <div className="item" onClick={()=>setAdvancedExampleOpen(true)}>
                   <div className="content">
                     <img src="../img/birthday.jpg" alt=""></img>
                     <div className="text">
@@ -222,7 +229,7 @@ function Slideshowphoto() {
                     </div>
                   </div>
                 </div>
-                <div className="item">
+                <div className="item" onClick={()=>setAdvancedExampleOpen(true)}>
                   <div className="content">
                     <img src="../img/newyear.jpg" alt=""></img>
                     <div className="text">
@@ -234,7 +241,7 @@ function Slideshowphoto() {
                     </div>
                   </div>
                 </div>
-                <div className="item">
+                <div className="item" onClick={()=>setAdvancedExampleOpen(true)}>
                   <div className="content">
                     <img src="../img/yearend.jpg" alt=""></img>
                     <div className="text">
@@ -252,6 +259,27 @@ function Slideshowphoto() {
               <script src="../js/slideshowsurf.js"></script>
             </Helmet> 
           </div>
+          <Snackbar
+            open={alert.open}
+            autoHideDuration={2000}
+            onClose={closealert}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            TransitionComponent={SlideTransition}
+          >
+            <Alert
+              onClose={closealert}
+              severity={
+                alert.message.includes("successfully") ? "success" : "error"
+              }
+              sx={
+                alert.message.includes("successfully")
+                  ? { ...alrertstylesuccess, color: "var(--success)" }
+                  : { ...alrertstylesuccess, color: "var(--error)" }
+              }
+            >
+              {alert.message}
+            </Alert>
+          </Snackbar>       
         </div>
       ) : (
         null

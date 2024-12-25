@@ -30,7 +30,7 @@ const db = mysql.createConnection({
 // Upload photos to host by multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../public_html/img/photos')
+    cb(null, 'public')
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' +file.originalname)
@@ -39,16 +39,35 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage 
   // limits: { fileSize: 1 * 1024 * 1024 } // limit image size <= 1MB
-}).any()
+})
 
-app.post('/upload', (req, res) => {
-  upload(req, res, (err) => {
-    if (err) {
-      res.send(err);
-    }
-    res.send(req.files);
+app.get("/upload", (req, res) => {
+  const q = "select * from photos";
+  db.query(q, (err, data) => {
+    // console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ data });
   });
+});
 
+
+app.post('/upload',upload.any(), (req, res) => {
+  const allphotos = req.files;
+  var allphotosname = []
+  // upload(req, res, (err) => {
+  //   if (err) {
+  //     res.send(err);
+  //   }
+  //   res.send(req.files);
+  // });
+  for (let i=0;i<allphotos.length;i++){
+    db.query("insert into photos (name) VALUES (?)",[allphotos[i].filename], (err,data)=>{
+      if (err) return res.json({ error: err.sqlMessage });
+    }
+    );
+    allphotosname.push(allphotos[i].filename)
+  }
+  return res.json({ allphotosname });
 });
 // app.use(express.static('public'));
 
