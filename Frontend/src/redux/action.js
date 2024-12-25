@@ -12,11 +12,14 @@ export const DELETE_ITEM_SUCCESS = "DELETE_ITEM_SUCCESS";
 export const UPDATE_ITEM_SUCCESS = "UPDATE_ITEM_SUCCESS";
 export const ADD_NEW_ITEM_SUCCESS = "ADD_NEW_ITEM_SUCCESS";
 export const UPLOADPHOTOS_SUCCESS = "UPLOADPHOTOS_SUCCESS";
+export const CHANGE_USER_NAME_SUCCESS = "CHANGE_USER_NAME_SUCCESS";
+export const CHANGE_USER_PASSWORD_SUCCESS = "CHANGE_USER_PASSWORD_SUCCESS";
+
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
 // const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
-const apiurlusers = "https://api.scanx.io.vn/users";
-// const apiurlusers = "http://localhost:4200/users";
+// const apiurlusers = "https://api.scanx.io.vn/users";
+const apiurlusers = "http://localhost:4200/users";
 // const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
 const apiurlitems = "https://api.scanx.io.vn/products";
 // const apiurlitems = "http://localhost:4200/products";
@@ -187,6 +190,46 @@ export const toadmin = (id) => {
     dispatch({
       type: TO_ADMIN_SUCCESS,
       payload: response.data
+    })
+    
+  }
+}
+
+// change name of user
+export const changenameofuser = (user,name) => {
+  return async dispatch => {
+    const response = await axios.put(`${apiurlusers}/${user.id}`, {
+      username: user.username,
+      password: user.password,
+      name: name,
+      avatar: user.avatar,
+      coverphoto: user.coverphoto,
+      email: user.email,
+      role: user.role
+    });
+    dispatch({
+      type: CHANGE_USER_NAME_SUCCESS,
+      payload: response.data.name
+    })
+    
+  }
+}
+
+// change password of user
+export const changepasswordofuser = (user,password) => {
+  return async dispatch => {
+    const response = await axios.put(`${apiurlusers}/${user.id}`, {
+      username: user.username,
+      password: password,
+      name: user.name,
+      avatar: user.avatar,
+      coverphoto: user.coverphoto,
+      email: user.email,
+      role: user.role
+    });
+    dispatch({
+      type: CHANGE_USER_PASSWORD_SUCCESS,
+      payload: response.data.password
     })
     
   }

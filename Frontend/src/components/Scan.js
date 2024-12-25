@@ -64,7 +64,7 @@ function Scan() {
           addnewitem(sharethinking.trim(),stateselector.user.name,position);
           setSharethinking("");
         }
-        else{
+      else{
           setAlert({open:true, message:"QR Code incorrect format"})
         }
     }
@@ -215,7 +215,8 @@ function Scan() {
         
                   <button
                     className="button-login share-button"
-                    onClick={() => addnewitem(sharethinking.trim(),stateselector.user.name,position)}
+                    // onClick={() => addnewitem(sharethinking.trim(),stateselector.user.name,position)}
+                    onClick={(e) => handleScan(e)}
                   >
                     Add
                   </button>

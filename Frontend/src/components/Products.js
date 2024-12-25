@@ -216,6 +216,7 @@ function Products() {
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Scanner</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Created At</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Status</td>
+                  <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
               </tr>
             </thead>
             <tbody style={{color:"white"}}>

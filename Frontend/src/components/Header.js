@@ -100,7 +100,7 @@ function Header() {
               </Link>
             </MenuItem>
             <MenuItem onClick={handleCloseUserMenu} style={{}}>
-              <Link className="usermenu" onClick={() => settingsclick()}>
+              <Link className="usermenu" to="/settings">
                 Settings
               </Link>
             </MenuItem>

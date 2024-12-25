@@ -34,9 +34,9 @@ function Slideshowphoto() {
   const [advancedExampleOpen, setAdvancedExampleOpen] = useState(false);
   const [photos, setPhotos] = useState({photos:[],});
 
-  const images = require.context('./photos/', true);
-  const imageList = images.keys().map(image => images(image));
-  console.log(imageList)
+  // const images = require.context('./photos/', true);
+  // const imageList = images.keys().map(image => images(image));
+  // console.log(imageList)
 
   const uploadphotos = (e) => {
     const data = new FormData();
@@ -53,7 +53,7 @@ function Slideshowphoto() {
     //   `/_next/static/media/${asset}`
     // )}&w=${width}&q=75`;
     // return `https://api.scanx.io.vn/public/${asset}`
-      return `../../public/img/photos/${asset}`
+      // return `../../public/img/photos/${asset}`
   }
 
   const slides = [

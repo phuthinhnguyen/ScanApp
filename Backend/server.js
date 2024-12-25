@@ -78,7 +78,6 @@ app.post("/users", (req, res) => {
   const role = req.body.role;
   
   db.query("insert into users (username, password, name,avatar,coverphoto,email,role) VALUES (?,?,?,?,?,?,?)",[username,password,name,avatar,coverphoto,email,role], (err,data)=>{
-    console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
     else return res.json({ data });
   }
@@ -102,7 +101,7 @@ app.put("/users/:id", (req, res) => {
         if(err) {
             console.log(err)
         } 
-        console.log(result)
+        // console.log(result)
      }
      );  
     }
@@ -111,13 +110,12 @@ app.put("/users/:id", (req, res) => {
         if(err) {
             console.log(err)
         } 
-        console.log(result)
+        // console.log(result)
      }
      );
     }
     else if (role !== undefined && avatar===undefined && coverphoto===undefined){
       db.query("update users set role = ? where id = ?",[role,id], (err,data)=>{
-        console.log(err, data);
         if (err) return res.json({ error: err.sqlMessage });
         else return res.json({ role: role,id:id}); 
      }
@@ -129,7 +127,7 @@ app.put("/users/:id", (req, res) => {
       if(err) {
           console.log(err)
       } 
-      console.log(result)
+      else return res.json({ name: name,password:password}); 
    }
    ); 
   }
@@ -140,7 +138,6 @@ app.delete('/users/:id',(req,res)=>{
   const id = req.params.id;
   
   db.query("delete from users where id= ?", id, (err,data)=>{
-    console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
     else return res.json({ data });  
   }) })
@@ -150,7 +147,6 @@ app.delete('/users/:id',(req,res)=>{
 app.get("/products", (req, res) => {
   const q = "select * from products";
   db.query(q, (err, data) => {
-    console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
     else return res.json({ data });
   });
@@ -166,7 +162,6 @@ app.post("/products", (req, res) => {
   const lockitem = req.body.lockitem;
   const idcode = req.body.idcode;
   db.query("insert into products (idcode, createdAt, qrcode, scanner, itemcode, status, position, lockitem) VALUES (?,?,?,?,?,?,?,?)",[idcode,createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem)], (err,data)=>{
-    console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
     else return res.json({idcode:idcode, createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:position, lockitem:lockitem});
   }
@@ -184,7 +179,6 @@ app.put("/products/:idcode", (req, res) => {
   const lockitem = req.body.lockitem;
 
   db.query("update products set createdAt = ?, qrcode = ? , scanner = ?, itemcode = ?, status = ?, position = ?, lockitem = ? where idcode = ?",[createdAt,qrcode,scanner,itemcode,status,JSON.stringify(position),JSON.stringify(lockitem),idcode], (err,data)=>{
-    console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
     else return res.json({idcode:idcode, createdAt:createdAt, qrcode:qrcode, scanner:scanner,itemcode:itemcode,status:status,position:JSON.stringify(position),lockitem:JSON.stringify(lockitem)});
  }
@@ -196,7 +190,6 @@ app.delete('/products/:idcode',(req,res)=>{
   const idcode = req.params.idcode;
   
   db.query("delete from products where idcode= ?", idcode, (err,data)=>{
-    console.log(err, data);
     if (err) return res.json({ error: err.sqlMessage });
     else return res.json({ idcode });
   }) })

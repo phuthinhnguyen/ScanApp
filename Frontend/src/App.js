@@ -10,6 +10,7 @@ import Loadinglogin from "./components/Loadinglogin";
 import Loadingpath from "./components/Loadingpath";
 import Updateitem from "./components/Updateitem";
 import Scan from "./components/Scan";
+import Settings from "./components/Settings";
 import "yet-another-react-lightbox/styles.css";
 
 // use lazy for every loading path
@@ -96,6 +97,14 @@ function App() {
               element={
                 <Suspense fallback={<Loadingpath/>}>
                   <Slideshowphoto />
+                </Suspense>
+              }
+            />
+             <Route
+              path="/settings"
+              element={
+                <Suspense fallback={<Loadingpath/>}>
+                  <Settings />
                 </Suspense>
               }
             />
