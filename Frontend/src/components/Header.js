@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {LOGOUT_SUCCESS, getItem, getUserprofile} from "../redux/action";
+import {LOGOUT_SUCCESS, getItem, getSample, getUserprofile} from "../redux/action";
 import React from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
@@ -23,7 +23,9 @@ function Header() {
     });
     navigate("/");
   }
-
+  function sampletrackingclick(){
+    dispatch(getSample());
+  }
   function homeclick() {
     dispatch(getItem());
   }
@@ -60,6 +62,9 @@ function Header() {
             Products
           </Link>
         )}
+         <Link to="/sampletracking" className="header-link" onClick={() => sampletrackingclick()}>
+          Sample
+        </Link>
         {state.user.role == "admin" && (
           <Link to="/adminworkspace" className="header-link">
             Admin

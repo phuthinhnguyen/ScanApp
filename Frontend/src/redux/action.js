@@ -15,6 +15,8 @@ export const UPLOADPHOTOS_SUCCESS = "UPLOADPHOTOS_SUCCESS";
 export const GETPHOTOS_SUCCESS = "GETPHOTOS_SUCCESS";
 export const CHANGE_USER_NAME_SUCCESS = "CHANGE_USER_NAME_SUCCESS";
 export const CHANGE_USER_PASSWORD_SUCCESS = "CHANGE_USER_PASSWORD_SUCCESS";
+export const FETCH_SAMPLE_SUCCESS = "FETCH_SAMPLE_SUCCESS";
+export const UPLOADSAMPLE_SUCCESS = "UPLOADSAMPLE_SUCCESS";
 
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
@@ -26,6 +28,32 @@ const apiurlitems = "https://api.scanx.io.vn/products";
 // const apiurlitems = "http://localhost:4200/products";
 // const apiuploadaphotos = "http://localhost:4200/upload";
 const apiuploadaphotos = "https://api.scanx.io.vn/upload";
+// const apiuploadsampletracking = "http://localhost:4200/uploadexcelfilesampletracking";
+const apiuploadsampletracking= "https://api.scanx.io.vn/uploadexcelfilesampletracking";
+
+
+// get all samples tracking to load in Sampletracking page
+export const getSample= () => {
+  return async (dispatch) => {
+    const response = await axios.get(apiuploadsampletracking);
+    dispatch({
+      type: FETCH_SAMPLE_SUCCESS,
+      payload: response.data.data
+    });
+  };
+};
+
+// upload file excel samples tracking  to host
+export const uploadSample = (data) => {
+  return async (dispatch) => {
+    const response = await axios.post(`${apiuploadsampletracking}`, data);
+    dispatch({
+      type: UPLOADSAMPLE_SUCCESS,
+      payload: response.data.data
+    });
+  };
+};
+
 
 // get all photos name from database
 export const getPhotos = () => {

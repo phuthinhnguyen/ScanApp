@@ -72,6 +72,48 @@ app.post('/upload',upload.any(), (req, res) => {
 // app.use(express.static('public'));
 
 
+// Upload excel sample tracking file to host by multer
+app.get("/uploadexcelfilesampletracking", (req, res) => {
+  const q = "select * from sampletracking";
+  db.query(q, (err, data) => {
+    // console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ data });
+  });
+});
+
+
+const xlsx = require('xlsx');
+
+app.post('/uploadexcelfilesampletracking',upload.single('file'), (req, res) => {
+
+const workbook = xlsx.readFile(req.file.path);
+
+const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
+const collectdata = []
+// Data handling logic will be implemented here
+const insertData = async () => {
+
+  for (let row of data) {
+  
+    const [column1, column2, column3, column4] = row;
+    db.query("insert into sampletracking (partcode,recieveday,status,fileready) VALUES (?,?,?,?)",[column1,column2,column3,column4], (err,data)=>{
+      if (err) return res.json({ error: err.sqlMessage });
+    }
+    );
+    collectdata.push({partcode:column1,recieveday:column2,status:column3,fileready:column4})
+
+  };
+  return res.json({ data:collectdata })
+  }
+  db.query("TRUNCATE TABLE sampletracking;");
+  insertData();
+  
+  });
+
+
 // API
 app.get("/", (re,res) => {
     return res.json("From Backend side");

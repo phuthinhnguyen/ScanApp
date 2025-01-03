@@ -21,6 +21,7 @@ const Adminworkspace = React.lazy(() => import("./components/Adminworkspace"));
 const Userprofileonline = React.lazy(() => import("./components/Userprofileonline"));
 const Products = React.lazy(() => import("./components/Products"));
 const Slideshowphoto = React.lazy(() => import("./components/Slideshowphoto"));
+const SampleTracking = React.lazy(() => import("./components/SampleTracking"));
 function App() {
   let persistor = persistStore(store);
   return (
@@ -105,6 +106,14 @@ function App() {
               element={
                 <Suspense fallback={<Loadingpath/>}>
                   <Settings />
+                </Suspense>
+              }
+            />
+              <Route
+              path="/sampletracking"
+              element={
+                <Suspense fallback={<Loadingpath/>}>
+                  <SampleTracking />
                 </Suspense>
               }
             />

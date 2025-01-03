@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getItem, getPhotos, getallusersforposts} from "../redux/action";
+import { getItem, getPhotos, getSample, getallusersforposts} from "../redux/action";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -18,6 +18,7 @@ function Home() {
     dispatch(getItem());
     dispatch(getallusersforposts());
     dispatch(getPhotos());
+    dispatch(getSample());
   }, []);
 
   function buttonInClick(status) {
