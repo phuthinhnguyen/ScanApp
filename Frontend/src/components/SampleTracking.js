@@ -9,6 +9,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { BsSearch } from "react-icons/bs";
 import { ExportReactCSV } from './ExportReactCSV'
+import emailjs from 'emailjs-com';
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -63,9 +64,62 @@ function SampleTracking() {
       setSearch({...search,[e.target.value]:""})
     }
   };
-
+  const templateParams = {
+    name: 'Thinh Nguyen',
+    notes: 'Hello'
+};
   function remindlick() {
-    
+    emailjs.send('service_evfic4p','template_hk99zgp', templateParams, 'E9BRT8QwbTmXh6yYe')
+	.then((response) => {
+	   console.log('SUCCESS!', response.status, response.text);
+	}, (err) => {
+	   console.log('FAILED...', err);
+	});
+  }
+
+  function convertTexttoTimestamp(text, format = "dd/mm/yyyy") {
+    // Tách các phần của ngày tháng từ text
+    const parts = text.split(/[\/\-\.]/); // Hỗ trợ các dấu phân cách: /, -, .
+    const formatParts = format.split(/[\/\-\.]/);
+
+    // Tạo đối tượảng ngày tháng
+    let datetime = new Date();
+
+    for (let i = 0; i < formatParts.length; i++) {
+        switch (formatParts[i]) {
+            case 'dd':
+                datetime.setDate(parseInt(parts[i]));
+                break;
+            case 'mm':
+                datetime.setMonth(parseInt(parts[i]) - 1); // Tháng trong JavaScript bắt đầu từ 0
+                break;
+            case 'yyyy':
+                datetime.setFullYear(parseInt(parts[i]));
+                break;
+            default:
+                return "Lỗi: Định dạng ngày tháng không hợp lệ.";
+        }
+    }
+
+    return datetime.getTime();
+  }
+
+  function convertTimestamptoText(timestamp, format = "dd/MM/yyyy") {
+    // Tạo đối tượng Date từ timestamp
+    const datetime = new Date(timestamp);
+
+    // Lấy các thành phần ngày, tháng, năm
+    const day = datetime.getDate();
+    const month = datetime.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0
+    const year = datetime.getFullYear();
+
+    // Định dạng kết quả
+    let result = format
+        .replace("dd", day.toString().padStart(2, '0'))
+        .replace("MM", month.toString().padStart(2, '0'))
+        .replace("yyyy", year.toString());
+
+    return result;
   }
 
   const uploadfilesampletracking = (e) => {
@@ -85,6 +139,8 @@ function SampleTracking() {
   for (let i=0;i<filterresult.length;i++){
     exportcsv.push({Partcode:filterresult[i].partcode,Recieveday:filterresult[i].recieveday, Status:filterresult[i].status,Fileready:filterresult[i].fileready})
   }
+
+
 
   return (
     <div>
@@ -176,8 +232,10 @@ function SampleTracking() {
               <tr>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Partcode</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Recieveday</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Status</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Fileready</td>
+                  <td style={{fontWeight: "700",fontSize:"18px"}}>Status</td>
+                  <td style={{fontWeight: "700",fontSize:"18px"}}>Leadtime</td>
+                  <td style={{fontWeight: "700",fontSize:"18px"}}>Number of overdue days</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
               </tr>
             </thead>
@@ -190,10 +248,16 @@ function SampleTracking() {
                   {item.recieveday} 
                 </td>
                 <td>
+                <div style={item.fileready=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.fileready} </div>
+                </td>
+                <td>
                   <div style={item.status=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.status} </div>
                 </td>
                 <td>
-                <div style={item.fileready=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.fileready} </div>
+                  {convertTimestamptoText(convertTexttoTimestamp(item.recieveday)+172800000)} 
+                </td>
+                <td>
+                <div style={item.status=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}> {item.status=="Done" ? item.status : (Date.now()- convertTexttoTimestamp(item.recieveday)-172800000)/86400000} </div>
                 </td>
                 <td>
                 <button 
