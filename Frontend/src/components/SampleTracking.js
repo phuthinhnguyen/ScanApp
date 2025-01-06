@@ -65,8 +65,8 @@ function SampleTracking() {
     }
   };
   const templateParams = {
-    name: 'Thinh Nguyen',
-    notes: 'Hello'
+    to_name: "anh Tâm",
+
 };
   function remindlick() {
     emailjs.send('service_evfic4p','template_hk99zgp', templateParams, 'E9BRT8QwbTmXh6yYe')
@@ -235,7 +235,7 @@ function SampleTracking() {
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Fileready</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Status</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Leadtime</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Number of overdue days</td>
+                  <td style={{fontWeight: "700",fontSize:"18px"}}>Overdue days</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
               </tr>
             </thead>
@@ -257,7 +257,7 @@ function SampleTracking() {
                   {convertTimestamptoText(convertTexttoTimestamp(item.recieveday)+172800000)} 
                 </td>
                 <td>
-                <div style={item.status=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}> {item.status=="Done" ? item.status : (Date.now()- convertTexttoTimestamp(item.recieveday)-172800000)/86400000} </div>
+                <div style={item.status=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}> {item.status=="Done" ? item.status : ((Date.now()- convertTexttoTimestamp(item.recieveday)-172800000)/86400000 < 0 ? 0 : (Date.now()- convertTexttoTimestamp(item.recieveday)-172800000)/86400000)} </div>
                 </td>
                 <td>
                 <button 
