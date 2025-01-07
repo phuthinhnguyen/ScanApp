@@ -60,9 +60,31 @@ function Scan() {
  
   const handleScan = (e) => {
     if (e.keyCode===13){
-      if (sharethinking.split("/").length==6){
-          addnewitem(sharethinking.trim(),stateselector.user.name,position);
-          setSharethinking("");
+      if (sharethinking.split("/").length==6 || sharethinking.split("/").length==4 || sharethinking.split("/").length==8){
+          var convertqrcode = []
+          if (sharethinking.split("/").length==6){
+            addnewitem(sharethinking.trim(),stateselector.user.name,position);
+            setSharethinking("");
+          }
+          else if (sharethinking.split("/").length==4){
+            var mfgdate = ""
+            if (sharethinking.split("/")[0].split("-").length>2){
+              mfgdate = sharethinking.split("/")[0].trim()
+            }
+            else{
+              mfgdate = "20" + sharethinking.split("/")[0].trim().split("-")[0].slice(0,2) + "-" + sharethinking.split("/")[0].trim().split("-")[0].slice(2,4) + "-" + sharethinking.split("/")[0].trim().split("-")[0].slice(4,6)
+            }
+            convertqrcode.push(sharethinking.split("/")[0].trim(),mfgdate,sharethinking.split("/")[1],sharethinking.split("/")[2],sharethinking.split("/")[3].trim(), "000000")
+            addnewitem(convertqrcode.join("/"),stateselector.user.name,position);
+            setSharethinking("");
+          }
+          else if (sharethinking.split("/").length==8){
+            const mfgdate = "20" + sharethinking.split("/")[2].split("-")[0].slice(0,2) + "-" + sharethinking.split("/")[2].split("-")[0].slice(2,4) + "-" + sharethinking.split("/")[2].split("-")[0].slice(4,6)
+            convertqrcode.push(sharethinking.split("/")[2],mfgdate,"000*000",sharethinking.split("/")[4],sharethinking.split("/")[1], sharethinking.split("/")[0].trim())
+            addnewitem(convertqrcode.join("/"),stateselector.user.name,position);
+            setSharethinking("");
+          }
+      
         }
       else{
           setAlert({open:true, message:"QR Code incorrect format"})
