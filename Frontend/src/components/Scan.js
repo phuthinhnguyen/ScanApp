@@ -108,70 +108,122 @@ function Scan() {
     navigate("/updateitem", { state: item });
   }
   function addnewitem(qrcode,scanner,position) {
+    // if (qrcode!=""){
+    //   const filterresult = sortedposts.filter((item) => {
+    //     return item["qrcode"].includes(qrcode);
+    //   });
+      
+    //   if (filterresult.length>0){
+    //     if (state=="IN"){
+    //       setAlert({open:true, message:"QR code already exists in database"})
+    //     }
+    //     else if (state=="OUT"){
+    //       if (filterresult[0].status=="IN"){
+    //         if (JSON.parse(filterresult[0].lockitem).status=="OFF"){
+    //           const qrcodesplit = qrcode.split("/")
+    //           const itemcode = qrcodesplit[5]
+    //           const idcode = itemcode + makeId(4)
+    //           function firstFunction() {
+    //             dispatch(addnewItem(idcode,itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+    //             // console.log("Dispatch done.")
+    //           }
+    //           async function secondFunction() {
+    //             // console.log('Before promise call.')
+    //             const result = await firstFunction()
+    //             setScanitem([...scanitem,{idcode:idcode,position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
+    //             // console.log('Update state done.')
+    //           }; 
+    //           secondFunction()
+
+    //           // dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+    //           // setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
+    //         }
+    //         else if (JSON.parse(filterresult[0].lockitem).status=="ON"){
+    //           setAlert({open:true, message:`Item has been locked by admin. Reason: ${JSON.parse(filterresult[0].lockitem).reason}`})
+    //         }
+    //       }
+    //       else if (filterresult[0].status=="OUT"){
+    //         setAlert({open:true, message:"QR code already exists in database"})
+    //       }
+    //     }
+    //   }
+    //   else{
+    //     if (state=="IN"){
+    //       const qrcodesplit = qrcode.split("/")
+    //       const itemcode = qrcodesplit[5]
+    //       const idcode = itemcode + makeId(4)
+    //       // console.log(itemcode + makeId(4))
+    //       function firstFunction() {
+    //           dispatch(addnewItem(idcode,itemcode,qrcode,scanner,state,position,lockitem));
+    //           // console.log("Dispatch done.")
+    //       }
+    //       async function secondFunction() {
+    //         // console.log('Before promise call.')
+    //         const result = await firstFunction()
+    //         setScanitem([...scanitem,{idcode:idcode,position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
+    //         // console.log('Update state done.')
+    //       }; 
+    //       secondFunction()
+
+    //       // dispatch(addnewItem(itemcode,qrcode,scanner,state,position,lockitem));
+    //       // setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
+    //     }
+    //     else if (state=="OUT"){
+    //       setAlert({open:true, message:"QR Code not exists in database"})
+    //     }
+    //   }
+    // }
+
     if (qrcode!=""){
       const filterresult = sortedposts.filter((item) => {
-        return item["qrcode"].includes(qrcode);
-      });
-      
-      if (filterresult.length>0){
-        if (state=="IN"){
-          setAlert({open:true, message:"QR code already exists in database"})
+            return item["qrcode"].includes(qrcode);
+          });
+      if (state=="IN"){
+        const qrcodesplit = qrcode.split("/")
+        const itemcode = qrcodesplit[5]
+        const idcode = itemcode + makeId(4)
+        // console.log(itemcode + makeId(4))
+        function firstFunction() {
+            dispatch(addnewItem(idcode,itemcode,qrcode,scanner,state,position,lockitem));
+            // console.log("Dispatch done.")
         }
-        else if (state=="OUT"){
-          if (filterresult[0].status=="IN"){
-            if (JSON.parse(filterresult[0].lockitem).status=="OFF"){
-              const qrcodesplit = qrcode.split("/")
-              const itemcode = qrcodesplit[5]
-              const idcode = itemcode + makeId(4)
-              function firstFunction() {
-                dispatch(addnewItem(idcode,itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
-                // console.log("Dispatch done.")
-              }
-              async function secondFunction() {
-                // console.log('Before promise call.')
-                const result = await firstFunction()
-                setScanitem([...scanitem,{idcode:idcode,position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
-                // console.log('Update state done.')
-              }; 
-              secondFunction()
+        async function secondFunction() {
+          // console.log('Before promise call.')
+          const result = await firstFunction()
+          setScanitem([...scanitem,{idcode:idcode,position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
+          // console.log('Update state done.')
+        }; 
+        secondFunction()
 
-              // dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
-              // setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
-            }
-            else if (JSON.parse(filterresult[0].lockitem).status=="ON"){
-              setAlert({open:true, message:`Item has been locked by admin. Reason: ${JSON.parse(filterresult[0].lockitem).reason}`})
-            }
-          }
-          else if (filterresult[0].status=="OUT"){
-            setAlert({open:true, message:"QR code already exists in database"})
-          }
-        }
+        // dispatch(addnewItem(itemcode,qrcode,scanner,state,position,lockitem));
+        // setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
       }
-      else{
-        if (state=="IN"){
+      else if (state=="OUT"){
+        if (JSON.parse(filterresult[0].lockitem).status=="OFF"){
           const qrcodesplit = qrcode.split("/")
           const itemcode = qrcodesplit[5]
           const idcode = itemcode + makeId(4)
-          // console.log(itemcode + makeId(4))
           function firstFunction() {
-              dispatch(addnewItem(idcode,itemcode,qrcode,scanner,state,position,lockitem));
-              // console.log("Dispatch done.")
+            dispatch(addnewItem(idcode,itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+            // console.log("Dispatch done.")
           }
           async function secondFunction() {
             // console.log('Before promise call.')
             const result = await firstFunction()
-            setScanitem([...scanitem,{idcode:idcode,position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
+            setScanitem([...scanitem,{idcode:idcode,position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
             // console.log('Update state done.')
           }; 
           secondFunction()
 
-          // dispatch(addnewItem(itemcode,qrcode,scanner,state,position,lockitem));
-          // setScanitem([...scanitem,{position:position,itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner,lockitem:lockitem}])
+          // dispatch(addnewItem(itemcode,qrcode,scanner,state,JSON.parse(filterresult[0].position),JSON.parse(filterresult[0].lockitem)));  
+          // setScanitem([...scanitem,{position:JSON.parse(filterresult[0].position),lockitem:JSON.parse(filterresult[0].lockitem),itemcode:itemcode,qrcode:qrcode,status:state,createat:Date.now(),scanner:scanner}])
         }
-        else if (state=="OUT"){
-          setAlert({open:true, message:"QR Code not exists in database"})
+        else if (JSON.parse(filterresult[0].lockitem).status=="ON"){
+          setAlert({open:true, message:`Item has been locked by admin. Reason: ${JSON.parse(filterresult[0].lockitem).reason}`})
         }
       }
+     
+    
     }
   }
   return (
