@@ -29,6 +29,9 @@ function Header() {
   function homeclick() {
     dispatch(getItem());
   }
+  function leaverequestclick() {
+    // dispatch(getItem());
+  }
   function userprofileclick() {
     dispatch(getUserprofile(state.posts, state.user));
   }
@@ -56,6 +59,9 @@ function Header() {
       <div className="header-link-wrap">
         <Link to="/home" className="header-link" onClick={() => homeclick()}>
           Home
+        </Link>
+        <Link to="/leaverequest" className="header-link" onClick={() => leaverequestclick()} style={{}}>
+          LeaveApplication
         </Link>
         {state.user.role != "admin" && (
           <Link to="/products" className="header-link">

@@ -389,7 +389,8 @@ form {
 .addnewpost-body {
   width: 100%;
   background-color: var(--backgroundbody);
-  height: 90vh;
+  /* height: 90vh; */
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

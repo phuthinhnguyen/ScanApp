@@ -12,6 +12,7 @@ import Updateitem from "./components/Updateitem";
 import Scan from "./components/Scan";
 import Settings from "./components/Settings";
 import "yet-another-react-lightbox/styles.css";
+import Addnewleaverequest from "./components/Addnewleaverequest";
 
 // use lazy for every loading path
 const Home = React.lazy(() => import("./components/Home"));
@@ -22,6 +23,8 @@ const Userprofileonline = React.lazy(() => import("./components/Userprofileonlin
 const Products = React.lazy(() => import("./components/Products"));
 const Slideshowphoto = React.lazy(() => import("./components/Slideshowphoto"));
 const SampleTracking = React.lazy(() => import("./components/SampleTracking"));
+const LeaveRequest = React.lazy(() => import("./components/LeaveRequest"));
+
 function App() {
   let persistor = persistStore(store);
   return (
@@ -114,6 +117,22 @@ function App() {
               element={
                 <Suspense fallback={<Loadingpath/>}>
                   <SampleTracking />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/leaverequest"
+              element={
+                <Suspense fallback={<Loadingpath/>}>
+                  <LeaveRequest />
+                </Suspense>
+              }
+            />
+             <Route
+              path="/addnewleaverequest"
+              element={
+                <Suspense fallback={<Loadingpath/>}>
+                  <Addnewleaverequest />
                 </Suspense>
               }
             />
