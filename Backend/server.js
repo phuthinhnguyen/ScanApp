@@ -280,11 +280,31 @@ app.post("/leaverequest", (req, res) => {
 
   db.query("insert into leaveapplication (requestid, createdat, empcode,fullname,dept,type,reason,totaldaysleave,fromdate,leaderapproval,supervisorapproval) VALUES (?,?,?,?,?,?,?,?,?,?,?)",[requestid, createdAt, empcode,fullname,dept,type,reason,totaldaysleave,fromdate,leaderapproval,supervisorapproval], (err,data)=>{
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({ requestid:requestid,createdAt:createdAt,empcode:empcode,fullname:fullname,dept:dept,type:type,reason:reason,totaldaysleave:totaldaysleave,fromdate:fromdate,leaderapproval:leaderapproval,supervisorapproval:supervisorapproval });
+    else return res.json({ requestid:requestid,createdat:createdAt,empcode:empcode,fullname:fullname,dept:dept,type:type,reason:reason,totaldaysleave:totaldaysleave,fromdate:fromdate,leaderapproval:leaderapproval,supervisorapproval:supervisorapproval });
   }
   ); 
 });
 
+app.put("/leaverequest/:requestid", (req, res) => {
+  const requestid = req.params.requestid;
+  const createdAt = req.body.createdAt;
+  const empcode = req.body.empcode;
+  const fullname = req.body.fullname;
+  const dept = req.body.dept;
+  const type = req.body.type;
+  const reason = req.body.reason;
+  const totaldaysleave = req.body.totaldaysleave;
+  const fromdate = req.body.fromdate;
+  const leaderapproval = req.body.leaderapproval;
+  const supervisorapproval = req.body.supervisorapproval;
+
+  db.query("update leaveapplication set createdat = ?, empcode = ? , fullname = ?, dept = ?, type = ?, reason = ?, totaldaysleave = ?, fromdate = ?, leaderapproval = ?, supervisorapproval = ? where requestid = ?",[createdAt,empcode,fullname,dept,type,reason,totaldaysleave,fromdate,leaderapproval,supervisorapproval,requestid], (err,data)=>{
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({requestid:requestid, createdat:createdAt, empcode:empcode, fullname:fullname,dept:dept,type:type,reason:reason,totaldaysleave:totaldaysleave,fromdate:fromdate,leaderapproval:leaderapproval,supervisorapproval:supervisorapproval});
+ }
+ ); 
+ 
+});
 
 app.listen(port, ()=>{
     console.log("listening");

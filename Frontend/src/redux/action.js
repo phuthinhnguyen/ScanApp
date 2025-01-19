@@ -19,6 +19,8 @@ export const CHANGE_USER_PASSWORD_SUCCESS = "CHANGE_USER_PASSWORD_SUCCESS";
 export const FETCH_SAMPLE_SUCCESS = "FETCH_SAMPLE_SUCCESS";
 export const UPLOADSAMPLE_SUCCESS = "UPLOADSAMPLE_SUCCESS";
 export const FETCH_LEAVEREQUEST_SUCCESS = "FETCH_LEAVEREQUEST_SUCCESS";
+export const ADD_NEW_LEAVEREQUEST_SUCCESS = "ADD_NEW_LEAVEREQUEST_SUCCESS";
+export const UPDATE_LEAVEREQUEST_SUCCESS = "UPDATE_LEAVEREQUEST_SUCCESS";
 
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
@@ -35,6 +37,39 @@ const apiuploadsampletracking= "https://api.scanx.io.vn/uploadexcelfilesampletra
 const apileaverequest= "http://localhost:4200/leaverequest";
 // const apileaverequest= "https://api.scanx.io.vn/leaverequest";
 
+
+// get all leave requests to load in leaveapplication page
+export const getLeaverequest= () => {
+  return async (dispatch) => {
+    const response = await axios.get(apileaverequest);
+    dispatch({
+      type: FETCH_LEAVEREQUEST_SUCCESS,
+      payload: response.data.data
+    });
+  };
+};
+
+// update leave request
+export const editLeaverequest = (requestid,form,fromdate,status) => {
+  return async (dispatch) => {
+    const response = await axios.put(`${apileaverequest}/${requestid}`, {
+      createdAt: form.createdat,
+      empcode: form.empcode,
+      fullname: form.fullname,
+      dept: form.dept, 
+      type: form.type,
+      reason: form.reason,
+      totaldaysleave: form.totaldaysleave,
+      fromdate: fromdate,
+      leaderapproval: "Approved",
+      supervisorapproval: status
+    });
+    dispatch({
+      type: UPDATE_LEAVEREQUEST_SUCCESS,
+      payload: response.data
+    });
+  };
+};
 
 // add new leave request
 export const addnewLeaverequest = (requestid,form,fromdate) => {
@@ -53,24 +88,11 @@ export const addnewLeaverequest = (requestid,form,fromdate) => {
       supervisorapproval: "Pending"
     });
     dispatch({
-      type: ADD_NEW_ITEM_SUCCESS,
+      type: ADD_NEW_LEAVEREQUEST_SUCCESS,
       payload: response.data
     });
   };
 };
-
-
-// get all samples tracking to load in Sampletracking page
-export const getLeaverequest= () => {
-  return async (dispatch) => {
-    const response = await axios.get(apileaverequest);
-    dispatch({
-      type: FETCH_LEAVEREQUEST_SUCCESS,
-      payload: response.data.data
-    });
-  };
-};
-
 
 // get all samples tracking to load in Sampletracking page
 export const getSample= () => {

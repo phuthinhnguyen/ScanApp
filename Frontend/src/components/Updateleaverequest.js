@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { addnewLeaverequest } from "../redux/action";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { editLeaverequest } from "../redux/action";
 import Header from "./Header";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
-import { makeId } from "./makeId";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -25,15 +24,14 @@ const alrertstylesuccess = {
   backgroundColor: "var(--backgroundbody)"
 };
 
-var requestid = makeId(6)
-
-function Addnewleaverequest() {
+function Updateleaverequest() {
+  const { state } = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const stateselector = useSelector((state) => state)
   const [alert, setAlert] = useState({ open: false, message: "" });
-  const [form,setForm] = useState({empcode:"",fullname:"",dept:"Production",type:"Annualleave",reason:"",totaldaysleave:"1"});
-  const [fromdate, setFromdate] = useState(new Date());
+  const [form,setForm] = useState(state);
+  const [fromdate, setFromdate] = useState(new Date(Number(state.fromdate)));
 
   useEffect(() => {
     if (stateselector.user == null) {
@@ -43,6 +41,7 @@ function Addnewleaverequest() {
       navigate("/home");  
     }
   }, []);
+
   function submitform(e) {
     e.preventDefault();
     if (form.empcode == "") {
@@ -55,11 +54,10 @@ function Addnewleaverequest() {
       setAlert({open:true, message:"Please enter Reason"})
     }
     else{
-      dispatch(addnewLeaverequest(requestid,form,fromdate.getTime()));
-      setAlert({open:true, message:"You have added new leave request successfully"})
-      requestid = makeId(6)
-      setForm({empcode:"",fullname:"",dept:"Production",type:"Annualleave",reason:"",totaldaysleave:"1"})
-      setFromdate(new Date())
+      dispatch(editLeaverequest(form.requestid,form,fromdate.getTime(),form.supervisorapproval));
+      setAlert({open:true, message:"You have updated leave request successfully"})
+      // setForm({empcode:"",fullname:"",dept:"Production",type:"Annualleave",reason:"",totaldaysleave:"1"})
+      // setFromdate(new Date())
       // navigate("/");
     }
   }
@@ -77,7 +75,7 @@ function Addnewleaverequest() {
         <div>
           <Header />
           <div className="addnewpost-body">
-            <h2>New Application Request</h2>
+            <h2>Edit Application Request</h2>
             <form
               className="addnewpost-body-form"
               onSubmit={(e) => submitform(e)}
@@ -87,7 +85,7 @@ function Addnewleaverequest() {
                   <h6>RequestID</h6>
                   <input
                     disabled style={{color:"white"}}
-                    value={"#" + requestid}
+                    value={form.requestid}
                   ></input>
                   <h6>Emp.Code</h6>
                   <input
@@ -121,6 +119,7 @@ function Addnewleaverequest() {
                     className="statusselect"
                     onChange={(e) => setForm({ ...form, type: e.target.value })}
                     value={form.type}
+                    
                   >
                     <option value="Annualleave">Annual leave</option>
                     <option value="Sick">Sick</option>
@@ -186,4 +185,4 @@ function Addnewleaverequest() {
     </>
   );
 }
-export default Addnewleaverequest;
+export default Updateleaverequest;
