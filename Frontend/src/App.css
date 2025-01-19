@@ -390,7 +390,7 @@ form {
   width: 100%;
   background-color: var(--backgroundbody);
   /* height: 90vh; */
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getSample, uploadSample } from "../redux/action";
+import { getLeaverequest } from "../redux/action";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { convertCreatedAt } from "./convertCreatedAt";
@@ -7,9 +7,7 @@ import Header from "./Header";
 import Slide from "@mui/material/Slide";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { BsSearch } from "react-icons/bs";
 import { ExportReactCSV } from './ExportReactCSV'
-import emailjs from 'emailjs-com';
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -31,9 +29,6 @@ function LeaveRequest() {
   const dispatch = useDispatch();
   const [alert, setAlert] = useState({ open: false, message: "" });
   const stateselector = useSelector((state) => state);
-  // const [searchtext, setSearchtext] = useState("");
-  // const [searchradio, setSearchradio] = useState("");
-  // const [search,setSearch] = useState({partcode:"",recieveday:"",status:"",fileready:""})
 
   const closealert = (event, reason) => {
     if (reason === "clickaway") {
@@ -47,20 +42,17 @@ function LeaveRequest() {
   }
 
   useEffect(() => {
-    dispatch(getSample());
+    dispatch(getLeaverequest());
   }, []);
 
   function addnewleaverequest(){
     navigate("/addnewleaverequest");
   }
 
-  const filterresult = [{requestid: "#ab0000",empcode:"CCL0124",fullname:"Nguyen Phu Thinh",dept:"PE",workstartdate:"1721223045",type:"annualleave",reason:"busy",fromdate:"1721223045",totaldaysleave:"1",createdat:"1721223045",leaderapproval:"Done",supervisorapproval:"Pending"}]
+  // const filterresult = [{requestid: "#ab0000",empcode:"CCL0124",fullname:"Nguyen Phu Thinh",dept:"PE",workstartdate:"1721223045",type:"annualleave",reason:"busy",fromdate:"1721223045",totaldaysleave:"1",createdat:"1721223045",leaderapproval:"Done",supervisorapproval:"Pending"}]
 
-
-  // const sortedposts = stateselector.sample.sort((a, b) => b.recieveday- a.recieveday);
-  // const filterresult = sortedposts.filter((item) => {
-  //   return item["partcode"].toLowerCase().includes(search.partcode.toLowerCase()) && item["recieveday"].toLowerCase().includes(search.recieveday.toLowerCase()) && item["status"].toLowerCase().includes(search.status.toLowerCase()) && item["fileready"].toLowerCase().includes(search.fileready.toLowerCase())
-  // });
+  const sortedposts = stateselector.leaveapplication.sort((a, b) => b.createdat- a.createdat);
+  const filterresult = sortedposts
 
   // Convert filterresult to datacsv
   var exportcsv = []
@@ -93,10 +85,11 @@ function LeaveRequest() {
                   <td style={{fontWeight: "700",fontSize:"18px"}}>CreatedAt</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Leader Approval</td>
                   <td style={{fontWeight: "700",fontSize:"18px"}}>Supervisor Approval</td>
+                  <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
               </tr>
             </thead>
             <tbody style={{color:"white"}}>
-                {filterresult.map((item)=><tr key={item.id} >
+                {sortedposts.map((item)=><tr key={item.id} >
                 <td>
                   {item.requestid}
                 </td>
@@ -111,7 +104,7 @@ function LeaveRequest() {
                   {item.type}
                 </td>
                 <td>
-                  {item.fromdate}
+                  {convertCreatedAt(item.fromdate)}
                 </td>
                 <td>
                   {item.totaldaysleave}
@@ -120,10 +113,10 @@ function LeaveRequest() {
                   {convertCreatedAt(item.createdat)}
                 </td>
                 <td>
-                   <div style={item.leaderapproval=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.leaderapproval} </div>
+                   <div style={item.leaderapproval=="Approved"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.leaderapproval} </div>
                 </td>
                 <td>
-                   <div style={item.supervisorapproval=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.supervisorapproval} </div>
+                   <div style={item.supervisorapproval=="Approved"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.supervisorapproval} </div>
                 </td>
                 </tr>)}
             </tbody>

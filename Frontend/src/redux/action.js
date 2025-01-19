@@ -1,4 +1,5 @@
 import axios from "axios";
+import { type } from "jquery";
 export const FETCH_ITEM_SUCCESS = "FETCH_ITEM_SUCCESS";
 export const FETCH_USER_SUCCESS = "FETCH_USER_SUCCESS";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -17,6 +18,7 @@ export const CHANGE_USER_NAME_SUCCESS = "CHANGE_USER_NAME_SUCCESS";
 export const CHANGE_USER_PASSWORD_SUCCESS = "CHANGE_USER_PASSWORD_SUCCESS";
 export const FETCH_SAMPLE_SUCCESS = "FETCH_SAMPLE_SUCCESS";
 export const UPLOADSAMPLE_SUCCESS = "UPLOADSAMPLE_SUCCESS";
+export const FETCH_LEAVEREQUEST_SUCCESS = "FETCH_LEAVEREQUEST_SUCCESS";
 
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
@@ -30,6 +32,44 @@ const apiurlitems = "https://api.scanx.io.vn/products";
 const apiuploadaphotos = "https://api.scanx.io.vn/upload";
 // const apiuploadsampletracking = "http://localhost:4200/uploadexcelfilesampletracking";
 const apiuploadsampletracking= "https://api.scanx.io.vn/uploadexcelfilesampletracking";
+const apileaverequest= "http://localhost:4200/leaverequest";
+// const apileaverequest= "https://api.scanx.io.vn/leaverequest";
+
+
+// add new leave request
+export const addnewLeaverequest = (requestid,form,fromdate) => {
+  return async (dispatch) => {
+    const response = await axios.post(`${apileaverequest}`, {
+      requestid: requestid,
+      createdAt: Date.now(),
+      empcode: form.empcode,
+      fullname: form.fullname,
+      dept: form.dept, 
+      type: form.type,
+      reason: form.reason,
+      totaldaysleave: form.totaldaysleave,
+      fromdate: fromdate,
+      leaderapproval: "Approved",
+      supervisorapproval: "Pending"
+    });
+    dispatch({
+      type: ADD_NEW_ITEM_SUCCESS,
+      payload: response.data
+    });
+  };
+};
+
+
+// get all samples tracking to load in Sampletracking page
+export const getLeaverequest= () => {
+  return async (dispatch) => {
+    const response = await axios.get(apileaverequest);
+    dispatch({
+      type: FETCH_LEAVEREQUEST_SUCCESS,
+      payload: response.data.data
+    });
+  };
+};
 
 
 // get all samples tracking to load in Sampletracking page

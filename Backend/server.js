@@ -256,6 +256,36 @@ app.delete('/products/:idcode',(req,res)=>{
   }) })
 
 
+// leaverequest API
+app.get("/leaverequest", (req, res) => {
+  const q = "select * from leaveapplication";
+  db.query(q, (err, data) => {
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ data });
+  });
+});
+
+app.post("/leaverequest", (req, res) => {
+  const requestid = req.body.requestid;
+  const createdAt = req.body.createdAt;
+  const empcode = req.body.empcode;
+  const fullname = req.body.fullname;
+  const dept = req.body.dept;
+  const type = req.body.type;
+  const reason = req.body.reason;
+  const totaldaysleave = req.body.totaldaysleave;
+  const fromdate = req.body.fromdate;
+  const leaderapproval = req.body.leaderapproval;
+  const supervisorapproval = req.body.supervisorapproval;
+
+  db.query("insert into leaveapplication (requestid, createdat, empcode,fullname,dept,type,reason,totaldaysleave,fromdate,leaderapproval,supervisorapproval) VALUES (?,?,?,?,?,?,?,?,?,?,?)",[requestid, createdAt, empcode,fullname,dept,type,reason,totaldaysleave,fromdate,leaderapproval,supervisorapproval], (err,data)=>{
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ requestid:requestid,createdAt:createdAt,empcode:empcode,fullname:fullname,dept:dept,type:type,reason:reason,totaldaysleave:totaldaysleave,fromdate:fromdate,leaderapproval:leaderapproval,supervisorapproval:supervisorapproval });
+  }
+  ); 
+});
+
+
 app.listen(port, ()=>{
     console.log("listening");
 })

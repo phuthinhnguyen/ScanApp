@@ -10,6 +10,8 @@ import MuiAlert from "@mui/material/Alert";
 import { BsSearch } from "react-icons/bs";
 import { ExportReactCSV } from './ExportReactCSV'
 import emailjs from 'emailjs-com';
+import { convertTexttoTimestamp } from "./convertTexttoTimestamp";
+import { convertTimestamptoText } from "./convertTimestamptoText";
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -77,50 +79,50 @@ function SampleTracking() {
 	});
   }
 
-  function convertTexttoTimestamp(text, format = "dd/mm/yyyy") {
-    // Tách các phần của ngày tháng từ text
-    const parts = text.split(/[\/\-\.]/); // Hỗ trợ các dấu phân cách: /, -, .
-    const formatParts = format.split(/[\/\-\.]/);
+  // function convertTexttoTimestamp(text, format = "dd/mm/yyyy") {
+  //   // Tách các phần của ngày tháng từ text
+  //   const parts = text.split(/[\/\-\.]/); // Hỗ trợ các dấu phân cách: /, -, .
+  //   const formatParts = format.split(/[\/\-\.]/);
 
-    // Tạo đối tượảng ngày tháng
-    let datetime = new Date();
+  //   // Tạo đối tượảng ngày tháng
+  //   let datetime = new Date();
 
-    for (let i = 0; i < formatParts.length; i++) {
-        switch (formatParts[i]) {
-            case 'dd':
-                datetime.setDate(parseInt(parts[i]));
-                break;
-            case 'mm':
-                datetime.setMonth(parseInt(parts[i]) - 1); // Tháng trong JavaScript bắt đầu từ 0
-                break;
-            case 'yyyy':
-                datetime.setFullYear(parseInt(parts[i]));
-                break;
-            default:
-                return "Lỗi: Định dạng ngày tháng không hợp lệ.";
-        }
-    }
+  //   for (let i = 0; i < formatParts.length; i++) {
+  //       switch (formatParts[i]) {
+  //           case 'dd':
+  //               datetime.setDate(parseInt(parts[i]));
+  //               break;
+  //           case 'mm':
+  //               datetime.setMonth(parseInt(parts[i]) - 1); // Tháng trong JavaScript bắt đầu từ 0
+  //               break;
+  //           case 'yyyy':
+  //               datetime.setFullYear(parseInt(parts[i]));
+  //               break;
+  //           default:
+  //               return "Lỗi: Định dạng ngày tháng không hợp lệ.";
+  //       }
+  //   }
 
-    return datetime.getTime();
-  }
+  //   return datetime.getTime();
+  // }
 
-  function convertTimestamptoText(timestamp, format = "dd/MM/yyyy") {
-    // Tạo đối tượng Date từ timestamp
-    const datetime = new Date(timestamp);
+  // function convertTimestamptoText(timestamp, format = "dd/MM/yyyy") {
+  //   // Tạo đối tượng Date từ timestamp
+  //   const datetime = new Date(timestamp);
 
-    // Lấy các thành phần ngày, tháng, năm
-    const day = datetime.getDate();
-    const month = datetime.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0
-    const year = datetime.getFullYear();
+  //   // Lấy các thành phần ngày, tháng, năm
+  //   const day = datetime.getDate();
+  //   const month = datetime.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0
+  //   const year = datetime.getFullYear();
 
-    // Định dạng kết quả
-    let result = format
-        .replace("dd", day.toString().padStart(2, '0'))
-        .replace("MM", month.toString().padStart(2, '0'))
-        .replace("yyyy", year.toString());
+  //   // Định dạng kết quả
+  //   let result = format
+  //       .replace("dd", day.toString().padStart(2, '0'))
+  //       .replace("MM", month.toString().padStart(2, '0'))
+  //       .replace("yyyy", year.toString());
 
-    return result;
-  }
+  //   return result;
+  // }
 
   const uploadfilesampletracking = (e) => {
     const data = new FormData();
