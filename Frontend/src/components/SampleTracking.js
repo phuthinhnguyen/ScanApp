@@ -79,51 +79,6 @@ function SampleTracking() {
 	});
   }
 
-  // function convertTexttoTimestamp(text, format = "dd/mm/yyyy") {
-  //   // Tách các phần của ngày tháng từ text
-  //   const parts = text.split(/[\/\-\.]/); // Hỗ trợ các dấu phân cách: /, -, .
-  //   const formatParts = format.split(/[\/\-\.]/);
-
-  //   // Tạo đối tượảng ngày tháng
-  //   let datetime = new Date();
-
-  //   for (let i = 0; i < formatParts.length; i++) {
-  //       switch (formatParts[i]) {
-  //           case 'dd':
-  //               datetime.setDate(parseInt(parts[i]));
-  //               break;
-  //           case 'mm':
-  //               datetime.setMonth(parseInt(parts[i]) - 1); // Tháng trong JavaScript bắt đầu từ 0
-  //               break;
-  //           case 'yyyy':
-  //               datetime.setFullYear(parseInt(parts[i]));
-  //               break;
-  //           default:
-  //               return "Lỗi: Định dạng ngày tháng không hợp lệ.";
-  //       }
-  //   }
-
-  //   return datetime.getTime();
-  // }
-
-  // function convertTimestamptoText(timestamp, format = "dd/MM/yyyy") {
-  //   // Tạo đối tượng Date từ timestamp
-  //   const datetime = new Date(timestamp);
-
-  //   // Lấy các thành phần ngày, tháng, năm
-  //   const day = datetime.getDate();
-  //   const month = datetime.getMonth() + 1; // Tháng trong JavaScript bắt đầu từ 0
-  //   const year = datetime.getFullYear();
-
-  //   // Định dạng kết quả
-  //   let result = format
-  //       .replace("dd", day.toString().padStart(2, '0'))
-  //       .replace("MM", month.toString().padStart(2, '0'))
-  //       .replace("yyyy", year.toString());
-
-  //   return result;
-  // }
-
   const uploadfilesampletracking = (e) => {
     const data = new FormData();
     data.append('file', e.target.files[0]);
@@ -152,6 +107,10 @@ function SampleTracking() {
           <div className="home-body">
             <div className="home-body-wrap">
               <h2>SAMPLE TRACKING</h2>
+              {stateselector.user.email == "phuthinhnguyen1101@gmail.com" ?  <label className="csvbutton" style={{cursor:"pointer",padding:"2px 10px",marginRight:'20px'}}>Import.xlsx
+                <input type="file" name="file"onChange={(e)=>uploadfilesampletracking(e)} style={{display:"none"}}></input>
+              </label> : null }
+              <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFileSampleTracking" />
             </div>
             <div className="input-search-wrap">
                         <div className="input-group mb-2">
@@ -222,57 +181,54 @@ function SampleTracking() {
                           <div className="form-check">
                             <label className="form-check-label">Total: {filterresult.length} rows</label>
                           </div>
-                          <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFileSampleTracking" />
-                          {stateselector.user.email == "phuthinhnguyen1101@gmail.com" ?  <label className="csvbutton" style={{cursor:"pointer",padding:"2px 10px"}}>Import.xlsx
-                            <input type="file" name="file"onChange={(e)=>uploadfilesampletracking(e)} style={{display:"none"}}></input>
-                          </label> : null }
                          
                         </div>
                       </div>
-            <table className="table" style={{margin:"auto",marginTop:"50px",marginBottom:"80px",maxWidth:"60%"}}>
-            <thead style={{color:"white"}}>
-              <tr>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Partcode</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Recieveday</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Fileready</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Status</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Leadtime</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Overdue days</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
-              </tr>
-            </thead>
-            <tbody style={{color:"white"}}>
-                {filterresult.map((item)=><tr key={item.id} >
-                <td>
-                  {item.partcode}
-                </td>
-                <td>
-                  {item.recieveday} 
-                </td>
-                <td>
-                <div style={item.fileready=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.fileready} </div>
-                </td>
-                <td>
-                  <div style={item.status=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.status} </div>
-                </td>
-                <td>
-                  {convertTimestamptoText(convertTexttoTimestamp(item.recieveday)+172800000)} 
-                </td>
-                <td>
-                <div style={item.status=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}> {item.status=="Done" ? item.status : ((Date.now()- convertTexttoTimestamp(item.recieveday)-172800000)/86400000 < 0 ? 0 : (Date.now()- convertTexttoTimestamp(item.recieveday)-172800000)/86400000)} </div>
-                </td>
-                <td>
-                <button 
-                    style={{padding: "3px 10px",marginLeft:"7px"}}
-                    className="ms-1 btn btn-warning"
-                    onClick={remindlick}>
-                      Remind
-                  </button>
-                </td>
-                </tr>)}
-            </tbody>
-          
-        </table>
+                      <div style={{width:"100%",overflowX:"auto",marginBottom:"60px"}}>
+                        <table className="table" style={{margin:"auto",marginTop:"50px",marginBottom:"20px",maxWidth:"90%"}}>
+                          <thead style={{color:"white"}}>
+                            <tr>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Partcode</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Recieveday</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Fileready</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Status</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Leadtime</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Overdue days</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
+                            </tr>
+                          </thead>
+                          <tbody style={{color:"white"}}>
+                              {filterresult.map((item)=><tr key={item.id} >
+                              <td>
+                                {item.partcode}
+                              </td>
+                              <td>
+                                {item.recieveday} 
+                              </td>
+                              <td>
+                              <div style={item.fileready=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.fileready} </div>
+                              </td>
+                              <td>
+                                <div style={item.status=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.status} </div>
+                              </td>
+                              <td>
+                                {convertTimestamptoText(convertTexttoTimestamp(item.recieveday)+172800000)} 
+                              </td>
+                              <td>
+                              <div style={item.status=="Done"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}> {item.status=="Done" ? item.status : ((Date.now()- convertTexttoTimestamp(item.recieveday)-172800000)/86400000 < 0 ? 0 : (Date.now()- convertTexttoTimestamp(item.recieveday)-172800000)/86400000)} </div>
+                              </td>
+                              <td>
+                              <button 
+                                  style={{padding: "3px 10px",marginLeft:"7px"}}
+                                  className="ms-1 btn btn-warning"
+                                  onClick={remindlick}>
+                                    Remind
+                                </button>
+                              </td>
+                              </tr>)}
+                          </tbody>
+                        </table>
+                      </div>
         <Link
               className="button-back"  
               to="/home"

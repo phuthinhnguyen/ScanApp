@@ -34,8 +34,8 @@ const apiurlitems = "https://api.scanx.io.vn/products";
 const apiuploadaphotos = "https://api.scanx.io.vn/upload";
 // const apiuploadsampletracking = "http://localhost:4200/uploadexcelfilesampletracking";
 const apiuploadsampletracking= "https://api.scanx.io.vn/uploadexcelfilesampletracking";
-const apileaverequest= "http://localhost:4200/leaverequest";
-// const apileaverequest= "https://api.scanx.io.vn/leaverequest";
+// const apileaverequest= "http://localhost:4200/leaverequest";
+const apileaverequest= "https://api.scanx.io.vn/leaverequest";
 
 
 // get all leave requests to load in leaveapplication page

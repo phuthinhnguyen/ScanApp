@@ -84,86 +84,89 @@ function LeaveRequest() {
               </button>
                <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" />
             </div>
-            <table className="table" style={{margin:"auto",marginTop:"50px",marginBottom:"80px",maxWidth:"80%"}}>
-            <thead style={{color:"white"}}>
-              <tr>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>RequestID</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Fullname</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Dept</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Type</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Reason</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>From date</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Total days leave</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>CreatedAt</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Leader Approval</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Supervisor Approval</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
-              </tr>
-            </thead>
-            <tbody style={{color:"white"}}>
-                {filterresult.map((item)=><tr key={item.id} >
-                <td>
-                  {"#" + item.requestid}
-                </td>
-                <td>
-                  {item.fullname}
-                </td>
-                <td>
-                  {item.dept}
-                </td>
-                <td>
-                  {item.type}
-                </td>
-                <td>
-                  {item.reason}
-                </td>
-                <td>
-                  {convertCreatedAt(item.fromdate)}
-                </td>
-                <td>
-                  {item.totaldaysleave}
-                </td>
-                <td>
-                  {convertCreatedAt(item.createdat)}
-                </td>
-                <td>
-                <div style={item.leaderapproval=="Approved"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:(item.leaderapproval=="Pending" ? {background:"rgb(245, 204, 25)", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"} : {background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"})}>{item.leaderapproval} </div>
-                </td>
-                <td>
-                   <div style={item.supervisorapproval=="Approved"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:(item.supervisorapproval=="Pending" ? {background:"rgb(245, 204, 25)", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"} : {background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"})}>{item.supervisorapproval} </div>
-                </td>
-                <td>
-                  {
-                    stateselector.user.username == "tamtran@cclind.com" ? 
-                    <div>
-                       <button 
+            <div style={{width:"100%",overflowX:"auto",marginBottom:"60px"}}>
+              <table className="table" style={{margin:"auto",marginTop:"50px",marginBottom:"20px",maxWidth:"90%"}}>
+                <thead style={{color:"white"}}>
+                  <tr>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>RequestID</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>Fullname</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>Dept</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>Type</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>Reason</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>From date</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>Total days leave</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>CreatedAt</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>Leader Approval</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>Supervisor Approval</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
+                  </tr>
+                </thead>
+                <tbody style={{color:"white"}}>
+                    {filterresult.map((item)=><tr key={item.id} >
+                    <td>
+                      {"#" + item.requestid}
+                    </td>
+                    <td>
+                      {item.fullname}
+                    </td>
+                    <td>
+                      {item.dept}
+                    </td>
+                    <td>
+                      {item.type}
+                    </td>
+                    <td>
+                      {item.reason}
+                    </td>
+                    <td>
+                      {convertCreatedAt(item.fromdate)}
+                    </td>
+                    <td>
+                      {item.totaldaysleave}
+                    </td>
+                    <td>
+                      {convertCreatedAt(item.createdat)}
+                    </td>
+                    <td>
+                    <div style={item.leaderapproval=="Approved"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:(item.leaderapproval=="Pending" ? {background:"rgb(245, 204, 25)", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"} : {background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"})}>{item.leaderapproval} </div>
+                    </td>
+                    <td>
+                      <div style={item.supervisorapproval=="Approved"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:(item.supervisorapproval=="Pending" ? {background:"rgb(245, 204, 25)", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"} : {background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"})}>{item.supervisorapproval} </div>
+                    </td>
+                    <td>
+                      {
+                        stateselector.user.username == "tamtran@cclind.com" ? 
+                        <div>
+                          <button 
+                            style={{padding: "3px 10px"}}
+                            onClick={(e)=>acceptleaverequest(item)} className={item.supervisorapproval=="Pending" ? "ms-1 btn btn-info" : "ms-1 btn btn-secondary disabled"}>
+                            Accept
+                          </button>
+                          <button 
+                            style={{padding: "3px 10px"}}
+                            onClick={(e)=>declineleaverequest(item)} className={item.supervisorapproval=="Pending" ? "ms-1 btn btn-danger" : "ms-1 btn btn-secondary disabled"}>
+                            Decline
+                          </button>
+                        </div>
+                      :
+                        <button 
                         style={{padding: "3px 10px"}}
-                        onClick={(e)=>acceptleaverequest(item)} className={item.supervisorapproval=="Pending" ? "ms-1 btn btn-info" : "ms-1 btn btn-secondary disabled"}>
-                        Accept
+                        onClick={(e)=>editleaverequest(item)} className={item.supervisorapproval=="Pending" ? "ms-1 btn btn-info" : "ms-1 btn btn-secondary disabled"}>
+                        Edit
                       </button>
-                      <button 
-                        style={{padding: "3px 10px"}}
-                        onClick={(e)=>declineleaverequest(item)} className={item.supervisorapproval=="Pending" ? "ms-1 btn btn-danger" : "ms-1 btn btn-secondary disabled"}>
-                        Decline
-                      </button>
-                    </div>
-                   :
-                     <button 
-                     style={{padding: "3px 10px"}}
-                     onClick={(e)=>editleaverequest(item)} className={item.supervisorapproval=="Pending" ? "ms-1 btn btn-info" : "ms-1 btn btn-secondary disabled"}>
-                     Edit
-                   </button>
-                  }
-                {/* <button 
-                  style={{padding: "3px 10px"}}
-                  onClick={(e)=>editleaverequest(item)} className="ms-1 btn btn-info">
-                  Edit
-                </button> */}
-                </td>
-                </tr>)}
-            </tbody>
-          
-        </table>
+                      }
+                    {/* <button 
+                      style={{padding: "3px 10px"}}
+                      onClick={(e)=>editleaverequest(item)} className="ms-1 btn btn-info">
+                      Edit
+                    </button> */}
+                    </td>
+                    </tr>)}
+                </tbody>
+            
+              </table>  
+            </div>
+           
         <Link
               className="button-back"  
               to="/home"
