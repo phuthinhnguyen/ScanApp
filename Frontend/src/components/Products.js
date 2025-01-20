@@ -72,7 +72,10 @@ function Products() {
   }
 
   const sortedposts = stateselector.posts.sort((a, b) => b.createdAt - a.createdAt);
-  const filterresult = sortedposts.filter((item) => {
+  const filtertoday = sortedposts.filter((item) => {
+    return item.createdAt > Date.now() - 172800000
+  })
+  const filterresult = filtertoday.filter((item) => {
     const itemsqrcodesplit = item["qrcode"].split("/")
     if (typeof(item.position)==="string"){
       var parseitemposition = JSON.parse(item.position)
@@ -202,87 +205,89 @@ function Products() {
                           <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile" />
                         </div>
                       </div>
-            <table className="table" style={{marginTop:"50px",marginBottom:"80px"}}>
-            <thead style={{color:"white"}}>
-              <tr>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Position</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Item Code</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>QR Code</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>PO</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>MFG Date</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Size/Version</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Quantity</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Part Number</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Scanner</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Created At</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Status</td>
-                  <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
-              </tr>
-            </thead>
-            <tbody style={{color:"white"}}>
-                {filterresult.map((item)=><tr key={item.id} >
-                <td>
-                  {/* {item.position.char+item.position.number}  */}
-                  {typeof(item.position)==="string" ? (JSON.parse(item.position).char + JSON.parse(item.position).number) : (item.position.char + item.position.number)}
-                </td>
-                <td>
-                  {item.itemcode} 
-                </td>
-                <td>
-                  {item.qrcode} 
-                </td>
-                <td>
-                  {item.qrcode.split("/")[0]} 
-                </td>
-                <td>
-                  {item.qrcode.split("/")[1]} 
-                </td>
-                <td>
-                  {item.qrcode.split("/")[2]} 
-                </td>
-                <td>
-                  {item.qrcode.split("/")[3]} 
-                </td>
-                <td>
-                  {item.qrcode.split("/")[4]} 
-                </td>
-                <td>
-                  {item.scanner} 
-                </td>
-                <td>
-                  {convertCreatedAt(item.createdAt)} 
-                </td>
-                <td>
-                  <div style={item.status=="IN"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.status} </div>
-                </td>
-                <td>
-                  <button 
-                    style={{padding: "3px 10px",marginLeft:"7px"}}
-                    onClick={(e)=>{e.target.nextElementSibling.style.display="block"}} className={(item.status == "IN" && sortedposts.filter(items=>{return items["qrcode"].toLowerCase().includes(item.qrcode.toLowerCase())}).length<2) ? ((typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "ms-1 btn btn-warning" : "ms-1 btn disabled") : "ms-1 btn disabled"}>
-                    {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
-                    {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
-                  </button>
-                  <div style={{display:"none"}}>
-                      <textarea className="form-control" placeholder="Input Reason here..." style={{display:"block",marginTop:"8px",marginBottom:"8px"}} value={lockitem.reason} onChange={(e)=>setLockitem({...lockitem,reason:e.target.value})}></textarea>
-                      <button 
-                        className="ms-1 btn btn-warning"
-                        style={{padding: "3px 10px"}}
-                        onClick={(e)=>(lockitembutton(item,e))}>
-                          {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
-                          {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
-                    </button>
-                    <button 
-                        className="ms-1 btn btn-warning"
-                        style={{padding: "3px 10px"}}
-                        onClick={(e)=>e.target.parentElement.style.display="none"}>
-                        Close
-                    </button>
-                  </div>
-                </td>
-                </tr>)}
-            </tbody>
+                      <div style={{width:"100%",overflowX:"auto",marginBottom:"60px"}}>
+                        <table className="table" style={{marginTop:"50px",marginBottom:"20px"}}>
+                          <thead style={{color:"white"}}>
+                            <tr>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Position</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Item Code</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>QR Code</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>PO</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>MFG Date</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Size/Version</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Quantity</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Part Number</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Scanner</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Created At</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Status</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
+                            </tr>
+                          </thead>
+                          <tbody style={{color:"white"}}>
+                              {filterresult.map((item)=><tr key={item.id} >
+                              <td>
+                                {/* {item.position.char+item.position.number}  */}
+                                {typeof(item.position)==="string" ? (JSON.parse(item.position).char + JSON.parse(item.position).number) : (item.position.char + item.position.number)}
+                              </td>
+                              <td>
+                                {item.itemcode} 
+                              </td>
+                              <td>
+                                {item.qrcode} 
+                              </td>
+                              <td>
+                                {item.qrcode.split("/")[0]} 
+                              </td>
+                              <td>
+                                {item.qrcode.split("/")[1]} 
+                              </td>
+                              <td>
+                                {item.qrcode.split("/")[2]} 
+                              </td>
+                              <td>
+                                {item.qrcode.split("/")[3]} 
+                              </td>
+                              <td>
+                                {item.qrcode.split("/")[4]} 
+                              </td>
+                              <td>
+                                {item.scanner} 
+                              </td>
+                              <td>
+                                {convertCreatedAt(item.createdAt)} 
+                              </td>
+                              <td>
+                                <div style={item.status=="IN"?{background:"#10e96a", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}:{background:"#e2372b", padding:"2px", textAlign:"center", maxWidth:"100px", borderRadius:"10px"}}>{item.status} </div>
+                              </td>
+                              <td>
+                                <button 
+                                  style={{padding: "3px 10px",marginLeft:"7px"}}
+                                  onClick={(e)=>{e.target.nextElementSibling.style.display="block"}} className={(item.status == "IN" && sortedposts.filter(items=>{return items["qrcode"].toLowerCase().includes(item.qrcode.toLowerCase())}).length<2) ? ((typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "ms-1 btn btn-warning" : "ms-1 btn disabled") : "ms-1 btn disabled"}>
+                                  {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
+                                  {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
+                                </button>
+                                <div style={{display:"none"}}>
+                                    <textarea className="form-control" placeholder="Input Reason here..." style={{display:"block",marginTop:"8px",marginBottom:"8px"}} value={lockitem.reason} onChange={(e)=>setLockitem({...lockitem,reason:e.target.value})}></textarea>
+                                    <button 
+                                      className="ms-1 btn btn-warning"
+                                      style={{padding: "3px 10px"}}
+                                      onClick={(e)=>(lockitembutton(item,e))}>
+                                        {(typeof(item.lockitem)==="string" ? (JSON.parse(item.lockitem).status == "OFF") : (item.lockitem.status == "OFF")) ? "Lock" : "Unlock"}
+                                        {/* {item.lockitem.status == "OFF" ? "Lock" : "Unlock"} */}
+                                  </button>
+                                  <button 
+                                      className="ms-1 btn btn-warning"
+                                      style={{padding: "3px 10px"}}
+                                      onClick={(e)=>e.target.parentElement.style.display="none"}>
+                                      Close
+                                  </button>
+                                </div>
+                              </td>
+                              </tr>)}
+                          </tbody>
+                        </table>
+                      </div>
           
-        </table>
         <Link
               className="button-back"  
               to="/home"
