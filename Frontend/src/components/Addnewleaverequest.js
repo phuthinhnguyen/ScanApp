@@ -144,8 +144,16 @@ function Addnewleaverequest() {
                       onChange={(e) => setForm({ ...form, reason: e.target.value })}
                       value={form.reason}
                     ></input>
-                    <h6>From date</h6>
-                    <DatePicker selected={fromdate} onChange={(date) => setFromdate(date)} />
+                    <div style={{display:"flex",columnGap:"20px",alignItems:"center",justifyContent:"center",marginTop:"35px"}}>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+                        <h6>From date</h6>
+                        <DatePicker selected={fromdate} onChange={(date) => setFromdate(date)} />
+                      </div>
+                      <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+                        <h6>To date</h6>
+                        <DatePicker selected={fromdate} onChange={(date) => setFromdate(date)} /> 
+                      </div>
+                    </div>
                     <h6>Total days leave</h6>
                     <input
                       onChange={(e) => setForm({ ...form, totaldaysleave: e.target.value })}

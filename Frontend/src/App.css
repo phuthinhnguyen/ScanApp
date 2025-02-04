@@ -404,8 +404,9 @@ form {
 }
 
 .addnewpost-body-form {
-  width: 800px;
+  width: 100%;
   margin-top: 40px;
+  max-width: 1200px;
 }
 
 .addnewpost-body-form h6 {
