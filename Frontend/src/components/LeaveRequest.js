@@ -10,8 +10,9 @@ import MuiAlert from "@mui/material/Alert";
 import { ExportReactCSV } from './ExportReactCSV'
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import { color } from "@mui/system";
+import { BsSearch } from "react-icons/bs";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 // import "@fullcalendar/core/main.css";
 // import "@fullcalendar/daygrid/main.css";
 // import "@fullcalendar/timegrid/main.css";
@@ -37,6 +38,11 @@ function LeaveRequest() {
   const dispatch = useDispatch();
   const [alert, setAlert] = useState({ open: false, message: "" });
   const stateselector = useSelector((state) => state);
+  const [searchtext, setSearchtext] = useState("");
+  const [searchradio, setSearchradio] = useState("");
+  const [search,setSearch] = useState({name:"",dept:""})
+  const [fromdatefilter,setFromdatefilter] = useState(new Date("2025-01-01"));
+  const [todatefilter,setTodatefilter] = useState(new Date("2025-12-31"));
 
   const closealert = (event, reason) => {
     if (reason === "clickaway") {
@@ -62,24 +68,45 @@ function LeaveRequest() {
   }
 
   function acceptleaverequest(item){
-    dispatch(editLeaverequest(item.requestid,item,item.fromdate,"Approved"))
+    dispatch(editLeaverequest(item.requestid,item,item.fromdate,item.todate,"Approved"))
   }
 
   function declineleaverequest(item){
-    dispatch(editLeaverequest(item.requestid,item,item.fromdate,"Declined"))
+    dispatch(editLeaverequest(item.requestid,item,item.fromdate,item.todate,"Declined"))
   }
+
+  const handleChangetextsearch = (e) => {
+    setSearchtext(e.target.value);
+    setSearch({...search,[searchradio]:e.target .value})
+  };
+   
+  const onChangeradio = (e) => {
+    setSearchtext("")
+    if (e.target.checked == true){
+      setSearchradio(e.target.value); 
+    }
+    else{
+      setSearch({...search,[e.target.value]:""})
+    }
+  };
+
   const events = []
   const sortedposts = stateselector.leaveapplication.sort((a, b) => b.createdat- a.createdat);
-  const filterresult = sortedposts
+  const filterresult = sortedposts.filter((item) => {
+    return item["fullname"].toLowerCase().includes(search.name.toLowerCase()) && item["dept"].toLowerCase().includes(search.dept.toLowerCase()) && Number(item["fromdate"]) >= fromdatefilter.getTime() && Number(item["fromdate"]) <= todatefilter.getTime()
+  });
 
   // Convert filterresult to datacsv
   var exportcsv = []
   for (let i=0;i<filterresult.length;i++){
     exportcsv.push({RequestID:"#"+filterresult[i].requestid,Fullname:filterresult[i].fullname, Dept:filterresult[i].dept,Type:filterresult[i].type,Reason:filterresult[i].reason, Fromdate:convertCreatedAt(filterresult[i].fromdate),Totaldaysleave:filterresult[i].totaldaysleave, CreatedAt:convertCreatedAt(filterresult[i].createdat), LeaderApproval:filterresult[i].leaderapproval, SupervisorApproval:filterresult[i].supervisorapproval})
+    const fromdate = convertCreatedAt(filterresult[i].fromdate).split("/")[1].padStart(2,'0')
+    const todate = (Number(convertCreatedAt(filterresult[i].todate).split("/")[1])+1).toString().padStart(2,'0')
+    const month = convertCreatedAt(filterresult[i].fromdate).split("/")[0].padStart(2,'0')
     events.push({
       title: filterresult[i].fullname,
-      start: getDate(`YEAR-MONTH-${convertCreatedAt(filterresult[i].fromdate).split("/")[0]}`),
-      end: getDate("YEAR-MONTH-06")
+      start: getDate(`YEAR-${month}-${fromdate}`),
+      end: getDate(`YEAR-${month}-${todate}`)
     })
   }
 
@@ -108,14 +135,14 @@ function LeaveRequest() {
         <div>
           <Header />
           <div className="home-body">
-            <div className="home-body-wrap">
+            {/* <div className="home-body-wrap">
               <div style={{margin:"auto",paddingLeft:"15%"}}>
                 <h2>LEAVE APPLICATION</h2>
               </div>
               <button className="csvbutton" style={{marginRight:"20px",cursor:"pointer",padding:"10px 10px",border:"none"}} onClick={addnewleaverequest}>New Request
               </button>
                <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" />
-            </div>
+            </div> */}
             <div style={{width:"60%",maxHeight:"60%",margin:"auto",backgroundColor:"white",color:"black",marginBottom:"40px",marginTop:"40px",padding:"20px"}}>
               <FullCalendar
                 defaultView="dayGridMonth"
@@ -128,7 +155,73 @@ function LeaveRequest() {
                 plugins={[dayGridPlugin]}
                 events={events}
               />
-            </div>   
+            </div> 
+            <div className="home-body-wrap" style={{marginTop:"100px"}}>
+              <div style={{margin:"auto"}}>
+                <h2>LEAVE APPLICATION</h2>
+              </div>
+              {/* <button className="csvbutton" style={{marginRight:"20px",cursor:"pointer",padding:"10px 10px",border:"none"}} onClick={addnewleaverequest}>New Request
+              </button>
+               <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" /> */}
+            </div> 
+            <div className="input-search-wrap" style={{maxWidth:"70%"}}>
+              <div className="input-group mb-2">
+                <div className="input-group-prepend">
+                  <div className="input-group-text icon-search">
+                    <BsSearch />
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inlineFormInputGroup"
+                  placeholder="Input text search"
+                  onChange={handleChangetextsearch}
+                  value={searchtext}
+                />
+              </div>
+              <div className="filter-checkbox-wrap">
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault1"
+                    onChange={onChangeradio}
+                    value="name"
+                    // checked
+                  />
+                  <label className="form-check-label">Name</label>
+                  <div style={{position:"absolute",marginTop:"50px",width:"100px",overflowWrap:"break-word"}}>{search.name==""?search.name:`"${search.name}"`}</div>
+                </div>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    name="flexRadioDefault"
+                    id="flexRadioDefault3"
+                    onChange={onChangeradio}
+                    value="dept"
+                  />
+                  <label className="form-check-label">Dept</label>
+                  <div style={{position:"absolute",marginTop:"50px",width:"100px",overflowWrap:"break-word"}}>{search.dept==""?search.dept:`"${search.dept}"`}</div>
+                </div>
+                <div className="form-check">
+                  <label className="form-check-label">From</label>
+                  <DatePicker selected={fromdatefilter} onChange={(date) => setFromdatefilter(date)} />
+                </div>
+                <div className="form-check">
+                  <label className="form-check-label">To</label>
+                  <DatePicker selected={todatefilter} onChange={(date) => setTodatefilter(date)} />
+                </div> 
+                <div className="form-check">
+                  <label className="form-check-label">Total: {filterresult.length} rows</label>
+                </div>
+                <button className="csvbutton" style={{cursor:"pointer",padding:"10px 10px",border:"none"}} onClick={addnewleaverequest}>New Request
+              </button>
+               <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" />
+              </div>
+            </div> 
             <div style={{width:"100%",overflowX:"auto",marginBottom:"60px"}}>
               <table className="table" style={{margin:"auto",marginTop:"50px",marginBottom:"20px",maxWidth:"90%"}}>
                 <thead style={{color:"white"}}>
@@ -139,6 +232,7 @@ function LeaveRequest() {
                       <td style={{fontWeight: "700",fontSize:"18px"}}>Type</td>
                       <td style={{fontWeight: "700",fontSize:"18px"}}>Reason</td>
                       <td style={{fontWeight: "700",fontSize:"18px"}}>From date</td>
+                      <td style={{fontWeight: "700",fontSize:"18px"}}>To date</td>
                       <td style={{fontWeight: "700",fontSize:"18px"}}>Total days leave</td>
                       <td style={{fontWeight: "700",fontSize:"18px"}}>CreatedAt</td>
                       <td style={{fontWeight: "700",fontSize:"18px"}}>Leader Approval</td>
@@ -165,6 +259,9 @@ function LeaveRequest() {
                     </td>
                     <td>
                       {convertCreatedAt(item.fromdate)}
+                    </td>
+                    <td>
+                      {convertCreatedAt(item.todate)}
                     </td>
                     <td>
                       {item.totaldaysleave}

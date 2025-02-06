@@ -107,7 +107,7 @@ function Updateleaverequest() {
                     >
                       <option value="Production">Production</option>
                       <option value="NPI/PE">NPI/PE</option>
-                      <option value="purchasing">Purchasing</option>
+                      <option value="Purchasing">Purchasing</option>
                       <option value="Quality">Quality</option>
                       <option value="Planning">Planning</option>
                       <option value="Warehouse">Warehouse</option>

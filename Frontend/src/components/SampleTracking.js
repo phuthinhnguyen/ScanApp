@@ -107,12 +107,12 @@ function SampleTracking() {
           <div className="home-body">
             <div className="home-body-wrap">
               <h2>SAMPLE TRACKING</h2>
-              {stateselector.user.email == "phuthinhnguyen1101@gmail.com" ?  <label className="csvbutton" style={{cursor:"pointer",padding:"2px 10px",marginRight:'20px'}}>Import.xlsx
+              {/* {stateselector.user.email == "phuthinhnguyen1101@gmail.com" ?  <label className="csvbutton" style={{cursor:"pointer",padding:"2px 10px",marginRight:'20px'}}>Import.xlsx
                 <input type="file" name="file"onChange={(e)=>uploadfilesampletracking(e)} style={{display:"none"}}></input>
               </label> : null }
-              <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFileSampleTracking" />
+              <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFileSampleTracking" /> */}
             </div>
-            <div className="input-search-wrap">
+            <div className="input-search-wrap" style={{maxWidth:"70%"}}>
                         <div className="input-group mb-2">
                           <div className="input-group-prepend">
                             <div className="input-group-text icon-search">
@@ -181,7 +181,10 @@ function SampleTracking() {
                           <div className="form-check">
                             <label className="form-check-label">Total: {filterresult.length} rows</label>
                           </div>
-                         
+                          {stateselector.user.email == "phuthinhnguyen1101@gmail.com" ?  <label className="csvbutton" style={{cursor:"pointer",padding:"2px 10px",marginRight:'20px'}}>Import.xlsx
+                            <input type="file" name="file"onChange={(e)=>uploadfilesampletracking(e)} style={{display:"none"}}></input>
+                          </label> : null }
+                          <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFileSampleTracking" />
                         </div>
                       </div>
                       <div style={{width:"100%",overflowX:"auto",marginBottom:"60px"}}>

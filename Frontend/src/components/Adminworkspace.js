@@ -191,7 +191,7 @@ function Adminworkspace() {
                   <div className="col-md-6 all itemlist" style={{position:"absolute",left:"0%", top:"0px"}}>
                     <div className="adminworkspace-posts">
                       <h2>PRODUCTS</h2>
-                      <div className="input-search-wrap">
+                      <div className="input-search-wrap" style={{maxWidth:"80%"}}>
                         <div className="input-group mb-2">
                           <div className="input-group-prepend">
                             <div className="input-group-text icon-search">

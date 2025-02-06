@@ -121,7 +121,7 @@ function Products() {
             <div className="home-body-wrap">
               <h2>PRODUCTS</h2>
             </div>
-            <div className="input-search-wrap">
+            <div className="input-search-wrap" style={{maxWidth:"80%"}}>
                         <div className="input-group mb-2">
                           <div className="input-group-prepend">
                             <div className="input-group-text icon-search">
