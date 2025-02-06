@@ -8,6 +8,14 @@ import Slide from "@mui/material/Slide";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { ExportReactCSV } from './ExportReactCSV'
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { color } from "@mui/system";
+// import "@fullcalendar/core/main.css";
+// import "@fullcalendar/daygrid/main.css";
+// import "@fullcalendar/timegrid/main.css";
+
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -60,7 +68,7 @@ function LeaveRequest() {
   function declineleaverequest(item){
     dispatch(editLeaverequest(item.requestid,item,item.fromdate,"Declined"))
   }
- 
+  const events = []
   const sortedposts = stateselector.leaveapplication.sort((a, b) => b.createdat- a.createdat);
   const filterresult = sortedposts
 
@@ -68,9 +76,31 @@ function LeaveRequest() {
   var exportcsv = []
   for (let i=0;i<filterresult.length;i++){
     exportcsv.push({RequestID:"#"+filterresult[i].requestid,Fullname:filterresult[i].fullname, Dept:filterresult[i].dept,Type:filterresult[i].type,Reason:filterresult[i].reason, Fromdate:convertCreatedAt(filterresult[i].fromdate),Totaldaysleave:filterresult[i].totaldaysleave, CreatedAt:convertCreatedAt(filterresult[i].createdat), LeaderApproval:filterresult[i].leaderapproval, SupervisorApproval:filterresult[i].supervisorapproval})
+    events.push({
+      title: filterresult[i].fullname,
+      start: getDate(`YEAR-MONTH-${convertCreatedAt(filterresult[i].fromdate).split("/")[0]}`),
+      end: getDate("YEAR-MONTH-06")
+    })
   }
 
-
+  function getDate(dayString) {
+    const today = new Date();
+    const year = today.getFullYear().toString();
+    let month = (today.getMonth() + 1).toString();
+  
+    if (month.length === 1) {
+      month = "0" + month;
+    }
+  
+    return dayString.replace("YEAR", year).replace("MONTH", month);
+  }
+  // const events = [
+  //   {
+  //     title: "Thinh nghi phep",
+  //     start: getDate("YEAR-MONTH-01"),
+  //     end: getDate("YEAR-MONTH-01")
+  //   }
+  // ]
 
   return (
     <div>
@@ -79,11 +109,26 @@ function LeaveRequest() {
           <Header />
           <div className="home-body">
             <div className="home-body-wrap">
-              <h2>LEAVE APPLICATION</h2>
+              <div style={{margin:"auto",paddingLeft:"15%"}}>
+                <h2>LEAVE APPLICATION</h2>
+              </div>
               <button className="csvbutton" style={{marginRight:"20px",cursor:"pointer",padding:"10px 10px",border:"none"}} onClick={addnewleaverequest}>New Request
               </button>
                <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" />
             </div>
+            <div style={{width:"60%",maxHeight:"60%",margin:"auto",backgroundColor:"white",color:"black",marginBottom:"40px",marginTop:"40px",padding:"20px"}}>
+              <FullCalendar
+                defaultView="dayGridMonth"
+                header={{
+                  left: "prev,next",
+                  center: "title",
+                  right: "dayGridMonth,timeGridWeek,timeGridDay"
+                }}
+                themeSystem="Simplex"
+                plugins={[dayGridPlugin]}
+                events={events}
+              />
+            </div>   
             <div style={{width:"100%",overflowX:"auto",marginBottom:"60px"}}>
               <table className="table" style={{margin:"auto",marginTop:"50px",marginBottom:"20px",maxWidth:"90%"}}>
                 <thead style={{color:"white"}}>
@@ -166,7 +211,7 @@ function LeaveRequest() {
             
               </table>  
             </div>
-           
+                  
         <Link
               className="button-back"  
               to="/home"
