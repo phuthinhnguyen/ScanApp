@@ -35,6 +35,7 @@ function Addnewleaverequest() {
   const [alert, setAlert] = useState({ open: false, message: "" });
   const [form,setForm] = useState({empcode:"",fullname:"",dept:"Production",type:"Annualleave",reason:"",totaldaysleave:"1"});
   const [fromdate, setFromdate] = useState(new Date());
+  const [todate, setTodate] = useState(new Date());
 
   useEffect(() => {
     if (stateselector.user == null) {
@@ -63,12 +64,13 @@ function Addnewleaverequest() {
       setAlert({open:true, message:"Please enter Reason"})
     }
     else{
-      dispatch(addnewLeaverequest(requestid,form,fromdate.getTime()));
+      dispatch(addnewLeaverequest(requestid,form,fromdate.getTime(),todate.getTime()));
       setAlert({open:true, message:"You have added new leave request successfully"})
       emailjs.send('service_evfic4p','template_hk99zgp', templateParams, 'E9BRT8QwbTmXh6yYe')
       requestid = makeId(6)
       setForm({empcode:"",fullname:"",dept:"Production",type:"Annualleave",reason:"",totaldaysleave:"1"})
       setFromdate(new Date())
+      setTodate(new Date())
       // navigate("/");
     }
   }
@@ -151,7 +153,7 @@ function Addnewleaverequest() {
                       </div>
                       <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
                         <h6>To date</h6>
-                        <DatePicker selected={fromdate} onChange={(date) => setFromdate(date)} /> 
+                        <DatePicker selected={todate} onChange={(date) => setTodate(date)} /> 
                       </div>
                     </div>
                     <h6>Total days leave</h6>

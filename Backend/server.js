@@ -275,12 +275,13 @@ app.post("/leaverequest", (req, res) => {
   const reason = req.body.reason;
   const totaldaysleave = req.body.totaldaysleave;
   const fromdate = req.body.fromdate;
+  const todate = req.body.todate;
   const leaderapproval = req.body.leaderapproval;
   const supervisorapproval = req.body.supervisorapproval;
 
-  db.query("insert into leaveapplication (requestid, createdat, empcode,fullname,dept,type,reason,totaldaysleave,fromdate,leaderapproval,supervisorapproval) VALUES (?,?,?,?,?,?,?,?,?,?,?)",[requestid, createdAt, empcode,fullname,dept,type,reason,totaldaysleave,fromdate,leaderapproval,supervisorapproval], (err,data)=>{
+  db.query("insert into leaveapplication (requestid, createdat, empcode,fullname,dept,type,reason,totaldaysleave,fromdate,todate,leaderapproval,supervisorapproval) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",[requestid, createdAt, empcode,fullname,dept,type,reason,totaldaysleave,fromdate,todate,leaderapproval,supervisorapproval], (err,data)=>{
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({ requestid:requestid,createdat:createdAt,empcode:empcode,fullname:fullname,dept:dept,type:type,reason:reason,totaldaysleave:totaldaysleave,fromdate:fromdate,leaderapproval:leaderapproval,supervisorapproval:supervisorapproval });
+    else return res.json({ requestid:requestid,createdat:createdAt,empcode:empcode,fullname:fullname,dept:dept,type:type,reason:reason,totaldaysleave:totaldaysleave,fromdate:fromdate,todate:todate,leaderapproval:leaderapproval,supervisorapproval:supervisorapproval });
   }
   ); 
 });
@@ -295,12 +296,13 @@ app.put("/leaverequest/:requestid", (req, res) => {
   const reason = req.body.reason;
   const totaldaysleave = req.body.totaldaysleave;
   const fromdate = req.body.fromdate;
+  const todate = req.body.todate;
   const leaderapproval = req.body.leaderapproval;
   const supervisorapproval = req.body.supervisorapproval;
 
-  db.query("update leaveapplication set createdat = ?, empcode = ? , fullname = ?, dept = ?, type = ?, reason = ?, totaldaysleave = ?, fromdate = ?, leaderapproval = ?, supervisorapproval = ? where requestid = ?",[createdAt,empcode,fullname,dept,type,reason,totaldaysleave,fromdate,leaderapproval,supervisorapproval,requestid], (err,data)=>{
+  db.query("update leaveapplication set createdat = ?, empcode = ? , fullname = ?, dept = ?, type = ?, reason = ?, totaldaysleave = ?, fromdate = ?, todate = ?, leaderapproval = ?, supervisorapproval = ? where requestid = ?",[createdAt,empcode,fullname,dept,type,reason,totaldaysleave,fromdate,todate,leaderapproval,supervisorapproval,requestid], (err,data)=>{
     if (err) return res.json({ error: err.sqlMessage });
-    else return res.json({requestid:requestid, createdat:createdAt, empcode:empcode, fullname:fullname,dept:dept,type:type,reason:reason,totaldaysleave:totaldaysleave,fromdate:fromdate,leaderapproval:leaderapproval,supervisorapproval:supervisorapproval});
+    else return res.json({requestid:requestid, createdat:createdAt, empcode:empcode, fullname:fullname,dept:dept,type:type,reason:reason,totaldaysleave:totaldaysleave,fromdate:fromdate,todate:todate,leaderapproval:leaderapproval,supervisorapproval:supervisorapproval});
  }
  ); 
  

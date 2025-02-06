@@ -32,6 +32,7 @@ function Updateleaverequest() {
   const [alert, setAlert] = useState({ open: false, message: "" });
   const [form,setForm] = useState(state);
   const [fromdate, setFromdate] = useState(new Date(Number(state.fromdate)));
+  const [todate, setTodate] = useState(new Date(Number(state.todate)));
 
   useEffect(() => {
     if (stateselector.user == null) {
@@ -54,7 +55,7 @@ function Updateleaverequest() {
       setAlert({open:true, message:"Please enter Reason"})
     }
     else{
-      dispatch(editLeaverequest(form.requestid,form,fromdate.getTime(),form.supervisorapproval));
+      dispatch(editLeaverequest(form.requestid,form,fromdate.getTime(),todate.getTime(),form.supervisorapproval));
       setAlert({open:true, message:"You have updated leave request successfully"})
       // setForm({empcode:"",fullname:"",dept:"Production",type:"Annualleave",reason:"",totaldaysleave:"1"})
       // setFromdate(new Date())
@@ -134,8 +135,16 @@ function Updateleaverequest() {
                       onChange={(e) => setForm({ ...form, reason: e.target.value })}
                       value={form.reason}
                     ></input>
-                    <h6>From date</h6>
-                    <DatePicker selected={fromdate} onChange={(date) => setFromdate(date)} />
+                     <div style={{display:"flex",columnGap:"20px",alignItems:"center",justifyContent:"center",marginTop:"35px"}}>
+                        <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+                          <h6>From date</h6>
+                          <DatePicker selected={fromdate} onChange={(date) => setFromdate(date)} />
+                        </div>
+                        <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+                          <h6>To date</h6>
+                          <DatePicker selected={todate} onChange={(date) => setTodate(date)} /> 
+                        </div>
+                      </div>
                     <h6>Total days leave</h6>
                     <input
                       onChange={(e) => setForm({ ...form, totaldaysleave: e.target.value })}

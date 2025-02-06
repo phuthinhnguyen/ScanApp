@@ -50,7 +50,7 @@ export const getLeaverequest= () => {
 };
 
 // update leave request
-export const editLeaverequest = (requestid,form,fromdate,status) => {
+export const editLeaverequest = (requestid,form,fromdate,todate,status) => {
   return async (dispatch) => {
     const response = await axios.put(`${apileaverequest}/${requestid}`, {
       createdAt: form.createdat,
@@ -61,6 +61,7 @@ export const editLeaverequest = (requestid,form,fromdate,status) => {
       reason: form.reason,
       totaldaysleave: form.totaldaysleave,
       fromdate: fromdate,
+      todate: todate,
       leaderapproval: "Approved",
       supervisorapproval: status
     });
@@ -72,7 +73,7 @@ export const editLeaverequest = (requestid,form,fromdate,status) => {
 };
 
 // add new leave request
-export const addnewLeaverequest = (requestid,form,fromdate) => {
+export const addnewLeaverequest = (requestid,form,fromdate,todate) => {
   return async (dispatch) => {
     const response = await axios.post(`${apileaverequest}`, {
       requestid: requestid,
@@ -84,6 +85,7 @@ export const addnewLeaverequest = (requestid,form,fromdate) => {
       reason: form.reason,
       totaldaysleave: form.totaldaysleave,
       fromdate: fromdate,
+      todate: todate,
       leaderapproval: "Approved",
       supervisorapproval: "Pending"
     });
