@@ -21,6 +21,7 @@ export const UPLOADSAMPLE_SUCCESS = "UPLOADSAMPLE_SUCCESS";
 export const FETCH_LEAVEREQUEST_SUCCESS = "FETCH_LEAVEREQUEST_SUCCESS";
 export const ADD_NEW_LEAVEREQUEST_SUCCESS = "ADD_NEW_LEAVEREQUEST_SUCCESS";
 export const UPDATE_LEAVEREQUEST_SUCCESS = "UPDATE_LEAVEREQUEST_SUCCESS";
+export const FETCH_EMPCODE_SUCCESS = "FETCH_EMPCODE_SUCCESS";
 
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
@@ -36,7 +37,20 @@ const apiuploadaphotos = "https://api.scanx.io.vn/upload";
 const apiuploadsampletracking= "https://api.scanx.io.vn/uploadexcelfilesampletracking";
 // const apileaverequest= "http://localhost:4200/leaverequest";
 const apileaverequest= "https://api.scanx.io.vn/leaverequest";
+// const apiempcode= "http://localhost:4200/empcode";
+const apiempcode= "https://api.scanx.io.vn/empcode";
 
+
+// get all empcodes
+export const getEmpcode= () => {
+  return async (dispatch) => {
+    const response = await axios.get(apiempcode);
+    dispatch({
+      type: FETCH_EMPCODE_SUCCESS,
+      payload: response.data.data
+    });
+  };
+};
 
 // get all leave requests to load in leaveapplication page
 export const getLeaverequest= () => {

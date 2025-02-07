@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getItem, getLeaverequest, getPhotos, getSample, getallusersforposts} from "../redux/action";
+import { getItem, getLeaverequest, getPhotos, getSample, getallusersforposts, getEmpcode} from "../redux/action";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -20,8 +20,9 @@ function Home() {
     dispatch(getPhotos());
     dispatch(getSample());
     dispatch(getLeaverequest());
+    dispatch(getEmpcode());
   }, []);
-
+ 
   function buttonInClick(status) {
     navigate("/scan", { state: status });
   }

@@ -308,6 +308,16 @@ app.put("/leaverequest/:requestid", (req, res) => {
  
 });
 
+
+// empcode API
+app.get("/empcode", (req, res) => {
+  const q = "select * from empcode";
+  db.query(q, (err, data) => {
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ data });
+  });
+});
+
 app.listen(port, ()=>{
     console.log("listening");
 })

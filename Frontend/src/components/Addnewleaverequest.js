@@ -46,6 +46,17 @@ function Addnewleaverequest() {
     }
   }, []);
 
+  const onchangeFullname = (e) => {
+   
+    setForm({ ...form, fullname: e.target.value});
+    
+ 
+  }
+  const empcodefilter = stateselector.empcodelist.filter(item=>{
+    return item.fullname == form.fullname
+  })
+  console.log(empcodefilter[0])
+  console.log(form)
   const templateParams = {
     to_name: "anh Tâm",
     message: stateselector.user.name + " vừa gửi yêu cầu nghỉ phép",
@@ -103,12 +114,13 @@ function Addnewleaverequest() {
                     ></input>
                     <h6>Emp.Code</h6>
                     <input
-                      onChange={(e) => setForm({ ...form, empcode: e.target.value })}
-                      value={form.empcode}
+                      // onChange={(e) => setForm({ ...form, empcode: empcodefilter.empcode })}
+                      value={empcodefilter[0] ==undefined?"Not Matched":empcodefilter[0].empcode}
                     ></input>
                     <h6>Full name</h6>
                     <input
-                      onChange={(e) => setForm({ ...form, fullname: e.target.value })}
+                      // onChange={(e) =>  setForm({ ...form, fullname: e.target.value, empcode: empcodefilter[0] ==undefined?"Not Matched":empcodefilter[0].empcode })}
+                      onChange={(e) => onchangeFullname(e)}
                       value={form.fullname}
                     ></input>
                   <h6>Dept</h6>

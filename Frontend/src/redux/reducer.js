@@ -1,6 +1,6 @@
 import { LOGIN_SUCCESS, BAN_USER_SUCCESS, FETCH_USER_SUCCESS, GET_USERPROFILE_SUCCESS, LOGOUT_SUCCESS, SIGNUP_SUCCESS, TO_ADMIN_SUCCESS, UPLOAD_AVATAR_SUCCESS } from "./action";
 import { FETCH_ITEM_SUCCESS, DELETE_ITEM_SUCCESS, ADD_NEW_ITEM_SUCCESS, UPDATE_ITEM_SUCCESS, UPLOADPHOTOS_SUCCESS, GETPHOTOS_SUCCESS, CHANGE_USER_NAME_SUCCESS, CHANGE_USER_PASSWORD_SUCCESS, FETCH_SAMPLE_SUCCESS, UPLOADSAMPLE_SUCCESS } from "./action";
-import { FETCH_LEAVEREQUEST_SUCCESS, ADD_NEW_LEAVEREQUEST_SUCCESS, UPDATE_LEAVEREQUEST_SUCCESS } from "./action";
+import { FETCH_LEAVEREQUEST_SUCCESS, ADD_NEW_LEAVEREQUEST_SUCCESS, UPDATE_LEAVEREQUEST_SUCCESS, FETCH_EMPCODE_SUCCESS } from "./action";
 const initialState = {
   // used for loading all posts on home page
   posts: [],
@@ -14,7 +14,8 @@ const initialState = {
   // used for sample tracking
   sample:null,
   // used for leaveapplication
-  leaveapplication:null
+  leaveapplication:null,
+  empcodelist:null
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -141,7 +142,13 @@ const rootReducer = (state = initialState, action) => {
           action.payload
         ],
       };  
-      
+
+    case FETCH_EMPCODE_SUCCESS:
+    return {
+      ...state,
+      empcodelist: action.payload
+    };  
+
     default:
       return state;
   }
