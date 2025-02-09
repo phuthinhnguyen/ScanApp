@@ -87,7 +87,7 @@ function Addnewleaverequest() {
     else{
       dispatch(addnewLeaverequest(requestid,form,fromdate.getTime(),todate.getTime()));
       setAlert({open:true, message:"You have added new leave request successfully"})
-      // emailjs.send('service_evfic4p','template_hk99zgp', templateParams, 'E9BRT8QwbTmXh6yYe')
+      emailjs.send('service_evfic4p','template_hk99zgp', templateParams, 'E9BRT8QwbTmXh6yYe')
       requestid = makeId(6)
       setForm({empcode:"",fullname:"",dept:"Production",type:"Annualleave",reason:"",totaldaysleave:"1"})
       setFromdate(new Date())
