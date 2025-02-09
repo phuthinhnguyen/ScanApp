@@ -46,17 +46,24 @@ function Addnewleaverequest() {
     }
   }, []);
 
-  const onchangeFullname = (e) => {
-   
-    setForm({ ...form, fullname: e.target.value});
-    
- 
-  }
-  const empcodefilter = stateselector.empcodelist.filter(item=>{
-    return item.fullname == form.fullname
-  })
-  console.log(empcodefilter[0])
-  console.log(form)
+  // used for filter matched empcode every user inputs fullname
+  useEffect(() => {
+    if (form.fullname==""){
+      setForm({...form, empcode:"Input full name for get empcode"})
+    }
+    else{
+      for (var i = 0; i < stateselector.empcodelist.length; i++) {
+        if (stateselector.empcodelist[i].fullname == form.fullname){
+          setForm({...form, empcode:stateselector.empcodelist[i].empcode})
+          break;
+        }
+        else if (stateselector.empcodelist[i].fullname != form.fullname){
+          setForm({...form, empcode:"Not Matched"})
+        }
+      }
+    }
+  }, [form.fullname]);
+
   const templateParams = {
     to_name: "anh Tâm",
     message: stateselector.user.name + " vừa gửi yêu cầu nghỉ phép",
@@ -65,8 +72,8 @@ function Addnewleaverequest() {
 
   function submitform(e) {
     e.preventDefault();
-    if (form.empcode == "") {
-      setAlert({open:true, message:"Please enter Employee code"})
+    if (form.empcode == "Not Matched") {
+      setAlert({open:true, message:"Employee code is not matched with Full name"})
     }
     else if (form.fullname == "") {
       setAlert({open:true, message:"Please enter Full name"})
@@ -74,10 +81,13 @@ function Addnewleaverequest() {
     else if (form.reason == "") {
       setAlert({open:true, message:"Please enter Reason"})
     }
+    else if (fromdate.getTime() > todate.getTime()) {
+      setAlert({open:true, message:"Todate must be equivalent or greater than Fromdate"})
+    }
     else{
       dispatch(addnewLeaverequest(requestid,form,fromdate.getTime(),todate.getTime()));
       setAlert({open:true, message:"You have added new leave request successfully"})
-      emailjs.send('service_evfic4p','template_hk99zgp', templateParams, 'E9BRT8QwbTmXh6yYe')
+      // emailjs.send('service_evfic4p','template_hk99zgp', templateParams, 'E9BRT8QwbTmXh6yYe')
       requestid = makeId(6)
       setForm({empcode:"",fullname:"",dept:"Production",type:"Annualleave",reason:"",totaldaysleave:"1"})
       setFromdate(new Date())
@@ -114,13 +124,13 @@ function Addnewleaverequest() {
                     ></input>
                     <h6>Emp.Code</h6>
                     <input
-                      // onChange={(e) => setForm({ ...form, empcode: empcodefilter.empcode })}
-                      value={empcodefilter[0] ==undefined?"Not Matched":empcodefilter[0].empcode}
+                      disabled
+                      style={form.empcode=="Not Matched" ? {border:"1px solid red",color:"red"}:{color:"white"}}
+                      value={form.empcode}
                     ></input>
                     <h6>Full name</h6>
                     <input
-                      // onChange={(e) =>  setForm({ ...form, fullname: e.target.value, empcode: empcodefilter[0] ==undefined?"Not Matched":empcodefilter[0].empcode })}
-                      onChange={(e) => onchangeFullname(e)}
+                      onChange={(e) => setForm({ ...form, fullname: e.target.value})}
                       value={form.fullname}
                     ></input>
                   <h6>Dept</h6>
@@ -161,11 +171,11 @@ function Addnewleaverequest() {
                     <div style={{display:"flex",columnGap:"20px",alignItems:"center",justifyContent:"center",marginTop:"35px"}}>
                       <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
                         <h6>From date</h6>
-                        <DatePicker selected={fromdate} onChange={(date) => setFromdate(date)} />
+                        <DatePicker dateFormat="dd/MM/yyyy" selected={fromdate} onChange={(date) => setFromdate(date)} />
                       </div>
                       <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
                         <h6>To date</h6>
-                        <DatePicker selected={todate} onChange={(date) => setTodate(date)} /> 
+                        <DatePicker dateFormat="dd/MM/yyyy" selected={todate} onChange={(date) => setTodate(date)} /> 
                       </div>
                     </div>
                     <h6>Total days leave</h6>

@@ -93,16 +93,16 @@ function LeaveRequest() {
   const events = []
   const sortedposts = stateselector.leaveapplication.sort((a, b) => b.createdat- a.createdat);
   const filterresult = sortedposts.filter((item) => {
-    return item["fullname"].toLowerCase().includes(search.name.toLowerCase()) && item["dept"].toLowerCase().includes(search.dept.toLowerCase()) && Number(item["fromdate"]) >= fromdatefilter.getTime() && Number(item["fromdate"]) <= todatefilter.getTime()
+    return item["fullname"].toLowerCase().includes(search.name.toLowerCase()) && item["dept"].toLowerCase().includes(search.dept.toLowerCase()) && Number(item["fromdate"]) >= fromdatefilter.getTime() && Number(item["fromdate"]) <= (todatefilter.getTime()+86400000)
   });
 
   // Convert filterresult to datacsv
   var exportcsv = []
   for (let i=0;i<filterresult.length;i++){
-    exportcsv.push({RequestID:"#"+filterresult[i].requestid,Fullname:filterresult[i].fullname, Dept:filterresult[i].dept,Type:filterresult[i].type,Reason:filterresult[i].reason, Fromdate:convertCreatedAt(filterresult[i].fromdate),Totaldaysleave:filterresult[i].totaldaysleave, CreatedAt:convertCreatedAt(filterresult[i].createdat), LeaderApproval:filterresult[i].leaderapproval, SupervisorApproval:filterresult[i].supervisorapproval})
-    const fromdate = convertCreatedAt(filterresult[i].fromdate).split("/")[1].padStart(2,'0')
-    const todate = (Number(convertCreatedAt(filterresult[i].todate).split("/")[1])+1).toString().padStart(2,'0')
-    const month = convertCreatedAt(filterresult[i].fromdate).split("/")[0].padStart(2,'0')
+    exportcsv.push({RequestID:"#"+filterresult[i].requestid,Fullname:filterresult[i].fullname, Dept:filterresult[i].dept,Type:filterresult[i].type,Reason:filterresult[i].reason, Fromdate:convertCreatedAt(filterresult[i].fromdate),Todate:convertCreatedAt(filterresult[i].todate), Totaldaysleave:filterresult[i].totaldaysleave, CreatedAt:convertCreatedAt(filterresult[i].createdat), LeaderApproval:filterresult[i].leaderapproval, SupervisorApproval:filterresult[i].supervisorapproval})
+    const fromdate = convertCreatedAt(filterresult[i].fromdate).split("/")[0].padStart(2,'0')
+    const todate = (Number(convertCreatedAt(filterresult[i].todate).split("/")[0])+1).toString().padStart(2,'0')
+    const month = convertCreatedAt(filterresult[i].fromdate).split("/")[1].padStart(2,'0')
     events.push({
       title: filterresult[i].fullname,
       start: getDate(`YEAR-${month}-${fromdate}`),
@@ -208,11 +208,11 @@ function LeaveRequest() {
                 </div>
                 <div className="form-check">
                   <label className="form-check-label">From</label>
-                  <DatePicker selected={fromdatefilter} onChange={(date) => setFromdatefilter(date)} />
+                  <DatePicker dateFormat="dd/MM/yyyy" selected={fromdatefilter} onChange={(date) => setFromdatefilter(date)} />
                 </div>
                 <div className="form-check">
                   <label className="form-check-label">To</label>
-                  <DatePicker selected={todatefilter} onChange={(date) => setTodatefilter(date)} />
+                  <DatePicker dateFormat="dd/MM/yyyy" selected={todatefilter} onChange={(date) => setTodatefilter(date)} />
                 </div> 
                 <div className="form-check">
                   <label className="form-check-label">Total: {filterresult.length} rows</label>
