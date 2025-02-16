@@ -51,12 +51,13 @@ function LeaveRequest() {
     setAlert({ ...alert, open: false });
   };
 
-  if (stateselector.user == null) {
-    navigate("/")
-  }
-
   useEffect(() => {
-    dispatch(getLeaverequest());
+    if (stateselector.user == null) {
+      navigate("/")
+    }
+    else{
+      dispatch(getLeaverequest());
+    }
   }, []);
 
   function addnewleaverequest(){
@@ -91,23 +92,25 @@ function LeaveRequest() {
   };
 
   const events = []
-  const sortedposts = stateselector.leaveapplication.sort((a, b) => b.createdat- a.createdat);
-  const filterresult = sortedposts.filter((item) => {
-    return item["fullname"].toLowerCase().includes(search.name.toLowerCase()) && item["dept"].toLowerCase().includes(search.dept.toLowerCase()) && Number(item["fromdate"]) >= fromdatefilter.getTime() && Number(item["fromdate"]) <= (todatefilter.getTime()+86400000)
-  });
-
-  // Convert filterresult to datacsv
-  var exportcsv = []
-  for (let i=0;i<filterresult.length;i++){
-    exportcsv.push({RequestID:"#"+filterresult[i].requestid,Fullname:filterresult[i].fullname, Dept:filterresult[i].dept,Type:filterresult[i].type,Reason:filterresult[i].reason, Fromdate:convertCreatedAt(filterresult[i].fromdate),Todate:convertCreatedAt(filterresult[i].todate), Totaldaysleave:filterresult[i].totaldaysleave, CreatedAt:convertCreatedAt(filterresult[i].createdat), LeaderApproval:filterresult[i].leaderapproval, SupervisorApproval:filterresult[i].supervisorapproval})
-    const fromdate = convertCreatedAt(filterresult[i].fromdate).split("/")[0].padStart(2,'0')
-    const todate = (Number(convertCreatedAt(filterresult[i].todate).split("/")[0])+1).toString().padStart(2,'0')
-    const month = convertCreatedAt(filterresult[i].fromdate).split("/")[1].padStart(2,'0')
-    events.push({
-      title: filterresult[i].fullname,
-      start: getDate(`YEAR-${month}-${fromdate}`),
-      end: getDate(`YEAR-${month}-${todate}`)
-    })
+  if (stateselector.leaveapplication!=null){
+    const sortedposts = stateselector.leaveapplication.sort((a, b) => b.createdat- a.createdat);
+    var filterresult = sortedposts.filter((item) => {
+      return item["fullname"].toLowerCase().includes(search.name.toLowerCase()) && item["dept"].toLowerCase().includes(search.dept.toLowerCase()) && Number(item["fromdate"]) >= fromdatefilter.getTime() && Number(item["fromdate"]) <= (todatefilter.getTime()+86400000)
+    });
+    
+    // Convert filterresult to datacsv
+    var exportcsv = []
+    for (let i=0;i<filterresult.length;i++){
+      exportcsv.push({RequestID:"#"+filterresult[i].requestid,Fullname:filterresult[i].fullname, Dept:filterresult[i].dept,Type:filterresult[i].type,Reason:filterresult[i].reason, Fromdate:convertCreatedAt(filterresult[i].fromdate),Todate:convertCreatedAt(filterresult[i].todate), Totaldaysleave:filterresult[i].totaldaysleave, CreatedAt:convertCreatedAt(filterresult[i].createdat), LeaderApproval:filterresult[i].leaderapproval, SupervisorApproval:filterresult[i].supervisorapproval})
+      const fromdate = convertCreatedAt(filterresult[i].fromdate).split("/")[0].padStart(2,'0')
+      const todate = (Number(convertCreatedAt(filterresult[i].todate).split("/")[0])+1).toString().padStart(2,'0')
+      const month = convertCreatedAt(filterresult[i].fromdate).split("/")[1].padStart(2,'0')
+      events.push({
+        title: filterresult[i].fullname,
+        start: getDate(`YEAR-${month}-${fromdate}`),
+        end: getDate(`YEAR-${month}-${todate}`)
+      })
+    }
   }
 
   function getDate(dayString) {
@@ -135,14 +138,6 @@ function LeaveRequest() {
         <div>
           <Header />
           <div className="home-body">
-            {/* <div className="home-body-wrap">
-              <div style={{margin:"auto",paddingLeft:"15%"}}>
-                <h2>LEAVE APPLICATION</h2>
-              </div>
-              <button className="csvbutton" style={{marginRight:"20px",cursor:"pointer",padding:"10px 10px",border:"none"}} onClick={addnewleaverequest}>New Request
-              </button>
-               <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" />
-            </div> */}
             <div style={{width:"60%",maxHeight:"60%",margin:"auto",backgroundColor:"white",color:"black",marginBottom:"40px",marginTop:"40px",padding:"20px"}}>
               <FullCalendar
                 defaultView="dayGridMonth"
@@ -160,9 +155,6 @@ function LeaveRequest() {
               <div style={{margin:"auto"}}>
                 <h2>LEAVE APPLICATION</h2>
               </div>
-              {/* <button className="csvbutton" style={{marginRight:"20px",cursor:"pointer",padding:"10px 10px",border:"none"}} onClick={addnewleaverequest}>New Request
-              </button>
-               <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" /> */}
             </div> 
             <div className="input-search-wrap" style={{maxWidth:"70%"}}>
               <div className="input-group mb-2">
@@ -297,11 +289,6 @@ function LeaveRequest() {
                         Edit
                       </button>
                       }
-                    {/* <button 
-                      style={{padding: "3px 10px"}}
-                      onClick={(e)=>editleaverequest(item)} className="ms-1 btn btn-info">
-                      Edit
-                    </button> */}
                     </td>
                     </tr>)}
                 </tbody>

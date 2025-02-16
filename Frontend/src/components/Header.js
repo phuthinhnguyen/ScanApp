@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {LOGOUT_SUCCESS, getItem, getSample, getUserprofile} from "../redux/action";
+import {LOGOUT_SUCCESS, getItem, getLeaverequest, getSample, getUserprofile} from "../redux/action";
 import React from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
@@ -30,7 +30,7 @@ function Header() {
     dispatch(getItem());
   }
   function leaverequestclick() {
-    // dispatch(getItem());
+    dispatch(getLeaverequest())
   }
   function userprofileclick() {
     dispatch(getUserprofile(state.posts, state.user));

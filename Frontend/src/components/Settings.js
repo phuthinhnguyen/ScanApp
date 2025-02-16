@@ -31,13 +31,12 @@ function Settings() {
   const state = useSelector((state) => state);
   const [alert, setAlert] = useState({ open: false, message: "" });
   const [image, setImage] = useState({ file: "", type: "" });
-  const [name, setName] = useState(state.user.name);
+  if (state.user != null){
+    var [name, setName] = useState(state.user.name);
+  }
   const [oldpassword, setOldpassword] = useState("");
   const [newpassword, setNewpassword] = useState("");
   const [confirmpassword, setConfirmpassword] = useState("");
-  if (state.user == null) {
-    navigate("/")
-  }
 
   const closealert = (event, reason) => {
     if (reason === "clickaway") {
@@ -45,6 +44,12 @@ function Settings() {
     }
     setAlert({ ...alert, open: false });
   };
+
+  useEffect(() => {
+    if (state.user == null) {
+      navigate("/")
+    }
+  }, []);
 
   useEffect(() => {
     if (image.file != "") {

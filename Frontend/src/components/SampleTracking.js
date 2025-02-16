@@ -44,12 +44,13 @@ function SampleTracking() {
     setAlert({ ...alert, open: false });
   };
 
-  if (stateselector.user == null) {
-    navigate("/")
-  }
-
   useEffect(() => {
-    dispatch(getSample());
+    if (stateselector.user == null) {
+      navigate("/")
+    }
+    else{
+      dispatch(getSample());
+    }
   }, []);
 
   const handleChangetextsearch = (e) => {
@@ -86,19 +87,19 @@ function SampleTracking() {
     setAlert({open:true, message:"You have uploaded file successfully"})
   }
 
-  const sortedposts = stateselector.sample.sort((a, b) => b.recieveday- a.recieveday);
-  const filterresult = sortedposts.filter((item) => {
-    return item["partcode"].toLowerCase().includes(search.partcode.toLowerCase()) && item["recieveday"].toLowerCase().includes(search.recieveday.toLowerCase()) && item["status"].toLowerCase().includes(search.status.toLowerCase()) && item["fileready"].toLowerCase().includes(search.fileready.toLowerCase())
-  });
-
-  // Convert filterresult to datacsv
-  var exportcsv = []
-  for (let i=0;i<filterresult.length;i++){
-    exportcsv.push({Partcode:filterresult[i].partcode,Recieveday:filterresult[i].recieveday, Status:filterresult[i].status,Fileready:filterresult[i].fileready})
+  if (stateselector.user != null){
+    const sortedposts = stateselector.sample.sort((a, b) => b.recieveday- a.recieveday);
+    var filterresult = sortedposts.filter((item) => {
+      return item["partcode"].toLowerCase().includes(search.partcode.toLowerCase()) && item["recieveday"].toLowerCase().includes(search.recieveday.toLowerCase()) && item["status"].toLowerCase().includes(search.status.toLowerCase()) && item["fileready"].toLowerCase().includes(search.fileready.toLowerCase())
+    });
+  
+    // Convert filterresult to datacsv
+    var exportcsv = []
+    for (let i=0;i<filterresult.length;i++){
+      exportcsv.push({Partcode:filterresult[i].partcode,Recieveday:filterresult[i].recieveday, Status:filterresult[i].status,Fileready:filterresult[i].fileready})
+    }
   }
-
-
-
+ 
   return (
     <div>
       {stateselector.user != null ? (

@@ -43,16 +43,37 @@ function Updateleaverequest() {
     }
   }, []);
 
+  // used for filter matched empcode every user inputs fullname
+  useEffect(() => {
+    if (form.fullname==""){
+      setForm({...form, empcode:"Input full name for get empcode"})
+    }
+    else{
+      for (var i = 0; i < stateselector.empcodelist.length; i++) {
+        if (stateselector.empcodelist[i].fullname == form.fullname){
+          setForm({...form, empcode:stateselector.empcodelist[i].empcode})
+          break;
+        }
+        else if (stateselector.empcodelist[i].fullname != form.fullname){
+          setForm({...form, empcode:"Not Matched"})
+        }
+      }
+    }
+  }, [form.fullname]);
+
   function submitform(e) {
     e.preventDefault();
-    if (form.empcode == "") {
-      setAlert({open:true, message:"Please enter Employee code"})
+    if (form.empcode == "Not Matched") {
+      setAlert({open:true, message:"Employee code is not matched with Full name"})
     }
     else if (form.fullname == "") {
       setAlert({open:true, message:"Please enter Full name"})
     }
     else if (form.reason == "") {
       setAlert({open:true, message:"Please enter Reason"})
+    }
+    else if (fromdate.getTime() > todate.getTime()) {
+      setAlert({open:true, message:"Todate must be equivalent or greater than Fromdate"})
     }
     else{
       dispatch(editLeaverequest(form.requestid,form,fromdate.getTime(),todate.getTime(),form.supervisorapproval));
@@ -90,7 +111,8 @@ function Updateleaverequest() {
                     ></input>
                     <h6>Emp.Code</h6>
                     <input
-                      onChange={(e) => setForm({ ...form, empcode: e.target.value })}
+                      disabled
+                      style={form.empcode=="Not Matched" ? {border:"1px solid red",color:"red"}:{color:"white"}}
                       value={form.empcode}
                     ></input>
                     <h6>Full name</h6>

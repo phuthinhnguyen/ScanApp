@@ -64,6 +64,7 @@ function Addnewleaverequest() {
     }
   }, [form.fullname]);
 
+
   const templateParams = {
     to_name: "anh Tâm",
     message: stateselector.user.name + " vừa gửi yêu cầu nghỉ phép",
