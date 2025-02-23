@@ -19,7 +19,7 @@ const port = process.env.PORT || 4200;
 const db = mysql.createConnection({
     host: "123.30.136.248",
     user: "xjhvevsw_phuthinhnguyen1101",
-    password: "thinhthinh123",
+    password: "thinhthinh123", 
     database: "xjhvevsw_scanapp"
     // host: "localhost",
     // user: "root",
@@ -109,6 +109,45 @@ const insertData = async () => {
   return res.json({ data:collectdata })
   }
   db.query("TRUNCATE TABLE sampletracking;");
+  insertData();
+  
+  });
+
+
+// Upload excel datalogic box label file to host by multer
+app.get("/datalogicboxlabel", (req, res) => {
+  const q = "select * from datalogicboxlabel";
+  db.query(q, (err, data) => {
+    // console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ data });
+  });
+});
+
+app.post('/uploaddatalogicboxlabel',upload.single('file'), (req, res) => {
+
+const workbook = xlsx.readFile(req.file.path);
+
+const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+
+const data = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
+const collectdata = []
+// Data handling logic will be implemented here
+const insertData = async () => {
+
+  for (let row of data) {
+  
+    const [column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15] = row;
+    db.query("insert into datalogicboxlabel (partnumber,partname,customer,rev,color,quantity,manufacturingdate,expireddate,materialmanufactuer,materialtype,materialcolor,countryorigon,po,cav,ulfile) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[column1, column2, column3, column4, column5, column6, column7, column8, column9, column10, column11, column12, column13, column14, column15], (err,data)=>{
+      if (err) return res.json({ error: err.sqlMessage });
+    }
+    );
+    collectdata.push({partnumber:column1,partname:column2,customer:column3,rev:column4,color:column5,quantity:column6,manufacturingdate:column7,expireddate:column8,materialmanufactuer:column9,materialtype:column10,materialcolor:column11,countryorigon:column12,po:column13,cav:column14,ulfile:column15})
+
+  };
+  return res.json({ data:collectdata })
+  }
+  db.query("TRUNCATE TABLE datalogicboxlabel;");
   insertData();
   
   });

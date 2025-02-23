@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {LOGOUT_SUCCESS, getItem, getLeaverequest, getSample, getUserprofile} from "../redux/action";
+import {LOGOUT_SUCCESS, getDatalogicBoxLabel, getItem, getLeaverequest, getSample, getUserprofile} from "../redux/action";
 import React from "react";
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
@@ -35,7 +35,9 @@ function Header() {
   function userprofileclick() {
     dispatch(getUserprofile(state.posts, state.user));
   }
-  function settingsclick() {}
+  function qualityclick() {
+    dispatch(getDatalogicBoxLabel());
+  }
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -62,6 +64,9 @@ function Header() {
         </Link>
         <Link to="/leaverequest" className="header-link" onClick={() => leaverequestclick()} style={{}}>
           LeaveApplication
+        </Link>
+        <Link to="/quality" className="header-link" onClick={() => qualityclick()} style={{}}>
+          Quality
         </Link>
         {state.user.role != "admin" && (
           <Link to="/products" className="header-link">

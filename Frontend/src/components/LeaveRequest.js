@@ -273,12 +273,12 @@ function LeaveRequest() {
                         <div>
                           <button 
                             style={{padding: "3px 10px"}}
-                            onClick={(e)=>acceptleaverequest(item)} className={item.supervisorapproval=="Pending" ? "ms-1 btn btn-info" : "ms-1 btn btn-secondary disabled"}>
+                            onClick={(e)=>acceptleaverequest(item)} className={item.supervisorapproval=="Pending" || item.supervisorapproval=="Declined" ? "ms-1 btn btn-info" : "ms-1 btn btn-secondary disabled"}>
                             Accept
                           </button>
                           <button 
                             style={{padding: "3px 10px"}}
-                            onClick={(e)=>declineleaverequest(item)} className={item.supervisorapproval=="Pending" ? "ms-1 btn btn-danger" : "ms-1 btn btn-secondary disabled"}>
+                            onClick={(e)=>declineleaverequest(item)} className={item.supervisorapproval=="Pending" || item.supervisorapproval=="Approved" ? "ms-1 btn btn-danger" : "ms-1 btn btn-secondary disabled"}>
                             Decline
                           </button>
                         </div>

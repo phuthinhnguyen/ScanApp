@@ -14,6 +14,7 @@ import Settings from "./components/Settings";
 import "yet-another-react-lightbox/styles.css";
 import Addnewleaverequest from "./components/Addnewleaverequest";
 import Updateleaverequest from "./components/Updateleaverequest";
+import Quality from "./components/Quality";
 
 // use lazy for every loading path
 const Home = React.lazy(() => import("./components/Home"));
@@ -142,6 +143,14 @@ function App() {
               element={
                 <Suspense fallback={<Loadingpath/>}>
                   <Updateleaverequest />
+                </Suspense>
+              }
+            />
+             <Route
+              path="/quality"
+              element={
+                <Suspense fallback={<Loadingpath/>}>
+                  <Quality />
                 </Suspense>
               }
             />

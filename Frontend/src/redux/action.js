@@ -22,24 +22,52 @@ export const FETCH_LEAVEREQUEST_SUCCESS = "FETCH_LEAVEREQUEST_SUCCESS";
 export const ADD_NEW_LEAVEREQUEST_SUCCESS = "ADD_NEW_LEAVEREQUEST_SUCCESS";
 export const UPDATE_LEAVEREQUEST_SUCCESS = "UPDATE_LEAVEREQUEST_SUCCESS";
 export const FETCH_EMPCODE_SUCCESS = "FETCH_EMPCODE_SUCCESS";
+export const UPLOADDATALOGICBOXLABEL_SUCCESS = "UPLOADDATALOGICBOXLABEL_SUCCESS";
+export const FETCH_DATALOGICBOXLABEL_SUCCESS = "FETCH_DATALOGICBOXLABEL_SUCCESS";
 
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
 // const apiurlusers = "https://649117572f2c7ee6c2c7b99a.mockapi.io/users";
-const apiurlusers = "https://api.scanx.io.vn/users";
-// const apiurlusers = "http://localhost:4200/users";
+// const apiurlusers = "https://api.scanx.io.vn/users";
+const apiurlusers = "http://localhost:4200/users";
 // const apiurlitems = "https://67221aae2108960b9cc2ea5b.mockapi.io/scanXdata";
-const apiurlitems = "https://api.scanx.io.vn/products";
-// const apiurlitems = "http://localhost:4200/products";
-// const apiuploadaphotos = "http://localhost:4200/upload";
-const apiuploadaphotos = "https://api.scanx.io.vn/upload";
-// const apiuploadsampletracking = "http://localhost:4200/uploadexcelfilesampletracking";
-const apiuploadsampletracking= "https://api.scanx.io.vn/uploadexcelfilesampletracking";
-// const apileaverequest= "http://localhost:4200/leaverequest";
-const apileaverequest= "https://api.scanx.io.vn/leaverequest";
-// const apiempcode= "http://localhost:4200/empcode";
-const apiempcode= "https://api.scanx.io.vn/empcode";
+// const apiurlitems = "https://api.scanx.io.vn/products";
+const apiurlitems = "http://localhost:4200/products";
+const apiuploadaphotos = "http://localhost:4200/upload";
+// const apiuploadaphotos = "https://api.scanx.io.vn/upload";
+const apiuploadsampletracking = "http://localhost:4200/uploadexcelfilesampletracking";
+// const apiuploadsampletracking= "https://api.scanx.io.vn/uploadexcelfilesampletracking";
+const apileaverequest= "http://localhost:4200/leaverequest";
+// const apileaverequest= "https://api.scanx.io.vn/leaverequest";
+const apiempcode= "http://localhost:4200/empcode";
+// const apiempcode= "https://api.scanx.io.vn/empcode";
+const apiuploaddatalogicboxlabel = "http://localhost:4200/uploaddatalogicboxlabel";
+// const apiuploaddatalogicboxlabel= "https://api.scanx.io.vn/uploaddatalogicboxlabel";
+const apidatalogicboxlabel = "http://localhost:4200/datalogicboxlabel";
+// const apidatalogicboxlabel= "https://api.scanx.io.vn/datalogicboxlabel";
 
+
+// get Datalogic box label data
+export const getDatalogicBoxLabel= () => {
+  return async (dispatch) => {
+    const response = await axios.get(apidatalogicboxlabel);
+    dispatch({
+      type: FETCH_DATALOGICBOXLABEL_SUCCESS,
+      payload: response.data.data
+    });
+  };
+};
+
+// upload file excel Datalogic box label to host
+export const uploadDatalogicBoxLabel = (data) => {
+  return async (dispatch) => {
+    const response = await axios.post(`${apiuploaddatalogicboxlabel}`, data);
+    dispatch({
+      type: UPLOADDATALOGICBOXLABEL_SUCCESS,
+      payload: response.data.data
+    });
+  };
+};
 
 // get all empcodes
 export const getEmpcode= () => {

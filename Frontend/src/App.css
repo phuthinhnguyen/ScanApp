@@ -1452,3 +1452,17 @@ input:checked + .slider:before {
   margin-left: 20px;
   padding: 0;
 }
+
+
+/* css quality tab */
+.copybutton{
+  color: white;
+}
+.copybutton:focus{
+  background-color: var(--buttonhover);
+  /* background-color: #29f04a; */
+  color: black;
+}
+.copybutton:hover{
+  color: black;
+}
