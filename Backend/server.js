@@ -152,6 +152,16 @@ const insertData = async () => {
   
   });
 
+// Jabil box label
+app.get("/jabilboxlabel", (req, res) => {
+  const q = "select * from jabilboxlabel";
+  db.query(q, (err, data) => {
+    // console.log(err, data);
+    if (err) return res.json({ error: err.sqlMessage });
+    else return res.json({ data });
+  });
+});
+
 
 // API
 app.get("/", (re,res) => {

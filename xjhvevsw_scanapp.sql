@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: localhost:3306
--- Thời gian đã tạo: Th2 25, 2025 lúc 08:27 AM
--- Phiên bản máy phục vụ: 10.11.10-MariaDB-cll-lve
+-- Thời gian đã tạo: Th3 08, 2025 lúc 04:43 PM
+-- Phiên bản máy phục vụ: 10.11.11-MariaDB-cll-lve
 -- Phiên bản PHP: 8.3.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -168,6 +168,31 @@ INSERT INTO `empcode` (`stt`, `empcode`, `fullname`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `jabilboxlabel`
+--
+
+CREATE TABLE `jabilboxlabel` (
+  `id` int(255) NOT NULL,
+  `vendorcode` text NOT NULL,
+  `partnumber` text NOT NULL,
+  `mpn` text NOT NULL,
+  `po` text NOT NULL,
+  `quantity` text NOT NULL,
+  `datecode` text NOT NULL,
+  `cclmf` text NOT NULL,
+  `checkcode` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `jabilboxlabel`
+--
+
+INSERT INTO `jabilboxlabel` (`id`, `vendorcode`, `partnumber`, `mpn`, `po`, `quantity`, `datecode`, `cclmf`, `checkcode`) VALUES
+(2, '10023587', 'SE45-00528-003', 'SE45-00528-003', '4513273314', '2000', '0725', '250215', '44344');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `leaveapplication`
 --
 
@@ -192,7 +217,15 @@ CREATE TABLE `leaveapplication` (
 --
 
 INSERT INTO `leaveapplication` (`id`, `requestid`, `empcode`, `fullname`, `dept`, `type`, `reason`, `fromdate`, `todate`, `totaldaysleave`, `createdat`, `leaderapproval`, `supervisorapproval`) VALUES
-(1, '4Xsqqn', 'CCL0051', 'Nguyễn Thị Thanh Tình', 'Quality', 'Annualleave', 'Việc gia đình (nửa buổi chiều)', '1739593288000', '1739593288537', '0.5', '1739593419387', 'Approved', 'Approved');
+(1, '4Xsqqn', 'CCL0051', 'Nguyễn Thị Thanh Tình', 'Quality', 'Annualleave', 'Việc gia đình (nửa buổi chiều)', '1739593288000', '1739593288537', '0.5', '1739593419387', 'Approved', 'Approved'),
+(4, 'v0YD37', 'CCL0025', 'Lâm Hoàng Minh Tiên', 'Production', 'Annualleave', 'Bận việc gia đình', '1740821527000', '1740821527000', '1', '1740475960691', 'Approved', 'Approved'),
+(5, 'uShZA5', 'CCL0024', 'Dương Thị Hồng Vân', 'Production', 'Annualleave', 'Bận việc riêng (nửa ngày)', '1740130425000', '1740130425000', '0.5', '1740476068547', 'Approved', 'Approved'),
+(6, 'jgQGUW', 'CCL0024', 'Dương Thị Hồng Vân', 'Production', 'Annualleave', 'Chồng bệnh', '1740616854846', '1740616854846', '1', '1740616902587', 'Approved', 'Approved'),
+(7, 'vIpU6w', 'CCL0124', 'Nguyễn Phú Thịnh', 'NPI/PE', 'Annualleave', 'Việc gia đình', '1740718770000', '1740718770000', '1', '1740632408961', 'Approved', 'Approved'),
+(8, 'j744Pp', 'CCL0051', 'Nguyễn Thị Thanh Tình', 'Production', 'Annualleave', 'Bệnh (nửa buổi chiều)', '1740708002811', '1740708002811', '0.5', '1740708034313', 'Approved', 'Approved'),
+(9, 'FmWpAn', 'CCL0051', 'Nguyễn Thị Thanh Tình', 'Production', 'Annualleave', 'Bệnh (nửa buổi chiều)', '1740794630634', '1740794630634', '0.5', '1740794656113', 'Approved', 'Pending'),
+(10, 'bcr1x7', 'CCL0019', 'Trần Thị Thu Trang', 'Planning', 'Annualleave', 'Bệnh', '1740467768000', '1740467768000', '1', '1740813409608', 'Approved', 'Pending'),
+(11, 'TfWBwQ', 'CCL0081', 'Nguyễn Xuân An', 'Warehouse', 'Annualleave', 'có việc riêng', '1740813409609', '1740813409609', '0.5', '1740813455000', 'Approved', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -13060,7 +13093,9 @@ INSERT INTO `users` (`id`, `username`, `password`, `name`, `avatar`, `coverphoto
 (3, 'kieun@cclind.com', 'ccldesignvina', 'Nguyen Thi Kieu', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1688131036/gkwlvz6hllbauf7octgk.png', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1731070128/cover2_kezyyd.png', 'kieun@cclind.com', 'admin'),
 (4, 'qahcm1@cclind.com', 'ccldesignvina', 'Quach Trong Tao', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1688131036/gkwlvz6hllbauf7octgk.png', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1731070128/cover2_kezyyd.png', 'qahcm1@cclind.com', 'user'),
 (5, 'qahcm2@cclind.com', 'ccldesignvina', 'Tran Thi Tuyet', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1688131036/gkwlvz6hllbauf7octgk.png', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1731070128/cover2_kezyyd.png', 'qahcm2@cclind.com', 'admin'),
-(6, 'tnha2605@gmail.com', 'ccldesignvina', 'Thanh Nhã', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1688131036/gkwlvz6hllbauf7octgk.png', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1731070128/cover2_kezyyd.png', 'tnha2605@gmail.com', 'user');
+(6, 'tnha2605@gmail.com', 'ccldesignvina', 'Thanh Nhã', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1688131036/gkwlvz6hllbauf7octgk.png', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1731070128/cover2_kezyyd.png', 'tnha2605@gmail.com', 'user'),
+(7, 'linhle@cclind.com', 'ccldesignvina', 'Le Ngoc Linh', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1688131036/gkwlvz6hllbauf7octgk.png', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1731070128/cover2_kezyyd.png', 'linhle@cclind.com', 'user'),
+(8, 'tunguyen@cclind.com', 'ccldesignvina', 'Nguyen Thi Cam Tu', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1688131036/gkwlvz6hllbauf7octgk.png', 'https://res.cloudinary.com/dhva3lwfk/image/upload/v1731070128/cover2_kezyyd.png', 'tunguyen@cclind.com', 'user');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -13077,6 +13112,12 @@ ALTER TABLE `datalogicboxlabel`
 --
 ALTER TABLE `empcode`
   ADD PRIMARY KEY (`stt`);
+
+--
+-- Chỉ mục cho bảng `jabilboxlabel`
+--
+ALTER TABLE `jabilboxlabel`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `leaveapplication`
@@ -13125,10 +13166,16 @@ ALTER TABLE `empcode`
   MODIFY `stt` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
+-- AUTO_INCREMENT cho bảng `jabilboxlabel`
+--
+ALTER TABLE `jabilboxlabel`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT cho bảng `leaveapplication`
 --
 ALTER TABLE `leaveapplication`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `photos`
@@ -13152,7 +13199,7 @@ ALTER TABLE `sampletracking`
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

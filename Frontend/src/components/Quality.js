@@ -223,8 +223,12 @@ function Quality() {
                   <div className="faq-content-menudropdown-item-show" id="faqitem2">
                     <div className="change-password-container">
                       <div className="old-password">
-                        <p style={{marginTop:"0"}}>Processing</p>
-                        <input style={{width:"300px"}} disabled></input>       
+                        <div className="showlabel">
+                            
+                        </div> 
+                        <div className="showlabel">
+                            
+                        </div>   
                       </div>
                       <button className="button-login" style={{marginTop:"20px"}}>Save</button>        
                     </div>

@@ -24,6 +24,7 @@ export const UPDATE_LEAVEREQUEST_SUCCESS = "UPDATE_LEAVEREQUEST_SUCCESS";
 export const FETCH_EMPCODE_SUCCESS = "FETCH_EMPCODE_SUCCESS";
 export const UPLOADDATALOGICBOXLABEL_SUCCESS = "UPLOADDATALOGICBOXLABEL_SUCCESS";
 export const FETCH_DATALOGICBOXLABEL_SUCCESS = "FETCH_DATALOGICBOXLABEL_SUCCESS";
+export const FETCH_JABILBOXLABEL_SUCCESS = "FETCH_JABILBOXLABEL_SUCCESS";
 
 // user 2 api, first one includes information about users (id,username,password,avatar,coverphoto...)
 // last one includes information about posts (id,title,body,author...) 
@@ -45,7 +46,20 @@ const apiempcode= "https://ccl.scanx.io.vn/empcode";
 const apiuploaddatalogicboxlabel= "https://ccl.scanx.io.vn/uploaddatalogicboxlabel";
 // const apidatalogicboxlabel = "http://localhost:4200/datalogicboxlabel";
 const apidatalogicboxlabel= "https://ccl.scanx.io.vn/datalogicboxlabel";
+// const apijabilboxlabel = "http://localhost:4200/jabilboxlabel";
+const apijabilboxlabel= "https://ccl.scanx.io.vn/jabilboxlabel";
 
+
+// get Jabil box label data
+export const getJabilBoxLabel= () => {
+  return async (dispatch) => {
+    const response = await axios.get(apijabilboxlabel);
+    dispatch({
+      type: FETCH_JABILBOXLABEL_SUCCESS,
+      payload: response.data.data
+    });
+  };
+};
 
 // get Datalogic box label data
 export const getDatalogicBoxLabel= () => {
