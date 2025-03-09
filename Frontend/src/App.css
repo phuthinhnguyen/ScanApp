@@ -1466,3 +1466,18 @@ input:checked + .slider:before {
 .copybutton:hover{
   color: black;
 }
+.label-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  column-gap: 50px;
+  margin-top: 50px;
+  padding: 0 20px;
+}
+.label-show{
+  width: 40%;
+}
+.label-content{
+  width: 60%;
+}

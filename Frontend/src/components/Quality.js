@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { getDatalogicBoxLabel} from "../redux/action";
+import { getDatalogicBoxLabel, getJabilBoxLabel} from "../redux/action";
 import React,{ useEffect,useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -43,11 +43,12 @@ function Quality() {
       navigate("/")
     }
     else{
-      dispatch(getDatalogicBoxLabel())
+      dispatch(getDatalogicBoxLabel());
+      dispatch(getJabilBoxLabel());
     }
   }, []);
   
-  if (state.datalogicboxlabel!=null){
+  if (state.datalogicboxlabel!=null && state.jabilboxlabel!=null){
     var filterresult = state.datalogicboxlabel.filter((item) => {
       return item["partnumber"] == partcode
     });
@@ -55,6 +56,8 @@ function Quality() {
     if (filterresult.length>0){
       exportcsv.push({Customer:filterresult[0].customer,PartName:filterresult[0].partname,PartNumber:filterresult[0].partnumber,REV:filterresult[0].rev,Color:filterresult[0].color,MaterialManufacturer:filterresult[0].materialmanufactuer,MaterialType:filterresult[0].materialtype,MaterialColor:filterresult[0].materialcolor,CountryofOrigin:filterresult[0].countryorigon,ULFileOfMaterial:filterresult[0].ulfile})
     }
+
+    var filterresultjabilboxlabel = state.jabilboxlabel.sort((a, b) => b.recieveday- a.recieveday);
   }
   else{
     navigate("/")
@@ -63,6 +66,10 @@ function Quality() {
   function copybuttonclick(e){
     var copyText = e.target.parentElement.previousElementSibling;
     navigator.clipboard.writeText(copyText.innerText);
+  }
+
+  function showlabelclick(label){
+    navigate("/showjabillabel", { state: label });
   }
 
   return (
@@ -222,15 +229,57 @@ function Quality() {
                   </div>
                   <div className="faq-content-menudropdown-item-show" id="faqitem2">
                     <div className="change-password-container">
-                      <div className="old-password">
-                        <div className="showlabel">
-                            
-                        </div> 
-                        <div className="showlabel">
-                            
-                        </div>   
+                      <h2 style={{textAlign:"center"}}>LABEL RECORD</h2>
+                      <div className="old-password" style={{paddingRight:"40px",display:"block"}}>
+                        <table className="table" style={{margin:"auto",marginTop:"10px",marginBottom:"20px",maxHeight:"500px",scrollBehavior:"auto"}}>
+                          <thead style={{color:"white"}}>
+                            <tr>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>ID</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>CreatedAt</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Vendor Code</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Part Number</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>MPN</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>PO</td>
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Quantity</td>
+                                {/* <td style={{fontWeight: "700",fontSize:"18px"}}>Overdue days</td> */}
+                                <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
+                            </tr>
+                          </thead>
+                          <tbody style={{color:"white"}}>
+                              {filterresultjabilboxlabel.map((item)=><tr key={item.id} >
+                              <td>
+                                {item.id}
+                              </td>
+                              <td>
+                                {item.createdat}
+                              </td>
+                              <td>
+                                {item.vendorcode} 
+                              </td>
+                              <td>
+                                {item.partnumber}
+                              </td>
+                              <td>
+                                {item.mpn}
+                              </td>
+                              <td>
+                                {item.po}
+                              </td>
+                              <td>
+                                {item.quantity}
+                              </td>
+                              <td>
+                              <button 
+                                  style={{padding: "3px 10px",marginLeft:"7px"}}
+                                  className="ms-1 btn btn-warning"
+                                  onClick={()=>showlabelclick(item)}>
+                                    Details
+                                </button>
+                              </td>
+                              </tr>)}
+                          </tbody>
+                        </table>
                       </div>
-                      <button className="button-login" style={{marginTop:"20px"}}>Save</button>        
                     </div>
                   </div>
                 </div>
