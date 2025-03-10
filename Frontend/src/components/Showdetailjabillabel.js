@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Header from "./Header";
-
+import Barcode from 'react-barcode';
 
 function Showdetailjabillabel() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ function Showdetailjabillabel() {
   }, []);
  
   const scanrows = state.scancode.split(",")
-  console.log(scanrows)
+
   return (
     <div>
       {stateselector.user != null ? (
@@ -29,42 +29,47 @@ function Showdetailjabillabel() {
             <div className="label-container">
               <div className="label-show">
                 <div className="label-show-container">
-                  <table className="table" style={{margin:"auto",marginTop:"20px",maxWidth:"500px",color:"black",border:"1px solid black",fontSize:"23px"}}>
+                  <table className="table" style={{margin:"auto",maxWidth:"500px",color:"black",border:"1px solid black",fontSize:"23px"}}>
                     <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>Vendor</td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"700"}}>CCL DESIGN VINA</td>
+                      <td style={{border:"1px solid black",padding:"10px 10px",width:"100px",fontWeight:"500"}}>Vendor</td>
+                      <td style={{border:"1px solid black",padding:"10px 10px",fontWeight:"700",textAlign:"center"}}>CCL DESIGN VINA</td>
                     </tr>
                     <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>Vendor Code</td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.vendorcode}</td>
+                      <td style={{border:"1px solid black",padding:"0 10px",width:"100px",fontWeight:"500"}}>Vendor Code</td>
+                      <td style={{border:"1px solid black",fontWeight:"500",textAlign:"center",padding:"0"}}><Barcode value={state.vendorcode} height={60} margin={1} fontSize={24}/></td>
+                    </tr>
+                    <tr style={{position:"relative"}}>
+                      <td colSpan={2} style={{border:"1px solid black",textAlign:"center",padding:"0"}}><Barcode value={state.partnumber} height={60} margin={1} fontOptions={"bold"} fontSize={26}/></td>
+                      <p style={{position:"absolute", left:"10px",bottom:"-18px",fontWeight:"500"}}>PN</p>
+                    </tr>
+                    <tr style={{position:"relative"}}>
+                      <td colSpan={2} style={{border:"1px solid black",textAlign:"center",padding:"0"}}><Barcode value={state.mpn} height={60} margin={1} fontOptions={"bold"} fontSize={26}/></td>
+                      <p style={{position:"absolute", left:"10px",bottom:"-18px",fontWeight:"500"}}>MPN</p>
                     </tr>
                     <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>PN</td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"700"}}>{state.partnumber}</td>
+                      <td style={{border:"1px solid black",padding:"10px 10px",width:"100px",fontWeight:"500"}}>PO</td>
+                      <td style={{border:"1px solid black",fontWeight:"500",textAlign:"center",padding:"0"}}><Barcode value={state.po} height={60} margin={1} fontSize={24}/></td>
                     </tr>
                     <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>MPN</td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"700"}}>{state.mpn}</td>
+                    <td style={{border:"1px solid black",padding:"10px 10px",width:"100px",fontWeight:"500"}}>QTY</td>
+                    <td style={{border:"1px solid black",fontWeight:"500",textAlign:"center",padding:"0"}}><Barcode value={state.quantity} height={60} margin={1} fontSize={24}/></td>
                     </tr>
                     <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>PO</td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.po}</td>
+                      <td style={{border:"1px solid black",padding:"10px 10px",width:"100px",fontWeight:"500"}}>Date Code</td>
+                      <td style={{border:"1px solid black",padding:"0 10px",fontWeight:"500"}}>
+                        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+                          <Barcode value={state.datecode} height={45} margin={1} />
+                          <p>ROHS</p>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>QTY</td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.quantity}</td>
+                    <td style={{border:"1px solid black",padding:"10px 10px",width:"100px",fontWeight:"500"}}>CCL MF</td>
+                    <td style={{border:"1px solid black",fontWeight:"500",textAlign:"center",padding:"0"}}><Barcode value={state.cclmf} height={60} margin={1} fontSize={24}/></td>
                     </tr>
                     <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>Date Code</td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.datecode}</td>
-                    </tr>
-                    <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>CCL MF</td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.cclmf}</td>
-                    </tr>
-                    <tr>
-                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}></td>
-                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.checkcode}</td>
+                    <td style={{border:"1px solid black",padding:"10px 10px",width:"100px",fontWeight:"500"}}></td>
+                    <td style={{border:"1px solid black",fontWeight:"500",textAlign:"center",padding:"0"}}><Barcode value={state.checkcode} height={60} margin={1} fontSize={24}/></td>
                     </tr>
                   </table>  
                 </div>

@@ -47,7 +47,7 @@ function Quality() {
       dispatch(getJabilBoxLabel());
     }
   }, []);
-  
+ 
   if (state.datalogicboxlabel!=null && state.jabilboxlabel!=null){
     var filterresult = state.datalogicboxlabel.filter((item) => {
       return item["partnumber"] == partcode
@@ -62,7 +62,7 @@ function Quality() {
   else{
     navigate("/")
   }
-
+ 
   function copybuttonclick(e){
     var copyText = e.target.parentElement.previousElementSibling;
     navigator.clipboard.writeText(copyText.innerText);
@@ -219,7 +219,7 @@ function Quality() {
                             </table>  
                           </div>
                       :null}
-                      <ExportReactCSVDatalogicBoxLabel csvData={exportcsv} fileName="ScanAppExportFile-DatalogicBoxLabel" />
+                      {/* <ExportReactCSVDatalogicBoxLabel csvData={exportcsv} fileName="ScanAppExportFile-DatalogicBoxLabel" /> */}
                     </div>
                   </div>
                   <div className="faq-content-menudropdown-item" data-faqitemid="faqitem2">
@@ -246,7 +246,8 @@ function Quality() {
                             </tr>
                           </thead>
                           <tbody style={{color:"white"}}>
-                              {filterresultjabilboxlabel.map((item)=><tr key={item.id} >
+                              {filterresultjabilboxlabel!=undefined && filterresultjabilboxlabel.length>0 ?
+                              filterresultjabilboxlabel.map((item)=><tr key={item.id} >
                               <td>
                                 {item.id}
                               </td>
@@ -276,7 +277,7 @@ function Quality() {
                                     Details
                                 </button>
                               </td>
-                              </tr>)}
+                              </tr>):null}
                           </tbody>
                         </table>
                       </div>
