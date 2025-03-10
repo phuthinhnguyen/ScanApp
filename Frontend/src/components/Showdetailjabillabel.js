@@ -28,44 +28,46 @@ function Showdetailjabillabel() {
             <h1 style={{textAlign:"center"}}>LABEL CONTENT</h1>
             <div className="label-container">
               <div className="label-show">
-                <table className="table" style={{margin:"auto",marginTop:"20px",maxWidth:"500px",color:"white",border:"1px solid white",fontSize:"25px"}}>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}>Vendor</td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>CCL DESIGN VINA</td>
-                  </tr>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}>Vendor Code</td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>{state.vendorcode}</td>
-                  </tr>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}>PN</td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>{state.partnumber}</td>
-                  </tr>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}>MPN</td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>{state.mpn}</td>
-                  </tr>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}>PO</td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>{state.po}</td>
-                  </tr>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}>QTY</td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>{state.quantity}</td>
-                  </tr>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}>Date Code</td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>{state.datecode}</td>
-                  </tr>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}>CCL MF</td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>{state.cclmf}</td>
-                  </tr>
-                  <tr>
-                    <td style={{border:"1px solid white",padding:"15px 15px",width:"100px"}}></td>
-                    <td style={{border:"1px solid white",padding:"15px 15px"}}>{state.checkcode}</td>
-                  </tr>
-                </table>  
+                <div className="label-show-container">
+                  <table className="table" style={{margin:"auto",marginTop:"20px",maxWidth:"500px",color:"black",border:"1px solid black",fontSize:"23px"}}>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>Vendor</td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"700"}}>CCL DESIGN VINA</td>
+                    </tr>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>Vendor Code</td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.vendorcode}</td>
+                    </tr>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>PN</td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"700"}}>{state.partnumber}</td>
+                    </tr>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>MPN</td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"700"}}>{state.mpn}</td>
+                    </tr>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>PO</td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.po}</td>
+                    </tr>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>QTY</td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.quantity}</td>
+                    </tr>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>Date Code</td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.datecode}</td>
+                    </tr>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}>CCL MF</td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.cclmf}</td>
+                    </tr>
+                    <tr>
+                      <td style={{border:"1px solid black",padding:"15px 15px",width:"100px",fontWeight:"500"}}></td>
+                      <td style={{border:"1px solid black",padding:"15px 15px",fontWeight:"500"}}>{state.checkcode}</td>
+                    </tr>
+                  </table>  
+                </div>
               </div>
               <div className="label-content">
                 <table className="table" style={{margin:"auto",marginTop:"10px",marginBottom:"20px",maxHeight:"500px",scrollBehavior:"auto"}}>

@@ -1478,6 +1478,14 @@ input:checked + .slider:before {
 .label-show{
   width: 40%;
 }
+.label-show-container{
+  background-color: white;
+  width: 500px;
+  height: 750px;
+  margin: auto;
+  padding: 20px;
+  padding-top: 10px;
+}
 .label-content{
   width: 60%;
 }
