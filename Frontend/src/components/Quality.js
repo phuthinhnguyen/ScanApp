@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getDatalogicBoxLabel, getJabilBoxLabel} from "../redux/action";
-import React,{ useEffect,useState } from "react";
+import React,{ useEffect,useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
 import { Helmet } from "react-helmet";
 import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
-import {ExportReactCSVDatalogicBoxLabel } from './ExportReactCSV'
+import { useReactToPrint } from "react-to-print";
+import { ComponentToPrint } from "./ComponentToPrint";
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -30,6 +31,7 @@ function Quality() {
   const state = useSelector((state) => state);
   const [alert, setAlert] = useState({ open: false, message: "" });
   const [partcode, setParcode] = useState("");
+  const [inputinfo, setInputinfo] = useState({quantity:"0",po:"",cavno:""});
 
   const closealert = (event, reason) => {
     if (reason === "clickaway") {
@@ -62,7 +64,23 @@ function Quality() {
   else{
     navigate("/")
   }
- 
+
+  const componentRef = React.useRef(null);
+  function printFn(partcode,inputinfo){
+    if (partcode!="" && inputinfo.quantity!="0" && inputinfo.po!="" && inputinfo.cavno!=""){
+      printData();
+    }
+    else{
+      setAlert({ open: true, message: "Please fill all the fields" });
+    }
+  }
+  const printData = useReactToPrint({
+    contentRef: componentRef,
+    documentTitle: "DatalogicLabelPrintFile",
+    // onAfterPrint: handleAfterPrint,
+    // onBeforePrint: handleBeforePrint,
+  });
+  
   function copybuttonclick(e){
     var copyText = e.target.parentElement.previousElementSibling;
     navigator.clipboard.writeText(copyText.innerText);
@@ -92,134 +110,21 @@ function Quality() {
                   <div className="faq-content-menudropdown-item-show" id="faqitem1">
                     <div className="change-password-container">
                       <div className="old-password">
-                        <p style={{marginTop:"0"}}>Input partcode here</p>
-                        <input style={{width:"300px"}} value={partcode} onChange={e=>setParcode(e.target.value)}></input> 
+                        <p style={{marginTop:"0"}}>PN &nbsp;</p>
+                        <input style={{width:"300px"}} value={partcode} onChange={e=>{setParcode(e.target.value);setInputinfo({quantity:"0",po:"",cavno:""})}}></input>
+                        <p style={{marginTop:"0"}}>Quantity</p>
+                        <input style={{width:"300px"}} type="number" value={inputinfo.quantity} onChange={e=>setInputinfo({...inputinfo,quantity:e.target.value})}></input>
+                        <button className="ms-1 btn btn-warning" style={{width:"100px",fontSize:"16px",fontWeight:"600"}} onClick={() => printFn(partcode,inputinfo)}>Print</button> 
+                      </div>
+                      <div className="old-password">
+                        <p style={{marginTop:"0"}}>PO#</p>
+                        <input style={{width:"300px"}} value={inputinfo.po} onChange={e=>setInputinfo({...inputinfo,po:e.target.value})}></input>
+                        <p style={{marginTop:"0"}}>CAV NO.</p>
+                        <input style={{width:"300px"}} value={inputinfo.cavno} onChange={e=>setInputinfo({...inputinfo,cavno:e.target.value})}></input>
                       </div>
                       {filterresult!=undefined && filterresult.length>0 ? 
-                          <div style={{width:"100%",overflowX:"auto",marginBottom:"10px"}}>
-                            <table className="table" style={{margin:"auto",marginTop:"20px",width:"600px",color:"white",border:"1px solid white"}}>
-                              <tr>
-                                <th colspan="3" style={{padding:"20px",textAlign:"center",fontSize:"20px"}}>CCL DESIGN VINA Co., Ltd</th>
-                              </tr>
-                              <tr>
-                                <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>1</a>
-                                  <label>CUSTOMER</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}>{filterresult[0].customer}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                              <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>2</a>
-                                  <label>PART NAME</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}>{filterresult[0].partname}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                              <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>3</a>
-                                  <label>PART NUMBER</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}>{filterresult[0].partnumber}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                              <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>4</a>
-                                  <label>REV</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}>{filterresult[0].rev}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                              <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>5</a>
-                                  <label>COLOR</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].color}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                              <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>6</a>
-                                  <label>QUANTITY</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].quantity}</td>
-                              </tr>
-                              <tr>
-                              <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>7</a>
-                                  <label>MANUFACTURING DATE</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].manufacturingdate}</td>
-                              </tr>
-                              <tr>
-                              <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>8</a>
-                                  <label>EXPIRED DATE</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].expireddate}</td>
-                              </tr>
-                              <tr>
-                                <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>9</a>
-                                  <label>MATERIAL MANUFACTURER</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].materialmanufactuer}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                                <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>10</a>
-                                  <label>MATERIAL TYPE</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].materialtype}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                                <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>11</a>
-                                  <label>MATERIAL COLOR</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].materialcolor}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                                <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>12</a>
-                                  <label>COUNTRY OF ORIGIN</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].countryorigon}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                              <tr>
-                                <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>13</a>
-                                  <label>PO#</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].po}</td>
-                              </tr>
-                              <tr>
-                                <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>14</a>
-                                  <label>CAV NO.</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].cav}</td>
-                              </tr>
-                              <tr>
-                                <td style={{border:"1px solid white",padding:"5px 10px",width:"320px"}}>
-                                  <a style={{border:"1px solid red",borderRadius:"50%"}}>15</a>
-                                  <label>UL file of material</label>
-                                </td>
-                                <td style={{border:"1px solid white",padding:"20px 10px"}}>{filterresult[0].ulfile}</td>
-                                <td style={{border:"1px solid white",padding:"5px 10px"}}><button className='csvbutton copybutton' onClick={e=>copybuttonclick(e)}>Copy</button></td>
-                              </tr>
-                            </table>  
-                          </div>
+                          <ComponentToPrint ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
                       :null}
-                      {/* <ExportReactCSVDatalogicBoxLabel csvData={exportcsv} fileName="ScanAppExportFile-DatalogicBoxLabel" /> */}
                     </div>
                   </div>
                   <div className="faq-content-menudropdown-item" data-faqitemid="faqitem2">
@@ -241,7 +146,6 @@ function Quality() {
                                 <td style={{fontWeight: "700",fontSize:"18px"}}>MPN</td>
                                 <td style={{fontWeight: "700",fontSize:"18px"}}>PO</td>
                                 <td style={{fontWeight: "700",fontSize:"18px"}}>Quantity</td>
-                                {/* <td style={{fontWeight: "700",fontSize:"18px"}}>Overdue days</td> */}
                                 <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
                             </tr>
                           </thead>

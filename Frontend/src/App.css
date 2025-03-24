@@ -1455,6 +1455,56 @@ input:checked + .slider:before {
 
 
 /* css quality tab */
+/* css quality tab - datalogic box label */
+.datalogiclabel-container{
+  background-color: white;
+  /* width: 50%; */
+  min-width: 480px;
+  margin: auto;
+  padding: 10px;
+  margin-top: 20px;
+}
+.datalogiclabeltable{
+  margin: auto;
+  width: 500px;
+  height: 300px;
+  /* border: 1px solid black; */
+}
+.datalogiclabeltable-th{
+  padding: 5px;
+  text-align: center;
+  font-size: 20px;
+  color: black;
+  position: relative;
+}
+.datalogiclabeltable-td-left{
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  padding: 5px 0px;
+  width: 208px;
+}
+.datalogiclabeltable-td-right{
+  border-top: 1px solid black;
+  padding: 5px 0px;
+  width: 208px;
+  color: black;
+  text-align: center;
+  /* font-size: 18px; */
+  font-weight: 600;
+  font-size: 18px;
+}
+.datalogiclabeltable-circle{
+  border: 1px solid black;
+  border-radius: 50%;
+  color: black;
+  text-decoration: none;
+  margin-right: 10px;
+  padding: 4px 7px;
+  margin-left: 10px;
+}
+.datalogiclabeltable-label{
+  color: black;
+}
 .copybutton{
   color: white;
 }
@@ -1466,6 +1516,9 @@ input:checked + .slider:before {
 .copybutton:hover{
   color: black;
 }
+
+
+/* css quality tab - jabil box label */
 .label-container{
   display: flex;
   justify-content: center;
@@ -1487,4 +1540,13 @@ input:checked + .slider:before {
 }
 .label-content{
   width: 60%;
+}
+
+@media print{
+  .datalogiclabeltable{
+    margin-left: -8px;
+  }
+  .datalogiclabeltable-circle{
+    margin-left: 10px;
+  }
 }
