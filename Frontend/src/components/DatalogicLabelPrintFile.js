@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { convertCreatedAt } from "./convertCreatedAt";
 import Barcode from 'react-barcode';
 
-export const ComponentToPrint = React.forwardRef((props, ref) =>{
+export const DatalogicLabelPrintFile = React.forwardRef((props, ref) =>{
   const canvasEl = React.useRef(null);
   const shadowRootHostEl = React.useRef(null);
 

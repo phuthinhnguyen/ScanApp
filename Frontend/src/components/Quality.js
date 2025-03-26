@@ -8,7 +8,8 @@ import Snackbar from "@mui/material/Snackbar";
 import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
 import { useReactToPrint } from "react-to-print";
-import { ComponentToPrint } from "./ComponentToPrint";
+import { DatalogicLabelPrintFile } from "./DatalogicLabelPrintFile";
+import { DatalogicLabelPrintFileoption2 } from "./DatalogicLabelPrintFileoption2";
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -123,7 +124,8 @@ function Quality() {
                         <input style={{width:"300px"}} value={inputinfo.cavno} onChange={e=>setInputinfo({...inputinfo,cavno:e.target.value})}></input>
                       </div>
                       {filterresult!=undefined && filterresult.length>0 ? 
-                          <ComponentToPrint ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
+                          // <DatalogicLabelPrintFile ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
+                          <DatalogicLabelPrintFileoption2 ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
                       :null}
                     </div>
                   </div>
