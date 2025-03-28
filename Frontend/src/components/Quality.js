@@ -124,8 +124,8 @@ function Quality() {
                         <input style={{width:"300px"}} value={inputinfo.cavno} onChange={e=>setInputinfo({...inputinfo,cavno:e.target.value})}></input>
                       </div>
                       {filterresult!=undefined && filterresult.length>0 ? 
-                          // <DatalogicLabelPrintFile ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
-                          <DatalogicLabelPrintFileoption2 ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
+                          <DatalogicLabelPrintFile ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
+                          // <DatalogicLabelPrintFileoption2 ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
                       :null}
                     </div>
                   </div>
