@@ -9,7 +9,6 @@ import Slide from "@mui/material/Slide";
 import MuiAlert from "@mui/material/Alert";
 import { useReactToPrint } from "react-to-print";
 import { DatalogicLabelPrintFile } from "./DatalogicLabelPrintFile";
-import { DatalogicLabelPrintFileoption2 } from "./DatalogicLabelPrintFileoption2";
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -125,7 +124,6 @@ function Quality() {
                       </div>
                       {filterresult!=undefined && filterresult.length>0 ? 
                           <DatalogicLabelPrintFile ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
-                          // <DatalogicLabelPrintFileoption2 ref={componentRef} quantity={inputinfo.quantity} po={inputinfo.po} cavno={inputinfo.cavno} iteminfo={filterresult[0]}/>
                       :null}
                     </div>
                   </div>
@@ -138,7 +136,7 @@ function Quality() {
                     <div className="change-password-container">
                       <h2 style={{textAlign:"center"}}>LABEL RECORD</h2>
                       <div className="old-password" style={{paddingRight:"40px",display:"block"}}>
-                        <table className="table" style={{margin:"auto",marginTop:"10px",marginBottom:"20px",maxHeight:"500px",scrollBehavior:"auto"}}>
+                        <table className="table" style={{margin:"auto",marginTop:"10px",marginBottom:"20px"}}>
                           <thead style={{color:"white"}}>
                             <tr>
                                 <td style={{fontWeight: "700",fontSize:"18px"}}>ID</td>
