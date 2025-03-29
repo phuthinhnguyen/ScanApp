@@ -99,7 +99,7 @@ function Quality() {
             <div className="home-body-wrap">
               <h2>QUALITY</h2>
             </div>
-            <div className="home-body-content" style={{width:"100%",padding:"40px",maxWidth:"1200px",margin:"auto"}}>
+            <div className="home-body-content" style={{width:"100%",padding:"40px",maxWidth:"1400px",margin:"auto"}}>
               <div className="faq-container" style={{width:"100%"}}>
                 <div className="faq-content-menudropdown" style={{width:"100%"}}>
                   <div className="faq-content-menudropdown-item" data-faqitemid="faqitem1">
@@ -135,9 +135,9 @@ function Quality() {
                   <div className="faq-content-menudropdown-item-show" id="faqitem2">
                     <div className="change-password-container">
                       <h2 style={{textAlign:"center"}}>LABEL RECORD</h2>
-                      <div className="old-password" style={{paddingRight:"40px",display:"block"}}>
-                        <table className="table" style={{margin:"auto",marginTop:"10px",marginBottom:"20px"}}>
-                          <thead style={{color:"white"}}>
+                      <div className="old-password" style={{display:"block"}}>
+                        <table className="jabillabeltable">
+                          <thead className="jabillabeltablethead">
                             <tr>
                                 <td style={{fontWeight: "700",fontSize:"18px"}}>ID</td>
                                 <td style={{fontWeight: "700",fontSize:"18px"}}>CreatedAt</td>
@@ -149,7 +149,7 @@ function Quality() {
                                 <td style={{fontWeight: "700",fontSize:"18px"}}>Action</td>
                             </tr>
                           </thead>
-                          <tbody style={{color:"white"}}>
+                          <tbody className="jabillabeltabletbody">
                               {filterresultjabilboxlabel!=undefined && filterresultjabilboxlabel.length>0 ?
                               filterresultjabilboxlabel.map((item)=><tr key={item.id} >
                               <td>

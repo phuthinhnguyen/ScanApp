@@ -1559,7 +1559,41 @@ input:checked + .slider:before {
 .label-content{
   width: 60%;
 }
-
+.jabillabeltable{
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  width: 100%;
+  /* min-width: 1200px; */
+}
+.jabillabeltablethead{
+  color: white;
+  display: block;
+  width: 100%;
+}
+.jabillabeltabletbody{
+  max-height: 600px;
+  color: white;
+  overflow-y: scroll;
+  display: block;
+  width: 100%;  
+}
+.jabillabeltable tr{
+  width: 100%;
+  display:flex;
+}
+.jabillabeltable td{
+  flex-basis:100%;
+  flex-grow:2;
+  display: block;
+  padding: 10px;
+  text-align: left;
+}
+.jabillabeltable td:first-child,
+.jabillabeltable th:first-child{
+  flex-basis:20%;
+  flex-grow:1;
+}
 @media print{
   .datalogiclabel-container{
     margin: 0;
