@@ -49,10 +49,10 @@ export const DatalogicLabelPrintFile = React.forwardRef((props, ref) =>{
           </tr>
           <tr className="datalogiclabeltable-tr">
           <td className="datalogiclabeltable-td-left">
-              <a className="datalogiclabeltable-circle">3</a>
-              <span className="datalogiclabeltable-label">PART NUMBER</span>
+              <a className="datalogiclabeltable-circle" style={{marginTop:"2mm"}}>3</a>
+              <span className="datalogiclabeltable-label" style={{marginTop:"2mm"}}>PART NUMBER</span>
             </td>
-            <td className="datalogiclabeltable-td-right"><Barcode value={props.iteminfo.partnumber} height={20} margin={0.1} fontSize={10} width={1} textMargin={0} marginRight={0}/></td>
+            <td className="datalogiclabeltable-td-right"><Barcode value={props.iteminfo.partnumber} height={20} margin={0.1} fontSize={10} width={1.35} textMargin={0} marginRight={0}/></td>
           </tr>
           <tr className="datalogiclabeltable-tr">
           <td className="datalogiclabeltable-td-left">
@@ -85,28 +85,28 @@ export const DatalogicLabelPrintFile = React.forwardRef((props, ref) =>{
           <tr className="datalogiclabeltable-tr">
           <td className="datalogiclabeltable-td-left">
               <a className="datalogiclabeltable-circle">8</a>
-              <span className="datalogiclabeltable-label">EXPIRED DATE</span>
+              <span className="datalogiclabeltable-label" style={{fontSize:"2.3mm"}}>EXPIRED DATE</span>
             </td>
             <td className="datalogiclabeltable-td-right">{convertCreatedAt(Date.now()).split("/")[0] + "/" + convertCreatedAt(Date.now()).split("/")[1] + "/" + (Number(convertCreatedAt(Date.now()).split("/")[2])+1)}</td>
           </tr>
           <tr className="datalogiclabeltable-tr">
             <td className="datalogiclabeltable-td-left">
               <a className="datalogiclabeltable-circle">9</a>
-              <span className="datalogiclabeltable-label" style={{fontSize:"1.9mm"}}>MATERIAL MANUFACTURER</span>
+              <span className="datalogiclabeltable-label" style={{fontSize:"2mm"}}>MATERIAL MANUFACTURER</span>
             </td>
             <td className="datalogiclabeltable-td-right">{props.iteminfo.materialmanufactuer}</td>
           </tr>
           <tr className="datalogiclabeltable-tr">
             <td className="datalogiclabeltable-td-left">
               <a className="datalogiclabeltable-circle">10</a>
-              <span className="datalogiclabeltable-label">MATERIAL TYPE</span>
+              <span className="datalogiclabeltable-label" style={{fontSize:"2.3mm"}}>MATERIAL TYPE</span>
             </td>
             <td className="datalogiclabeltable-td-right" style={props.iteminfo.materialtype.length>50 ? {fontSize:"1.7mm"} : (props.iteminfo.materialtype.length>35 ? {fontSize:"2mm"} :{fontSize:"2.3mm"})}>{props.iteminfo.materialtype}</td>
           </tr>
           <tr className="datalogiclabeltable-tr">
             <td className="datalogiclabeltable-td-left">
               <a className="datalogiclabeltable-circle">11</a>
-              <span className="datalogiclabeltable-label">MATERIAL COLOR</span>
+              <span className="datalogiclabeltable-label" style={{fontSize:"2.3mm"}}>MATERIAL COLOR</span>
             </td>
             <td className="datalogiclabeltable-td-right">{props.iteminfo.materialcolor}</td>
           </tr>
@@ -134,9 +134,9 @@ export const DatalogicLabelPrintFile = React.forwardRef((props, ref) =>{
           <tr className="datalogiclabeltable-tr">
             <td className="datalogiclabeltable-td-left">
               <a className="datalogiclabeltable-circle">15</a>
-              <span className="datalogiclabeltable-label">UL file of material</span>
+              <span className="datalogiclabeltable-label" style={{marginTop:"1mm",fontSize:"2.3mm"}}>UL file of material</span>
             </td>
-            <td className="datalogiclabeltable-td-right" style={props.iteminfo.ulfile.length>70 ? {fontSize:"1.4mm",position:"relative"} : (props.iteminfo.ulfile.length>55 ? {fontSize:"1.7mm",position:"relative"} : (props.iteminfo.ulfile.length>40 ? {fontSize:"2mnm",position:"relative"} :{fontSize:"2.3mm",position:"relative"}))}>{props.iteminfo.ulfile}<img src="/img/UL.png" style={props.iteminfo.ulfile.includes("files of products")? {position:"absolute",width:"4mm",height:"3mm",bottom:"1mm"}:{display:"none"}}></img></td>
+            <td className="datalogiclabeltable-td-right" style={props.iteminfo.ulfile.length>70 ? {fontSize:"1.6mm",position:"relative"} : (props.iteminfo.ulfile.length>55 ? {fontSize:"1.9mm",position:"relative"} : (props.iteminfo.ulfile.length>40 ? {fontSize:"2.2mnm",position:"relative"} :{fontSize:"2.5mm",position:"relative"}))}>{props.iteminfo.ulfile}<img src="/img/UL.png" style={props.iteminfo.ulfile.includes("files of products")? {position:"absolute",width:"4mm",height:"3mm",bottom:"-0.3mm",right:"10.5mm"}:{display:"none"}}></img></td>
           </tr>
         </table>  
     </div>
