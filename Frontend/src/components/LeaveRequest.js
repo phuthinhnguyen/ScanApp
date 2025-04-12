@@ -13,10 +13,12 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import { BsSearch } from "react-icons/bs";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { type } from "jquery";
 // import "@fullcalendar/core/main.css";
 // import "@fullcalendar/daygrid/main.css";
 // import "@fullcalendar/timegrid/main.css";
-
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 // used for show snackbar and alert
 function SlideTransition(props) {
@@ -90,6 +92,22 @@ function LeaveRequest() {
       setSearch({...search,[e.target.value]:""})
     }
   };
+  
+  // export to excel file
+  var dataexportexcel = [];
+  const handleExport = (data, fileName = "ScanAppExportFile-Leaveapplication.xlsx") => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], {
+      type: "application/octet-stream",
+    });
+    saveAs(blob, fileName);
+  };
 
   const events = []
   if (stateselector.leaveapplication!=null){
@@ -101,7 +119,19 @@ function LeaveRequest() {
     // Convert filterresult to datacsv
     var exportcsv = []
     for (let i=0;i<filterresult.length;i++){
-      exportcsv.push({RequestID:"#"+filterresult[i].requestid,Fullname:filterresult[i].fullname, Dept:filterresult[i].dept,Type:filterresult[i].type,Reason:filterresult[i].reason, Fromdate:convertCreatedAt(filterresult[i].fromdate),Todate:convertCreatedAt(filterresult[i].todate), Totaldaysleave:filterresult[i].totaldaysleave, CreatedAt:convertCreatedAt(filterresult[i].createdat), LeaderApproval:filterresult[i].leaderapproval, SupervisorApproval:filterresult[i].supervisorapproval})
+      dataexportexcel.push({ 
+        RequestID: "#"+filterresult[i].requestid, 
+        Fullname: filterresult[i].fullname, 
+        Dept: filterresult[i].dept,
+        Type: filterresult[i].type,
+        Reason: filterresult[i].reason,
+        Fromdate: convertCreatedAt(filterresult[i].fromdate),
+        Todate: convertCreatedAt(filterresult[i].todate),
+        Totaldaysleave: filterresult[i].totaldaysleave,
+        CreatedAt: convertCreatedAt(filterresult[i].createdat),
+        LeaderApproval: filterresult[i].leaderapproval,
+        SupervisorApproval: filterresult[i].supervisorapproval })
+      // exportcsv.push({RequestID:"#"+filterresult[i].requestid,Fullname:filterresult[i].fullname, Dept:filterresult[i].dept,Type:filterresult[i].type,Reason:filterresult[i].reason, Fromdate:convertCreatedAt(filterresult[i].fromdate),Todate:convertCreatedAt(filterresult[i].todate), Totaldaysleave:filterresult[i].totaldaysleave, CreatedAt:convertCreatedAt(filterresult[i].createdat), LeaderApproval:filterresult[i].leaderapproval, SupervisorApproval:filterresult[i].supervisorapproval})
       const fromdate = convertCreatedAt(filterresult[i].fromdate).split("/")[0].padStart(2,'0')
       const todate = (Number(convertCreatedAt(filterresult[i].todate).split("/")[0])+1).toString().padStart(2,'0')
       const month = convertCreatedAt(filterresult[i].fromdate).split("/")[1].padStart(2,'0')
@@ -211,7 +241,9 @@ function LeaveRequest() {
                 </div>
                 <button className="csvbutton" style={{cursor:"pointer",padding:"10px 10px",border:"none"}} onClick={addnewleaverequest}>New Request
               </button>
-               <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" />
+               {/* <ExportReactCSV csvData={exportcsv} fileName="ScanAppExportFile-Leaveapplication" /> */}
+               <button className="csvbutton" style={{cursor:"pointer",padding:"10px 10px",border:"none"}} onClick={()=>handleExport(dataexportexcel)}>Export .xlxs
+               </button>
               </div>
             </div> 
             <div style={{width:"100%",overflowX:"auto",marginBottom:"60px"}}>

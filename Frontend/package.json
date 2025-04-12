@@ -20,6 +20,7 @@
     "classnames": "^2.5.1",
     "csbbust": "1.0.1",
     "emailjs-com": "^3.2.0",
+    "file-saver": "^2.0.5",
     "formik": "2.2.9",
     "framer-motion": "10.9.1",
     "fullcalendar": "^6.1.15",
@@ -52,6 +53,7 @@
     "styled-components": "5.3.9",
     "uuid": "9.0.0",
     "web-vitals": "^3.3.2",
+    "xlsx": "^0.18.5",
     "yet-another-react-lightbox": "^3.21.7"
   },
   "devDependencies": {
