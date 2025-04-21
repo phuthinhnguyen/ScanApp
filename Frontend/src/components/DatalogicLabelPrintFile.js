@@ -3,30 +3,6 @@ import { convertCreatedAt } from "./convertCreatedAt";
 import Barcode from 'react-barcode';
 
 export const DatalogicLabelPrintFile = React.forwardRef((props, ref) =>{
-  // const canvasEl = React.useRef(null);
-  // const shadowRootHostEl = React.useRef(null);
-
-  // React.useEffect(() => {
-  //   const ctx = canvasEl.current?.getContext("2d");
-
-  //   if (ctx) {
-  //     ctx.beginPath();
-  //     ctx.arc(95, 50, 40, 0, 2 * Math.PI);
-  //     ctx.stroke();
-  //     ctx.fillStyle = "rgb(200, 0, 0)";
-  //     ctx.fillRect(85, 40, 20, 20);
-  //     ctx.save();
-  //   }
-  // }, []);
-
-  // React.useEffect(() => {
-  //   const shadowRoot = shadowRootHostEl.current?.attachShadow({ mode: "open" });
-  //   if (shadowRoot) {
-  //     const div = document.createElement("div");
-  //     div.innerHTML = "Shadow DOM Content";
-  //     shadowRoot.appendChild(div);
-  //   }
-  // }, []);
   return (
     <div className="datalogiclabel-container" ref={ref}>
         <table className="datalogiclabeltable">
@@ -136,7 +112,7 @@ export const DatalogicLabelPrintFile = React.forwardRef((props, ref) =>{
               <a className="datalogiclabeltable-circle">15</a>
               <span className="datalogiclabeltable-label" style={{marginTop:"1mm",fontSize:"2.3mm"}}>UL file of material</span>
             </td>
-            <td className="datalogiclabeltable-td-right" style={props.iteminfo.ulfile.length>70 ? {fontSize:"1.6mm",position:"relative"} : (props.iteminfo.ulfile.length>55 ? {fontSize:"1.9mm",position:"relative"} : (props.iteminfo.ulfile.length>40 ? {fontSize:"2.2mnm",position:"relative"} :{fontSize:"2.5mm",position:"relative"}))}>{props.iteminfo.ulfile}<img src="/img/UL.png" style={props.iteminfo.ulfile.includes("files of products")? {position:"absolute",width:"4mm",height:"3mm",bottom:"-0.3mm",right:"10.5mm"}:{display:"none"}}></img></td>
+            <td className="datalogiclabeltable-td-right" style={props.iteminfo.ulfile.length>70 ? {fontSize:"1.6mm",position:"relative"} : (props.iteminfo.ulfile.length>55 ? {fontSize:"1.9mm",position:"relative"} : (props.iteminfo.ulfile.length>40 ? {fontSize:"2.2mnm",position:"relative"} :{fontSize:"2.5mm",position:"relative"}))}>{props.iteminfo.ulfile}<img src="/img/UL.png" style={props.iteminfo.ulfile.includes("files of products")? {position:"absolute",width:"4mm",height:"3mm",bottom:"-0.6mm",right:"4.5mm"}:{display:"none"}}></img></td>
           </tr>
         </table>  
     </div>
