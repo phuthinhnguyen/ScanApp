@@ -7,7 +7,7 @@ export const DatalogicLabelPrintFile = React.forwardRef((props, ref) =>{
     <div className="datalogiclabel-container" ref={ref}>
         <table className="datalogiclabeltable">
           <tr>
-            <th colspan="2" className="datalogiclabeltable-th"><span style={{left:"5mm",position:"absolute",top:"1.5mm"}}>CCL DESIGN VINA Co., Ltd</span><img src="/img/logoccl.png" style={{width:"12mm",height:"3.5mm",position:"absolute",top:"2mm",right:"2mm"}}></img> </th>
+            <th colspan="2" className="datalogiclabeltable-th"><span style={{left:"5mm",position:"absolute",top:"0.5mm"}}>CCL DESIGN VINA Co., Ltd</span><img src="/img/logoccl.png" style={{width:"12mm",height:"3.5mm",position:"absolute",top:"1mm",right:"2mm"}}></img> </th>
           </tr>
           <tr className="datalogiclabeltable-tr">
             <td className="datalogiclabeltable-td-left">
@@ -112,7 +112,7 @@ export const DatalogicLabelPrintFile = React.forwardRef((props, ref) =>{
               <a className="datalogiclabeltable-circle">15</a>
               <span className="datalogiclabeltable-label" style={{marginTop:"1mm",fontSize:"2.3mm"}}>UL file of material</span>
             </td>
-            <td className="datalogiclabeltable-td-right" style={props.iteminfo.ulfile.length>70 ? {fontSize:"1.6mm",position:"relative"} : (props.iteminfo.ulfile.length>55 ? {fontSize:"1.9mm",position:"relative"} : (props.iteminfo.ulfile.length>40 ? {fontSize:"2.2mnm",position:"relative"} :{fontSize:"2.5mm",position:"relative"}))}>{props.iteminfo.ulfile}<img src="/img/UL.png" style={props.iteminfo.ulfile.includes("files of products")? {position:"absolute",width:"4mm",height:"3mm",bottom:"-0.6mm",right:"4.5mm"}:{display:"none"}}></img></td>
+            <td className="datalogiclabeltable-td-right" style={props.iteminfo.ulfile.length>70 ? {fontSize:"1.6mm",position:"relative"} : (props.iteminfo.ulfile.length>55 ? {fontSize:"1.9mm",position:"relative"} : (props.iteminfo.ulfile.length>40 ? {fontSize:"2.2mnm",position:"relative"} :{fontSize:"2.5mm",position:"relative"}))}>{props.iteminfo.ulfile}<img src="/img/UL.png" style={props.iteminfo.ulfile.includes("files of products")? {position:"absolute",width:"3.6mm",height:"2.6mm",bottom:"0.1mm",right:"4.5mm"}:{display:"none"}}></img></td>
           </tr>
         </table>  
     </div>

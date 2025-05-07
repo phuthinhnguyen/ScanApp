@@ -1460,14 +1460,14 @@ input:checked + .slider:before {
   background-color: white;
   margin: auto;
   margin-top: 130px;
-  height: 110mm;
+  height: 100mm;
   width: 60mm;
   margin-bottom: 80px;
   transform: scale(1.5);
 }
 .datalogiclabeltable{
   margin: auto;
-  height: 103mm;
+  height: 100mm;
   width: 60mm;
   margin-top: 0;
 }
@@ -1476,7 +1476,7 @@ input:checked + .slider:before {
   font-size: 3.3mm;
   color: black;
   position: relative;
-  height: 6.3mm;
+  height: 5.3mm;
 }
 .datalogiclabeltable-tr{
   border-top: 1px solid black;
@@ -1487,7 +1487,7 @@ input:checked + .slider:before {
   /* border-right: 1px solid black; */
   /* width: 30mm; */
   width: 22mm;
-  height: 6.3mm;
+  height: 5.3mm;
   padding: 0;
   margin: 0;
   display: flex;
@@ -1499,7 +1499,7 @@ input:checked + .slider:before {
   color: black;
   /* width: 30mm; */
   width: 38mm;
-  height: 6.3mm;
+  height: 5.3mm;
   font-size: 2.6mm;
   text-align: center;
   padding: 0;
@@ -1510,8 +1510,8 @@ input:checked + .slider:before {
   border-radius: 50%;
   color: black;
   text-decoration: none;
-  padding: 0.3mm 1mm;
-  font-size: 2.5mm;
+  padding: 0.3mm 0.8mm;
+  font-size: 2.2mm;
   margin: 0;
   margin-left: 0.6mm;
 }
@@ -1525,6 +1525,7 @@ input:checked + .slider:before {
   margin-left: 0.8mm;
   margin-right: 0;
   padding: 0;
+  margin-bottom: 0;
 }
 .copybutton{
   color: white;
